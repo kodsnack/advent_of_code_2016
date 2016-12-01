@@ -1,4 +1,4 @@
-f = open('input.txt', 'r')
+f = open('input_1.txt', 'r')
 
 moves = f.readline().split(', ')
 x = 0
