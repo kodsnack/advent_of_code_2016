@@ -23,7 +23,7 @@ namespace AdventOfCode
                 {
                     case "1":
                         Day1 day1 = new Day1();
-                        day1.Run1a();
+                        day1.Run();
                         break;
                     case "0":
                         repeat = false;
