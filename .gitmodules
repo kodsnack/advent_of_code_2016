@@ -1,3 +1,7 @@
 [submodule "faern-rust"]
 	path = faern-rust
 	url = https://github.com/faern/adventofcode2016
+
+[submodule "tiger-python3"]
+	path = tiger-python3
+	url = https://github.com/Tigge/advent-of-code-2016
