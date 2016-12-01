@@ -1,0 +1,3 @@
+[submodule "faern-rust"]
+	path = faern-rust
+	url = https://github.com/faern/adventofcode2016
