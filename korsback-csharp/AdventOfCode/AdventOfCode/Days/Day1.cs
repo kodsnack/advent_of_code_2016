@@ -18,7 +18,6 @@ namespace AdventOfCode.Days
         " R5, R4, L2, L4, R3, R1, L2, R5, L5, R1, R1, L1, L5, L5, L2, L1, R5," +
         " R2, L4, L1, R4, R3, L3, R1, R5, L1, L4, R2, L3, R5, R3, R1, L3";
 
-        string map2 = "R8, R4, R4, R8";
         List<string> mapSplit;
 
         public Day1()
