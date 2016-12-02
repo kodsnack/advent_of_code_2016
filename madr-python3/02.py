@@ -54,8 +54,8 @@ def break_code_imaginary(start, instructions):
 if __name__ == '__main__':
     try:
         with open(sys.argv[1], 'r') as f:
-            instructions = f.read()
-        break_code_imaginary(5, instructions)
-        break_code_real(5, instructions)
+            puzzle = f.read()
+        break_code_imaginary(5, puzzle)
+        break_code_real(5, puzzle)
     except IOError:
-        print('please provide a file path to directions, example: ./directions.txt')
+        print('please provide a file path to puzzle file, example: ./puzzle.txt')

@@ -96,4 +96,4 @@ if __name__ == '__main__':
         with open(sys.argv[1], 'r') as directions:
             direct_santa(santa_starting_position, directions.read())
     except IOError:
-        print('please provide a file path to directions, example: ./directions.txt')
+        print('please provide a file path to puzzle file, example: ./puzzle.txt')
