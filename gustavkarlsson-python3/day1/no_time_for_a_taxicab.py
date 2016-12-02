@@ -68,7 +68,7 @@ def main():
     south_blocks = 0
     west_blocks = 0
 
-    with open('inputs/input.txt', 'r') as fh:
+    with open('../inputs/day1_input.txt', 'r') as fh:
         moves = fh.readline().split(', ')
 
     for move in moves:
