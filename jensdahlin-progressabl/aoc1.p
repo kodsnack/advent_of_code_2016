@@ -1,3 +1,7 @@
+/*
+Advent of code day 1 2016
+*/
+
 /* Instructionset downloaded from aoc... */
 DEFINE VARIABLE cInstructions AS LONGCHAR NO-UNDO.
 
@@ -8,8 +12,9 @@ DEFINE VARIABLE giX AS INTEGER     NO-UNDO.
 /* Directions */
 /*
 /*This isn't really used - only for clarifying the idea */
-DEFINE VARIABLE cDirection AS CHARACTER   NO-UNDO EXTENT 4 INITIAL
-    ["N","E","S","W"].
+DEFINE VARIABLE cDirection AS CHARACTER   NO-UNDO EXTENT 4 INITIAL ["N","E","S","W"].
+    N + 1 = E
+    E - 1 = N etc
 */
 
 /* Index in array for direction - start out with north */
@@ -30,7 +35,6 @@ cInstructions = REPLACE(cInstructions, " ", "").
 /* Forward declare */
 FUNCTION newDirection RETURNS INTEGER (INPUT iDir AS INTEGER, INPUT iChange AS INTEGER) FORWARD.
 
-
 /* Go through the list of instructions */
 DO iStepCount = 1 TO NUM-ENTRIES(cInstructions, ","):
     
@@ -44,8 +48,6 @@ DO iStepCount = 1 TO NUM-ENTRIES(cInstructions, ","):
     /* How many steps? */
     iStepsToTake = INTEGER(SUBSTRING(ENTRY(iStepCount, cInstructions, ","), 2)).
     
-    
-
     /* Walk */
     CASE iDirection:
         WHEN 1 THEN giY = giY + iStepsToTake.
@@ -53,11 +55,10 @@ DO iStepCount = 1 TO NUM-ENTRIES(cInstructions, ","):
         WHEN 2 THEN giX = giX + iStepsToTake.
         WHEN 4 THEN giX = giX - iStepsToTake.
     END CASE.
-
 END.
 
-
-DISPLAY giY giX ABS(giY) + ABS(giX) LABEL "Distance" WITH FRAME x1 SIDE-LABELS 1 COLUMNS.
+/* Display the resulting distance */
+DISPLAY ABS(giY) + ABS(giX) LABEL "Distance" WITH FRAME x1 SIDE-LABELS 1 COLUMNS.
 
 /***** Function for getting a new direction *******/
 FUNCTION newDirection RETURNS INTEGER (INPUT iDir AS INTEGER, INPUT iChange AS INTEGER):
