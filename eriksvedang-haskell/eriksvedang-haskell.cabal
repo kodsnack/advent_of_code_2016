@@ -1,0 +1,22 @@
+name:                eriksvedang-haskell
+version:             0.1.0.0
+synopsis:            Solutions to Advent of Code 2016
+description:         Solutions to Advent of Code 2016
+homepage:            https://github.com/eriksvedang/eriksvedang-haskell
+license:             BSD3
+license-file:        LICENSE
+author:              Erik Svedäng
+maintainer:          erik.svedang@gmail.com
+copyright:           2016 Erik Svedäng
+category:            Misc
+build-type:          Simple
+cabal-version:       >=1.10
+extra-source-files:  
+
+executable eriksvedang-haskell
+  hs-source-dirs:      src
+  main-is:             Main.hs
+  default-language:    Haskell2010
+  build-depends:       base >= 4.7 && < 5
+                     , text
+                     , parsec
