@@ -1,5 +1,5 @@
 Q:=@
-SRCS:=$(wildcard src/*.cpp)
+SRCS:=$(sort $(wildcard src/*.cpp))
 OBJS:=$(addprefix .obj/,$(SRCS:.cpp=.o))
 OUTS:=$(addprefix .out/,$(SRCS:.cpp=))
 CXXFLAGS:=-std=gnu++14
