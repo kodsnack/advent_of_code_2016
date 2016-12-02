@@ -96,7 +96,7 @@ if __name__ == '__main__':
             directions = puzzle.read()
 
         head_quarters, first_recurrence = direct_santa(santa_starting_position, directions)
-        print('Distance to Easter Bunny Headquarters:  %s' % head_quarters)
+        print('Distance to Easter Bunny HQ:            %s' % head_quarters)
         print('Distance to first recurrence:           %s' % first_recurrence)
 
     except IOError:
