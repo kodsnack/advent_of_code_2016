@@ -1,11 +1,9 @@
 import sys
+from random import randint
 
 
 def get_distance(start, current):
-    distance = abs(start[0] - current[0]) + abs(start[1] - current[1])
-    if distance < 0:
-        distance = distance.__neg__()
-    return distance
+    return abs(abs(start[0] - current[0]) + abs(start[1] - current[1]))
 
 
 def go_north(current_block, distance):
@@ -46,11 +44,12 @@ def go_right(current_block, facing_direction, distance):
         return go_north(current_block, distance)
 
 
-def check_history(hist, direction, distance):
-    pos = hist[-1]
+def track_santa(tracks, direction, distance):
+    pos = tracks[-1]
     recurrence = None
 
-    for i in range(1, distance + 1):
+    i = 0
+    while i < distance:
         if direction == 'N':
             pos, f = go_north(pos, 1)
         if direction == 'W':
@@ -60,27 +59,26 @@ def check_history(hist, direction, distance):
         if direction == 'E':
             pos, f = go_east(pos, 1)
 
-        if not recurrence and pos in hist:
+        if not recurrence and pos in tracks:
             recurrence = pos
 
-        hist.append(pos)
+        tracks.append(pos)
+        i += 1
 
-    return hist, recurrence
+    return tracks, recurrence
 
 
-def direct_santa(starting_block, data):
-    directions = data.split(', ')
-
+def direct_santa(starting_block, directions):
     gone_in_circle_at = None
     current_block = starting_block
-    f = 'N'
-    hist = [starting_block]
+    facing = 'N'
+    tracks = [starting_block]
 
-    for d in directions:
+    for d in directions.split(', '):
         distance = int(d[1:])
-        current_block, f = go_left(current_block, f, distance) if d.startswith('L') else go_right(current_block, f,
-                                                                                                  distance)
-        hist, recurrence = check_history(hist, f, distance)
+        current_block, facing = go_left(current_block, facing, distance) if d.startswith('L') else go_right(
+            current_block, facing, distance)
+        tracks, recurrence = track_santa(tracks, facing, distance)
 
         if not gone_in_circle_at and recurrence:
             gone_in_circle_at = recurrence
@@ -93,8 +91,9 @@ def direct_santa(starting_block, data):
 
 
 if __name__ == '__main__':
+    santa_starting_position = (randint(-1024, 1024), randint(-1024, 1024))
     try:
         with open(sys.argv[1], 'r') as directions:
-            direct_santa((0, 0), directions.read())
+            direct_santa(santa_starting_position, directions.read())
     except IOError:
         print('please provide a file path to directions, example: ./directions.txt')
