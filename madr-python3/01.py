@@ -83,17 +83,21 @@ def direct_santa(starting_block, directions):
         if not gone_in_circle_at and recurrence:
             gone_in_circle_at = recurrence
 
-    distance_from_santa = get_distance(starting_block, current_block)
-    print(distance_from_santa)
+    head_quarters_pos = get_distance(starting_block, current_block)
+    first_recurrence_pos = get_distance(starting_block, gone_in_circle_at)
 
-    distance_from_gone_in_circle_at = get_distance(starting_block, gone_in_circle_at)
-    print(distance_from_gone_in_circle_at)
+    return head_quarters_pos, first_recurrence_pos
 
 
 if __name__ == '__main__':
     santa_starting_position = (randint(-1024, 1024), randint(-1024, 1024))
     try:
-        with open(sys.argv[1], 'r') as directions:
-            direct_santa(santa_starting_position, directions.read())
+        with open(sys.argv[1], 'r') as puzzle:
+            directions = puzzle.read()
+
+        head_quarters, first_recurrence = direct_santa(santa_starting_position, directions)
+        print('Distance to Easter Bunny Headquarters:  %s' % head_quarters)
+        print('Distance to first recurrence:           %s' % first_recurrence)
+
     except IOError:
         print('please provide a file path to puzzle file, example: ./puzzle.txt')

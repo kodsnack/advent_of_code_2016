@@ -24,7 +24,7 @@ def break_code_real(start, instructions):
             if g == 'R' and pos not in [1, 4, 9, 12, 13]:
                 pos += 1
         code += format(pos, 'X')
-    print(code)
+    return code
 
 
 def break_code_imaginary(start, instructions):
@@ -48,14 +48,17 @@ def break_code_imaginary(start, instructions):
             if g == 'R' and pos not in [3, 6, 9]:
                 pos += 1
         code += str(pos)
-    print(code)
+    return code
 
 
 if __name__ == '__main__':
     try:
         with open(sys.argv[1], 'r') as f:
             puzzle = f.read()
-        break_code_imaginary(5, puzzle)
-        break_code_real(5, puzzle)
+        imaginary_code = break_code_imaginary(5, puzzle)
+        real_code = break_code_real(5, puzzle)
+
+        print('Code using imaginary pad:               %s' % imaginary_code)
+        print('Code using read pad:                    %s' % real_code)
     except IOError:
         print('please provide a file path to puzzle file, example: ./puzzle.txt')
