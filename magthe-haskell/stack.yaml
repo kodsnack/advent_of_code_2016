@@ -1,0 +1,8 @@
+resolver: lts-7.11
+extra-deps: []
+flags: {}
+extra-package-dbs: []
+
+packages:
+- dec01/
+- dec02/
