@@ -1,0 +1,10 @@
+[submodule "faern-rust"]
+	path = faern-rust
+	url = https://github.com/faern/adventofcode2016
+
+[submodule "tiger-python3"]
+	path = tiger-python3
+	url = https://github.com/Tigge/advent-of-code-2016
+[submodule "acz13-python35"]
+	path = acz13-python35
+	url = https://github.com/acz13/advent-of-code-2016.git
