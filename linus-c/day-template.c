@@ -1,9 +1,11 @@
 #include "aoc-main.h"
 
-int part1(){
-  return 0;
+#include <stdio.h>
+
+void part1(){
+  printf("%d\n", 0);
 }
 
-int part2(){
-  return 0;
+void part2(){
+  printf("%d\n", 0);
 }
