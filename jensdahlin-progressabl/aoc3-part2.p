@@ -3,7 +3,8 @@
 DEFINE TEMP-TABLE ttTriangle NO-UNDO
     FIELD sides AS INTEGER EXTENT 3
     FIELD triangle AS INTEGER
-    FIELD nr       AS INTEGER.
+    FIELD nr       AS INTEGER
+    INDEX id1 triangle nr.
 
 /* Buffers to the temp-table for individual use */
 DEFINE BUFFER bSide1 FOR ttTriangle.
@@ -16,7 +17,7 @@ DEFINE VARIABLE iTri   AS INTEGER     NO-UNDO INIT 1.
 DEFINE VARIABLE iOK    AS INTEGER     NO-UNDO.
 
 /* Read the input from the file to a temporary table */
-INPUT FROM VALUE("C:\temp\aoc2016\advent_of_code_2016\jensdahlin-progressabl\input3.txt").
+INPUT FROM VALUE("input3.txt").
 REPEAT :
     CREATE ttTriangle.
     IMPORT ttTriangle.
