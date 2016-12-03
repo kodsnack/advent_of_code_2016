@@ -7,7 +7,7 @@ använder inget utöver standardbiblioteket.
 För att köra en enstaka lösning, skicka med pusselfilen
 som första programargument, t ex såhär: `python day_03.py puzzles/03.txt`
 
-## Noteringar /logg
+## Noteringar / logg
 
  * Koden i `Day 1: No Time for a Taxicab` är rejält överdriven vad gäller
    läsbarhet och en (ill-)vilja för att ha fyndiga variabelnamn.
