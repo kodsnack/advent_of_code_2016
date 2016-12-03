@@ -1,9 +1,7 @@
 /* Advent of code, day 2, puzzle 2
    Numpad directions on rhombic keypad */
+
 instructions = 'DLRRRRLRLDRRRURRURULRLLULUURRRDDLDULDULLUUDLURLURLLDLUUUDUUUULDRDUUDUDDRRLRDDDUDLDLLRUURDRULUULRLRDULULLRLRLRLDRLUULDLDDDDRRLRUUUDDRURRULLLRURLUURULLRLUDDLDRUULDRURULRRRLLLRDLULDRRDDUDLURURLDULDRDRLDDUURRDUDDRDUURDULDUURDUDRDRULDUDUULRRULUUURDUURUDLDURDLRLURUUDRRDLRUDRULRURLDLLDLLRRDRDRLRRRULDRRLDUURLUUDLUUDDLLRULRDUUDURURLUURDRRRUDLRDULRRRLDRDULRUUDDDLRDUULDRLLDRULUULULRDRUUUULULLRLLLRUURUULRRLDDDRULRRRUDURUR RULRUUUDLLUDURDRDDLLRLLUDRUDDRLRRDLDLDRDULDLULURDLUDDDUULURLDRUUURURLLRRDDDUUDRLRLLDLDRDDDRDUDLRDRDLLLDDLDUDDRUDUUDLLLLLDULRLURRRLLURUUULUDRLRLRLURRDRLLLRLLULRLLLDDLRLRDLUUUUUDULULDDULLUDUURDLRUDLRUDLRLLRLDLULRLDUDRURURDLRULDLULULDLLDLDLDLLLUDUDDLRLRRDULLUDRDDLLLDUURDULUDURLLLDRUDDDLRLULDLDRRDDDRDULDDUDRDDULLULRRLRUULRDUDURUDULUDUDURLDRDUUDDRRLRURDRRLRDDDDRUDLUDLDDLRDLUUDLRRURDDLURDLRDLLRDRDLDLDUUUURULUULDDDDLDULUURRRULUDLLLDRULDRURL RRRLRDLLDUURDRRRLURDUULUDURDRRUUDURURRLDLLDRDLRRURDDUDDURLRUUDDULULRUUDRLUUDDLLDDDLRRRDLLLLLLRRURDULDLURRURRDDLDDDUDURRDURRRLUDRRULLRULDRLULRULDDRLLRDLRDUURULURLUURLRRULDULULUULDUDLRLDRDDRRRUUULULDUURLRLLURRLURDUUDDDRUULDLLLDRUURLRRLLDDUDRDLDDDULDRDDDUDRRLLLULURDUDLLUUURRLDULURURDDLUDLLRLDRULULURDLDRLURDLRRDRRUULLULDLURRDDUDRDDDLDUDLDRRUDRULDLDULRLLRRRRDDRLUURRRRDDLLRUURRLRURULDDULRLULRURRUULDUUDURDRRLRLUDRULDRUULUUDRDURDURRLULDDDULDDLRDURRUUUUUDDRRDLRDULUUDDL DRRLLRRLULDDULRDDLRLDRURDDUDULURRDLUUULURRRLLRLULURLLRLLDLLUDDLLRDRURRDLDDURRURDRDDUDDDLLRLDLDLDDDDRRRRUDUDLRDUDDURLLRURRDUDLRLLUDDRLDUUDDLLLUDRRRLLDDULUDDRLLUDDULLDDLRLDLRURRLUDDLULULDLUURDLLUDUDRRRRDULUDLRRLRUDDUUDRRLLRUUDRRLDDLRRRUDRRDRRDDUDLULLURRUURLLLDRDDLUDDDUDDRURURDLRUULLRDRUUDRDUDRLULLDURUUULDDLDRDRUDRUDUULDDRLRDRRDRRRRLRLRUULDDUUDDLLLLRRRDUDLRDLDUDDUURLUDURLDRRRDRUDUDRLDLRLDRDDLUDRURLRDRDLDUDDDLRLULLUULURLDDDULDUDDDLDRLDLURULLUDLLDRULDLLLDUL LDULURUULLUDLDDRLLDURRULRLURLLURLRRLRDLDDRUURULLRUURUURRUDDDLRRLDDLULDURLLRDURDLLLURLDRULLURLRLDRDRULURDULDLLDUULLLDUDULDURLUDRULRUUUUUUDUUDDDLLURDLDLRLRDLULRDRULUUDRLULLURLRLDURDRRDUDDDURLLUUDRRURUDLDUDRLRLDRLLLLDLLLURRUDDURLDDRULLRRRRDUULDLUDLDRDUUURLDLLLDLRLRRLDDULLRURRRULDLURLURRRRULUURLLUULRURDURURLRRDULLDULLUDURDUDRLUULULDRRDLLDRDRRULLLDDDRDUDLRDLRDDURRLDUDLLRUDRRRUDRURURRRRDRDDRULRRLLDDRRRLDLULRLRRRUDUDULRDLUDRULRRRRLUULRULRLLRLLURDLUURDULRLDLRLURDUURUULUUDRLLUDRULULULLLLRLDLLLDDDLUULUDLLLDDULRDRULURDLLRRDRLUDRD'
-instructions = 'ULL RRDDD LURDL UUUUD'
-instructions = 'UUDDUUDDUUUUUU'
-instructions = 'UUDDDDDD'
 
 directions.u = -1
 directions.d = +1
@@ -11,15 +9,15 @@ directions.l = -1
 directions.r = +1
 
 numrows = 5 ; midrow = (numrows-1) / 2 + 1
-position = 7 ; code = '' ; row = 3
-hsteps=0 ; vsteps=0 ; steps=0
+code = '' ; row = 3 ; position=5
+hsteps=-2 ; vsteps=0				/* X and Y offset from keypad centre (7) */
+
 do while instructions \= ''
 	parse var instructions line instructions
 	do while line \= ''
 		parse var line dir +1 line
-		say dir
 		select
-			when dir == 'R' | dir == 'L' then do
+			when dir == 'R' | dir == 'L' then do 			/* Horizontal movement */
 				if abs(hsteps + directions.dir) + abs(vsteps) > 2 then iterate
 				hsteps = hsteps + directions.dir
 				position = position + directions.dir
@@ -28,60 +26,25 @@ do while instructions \= ''
 				if abs(vsteps + directions.dir) + abs(hsteps) > 2 then iterate
 				vsteps = vsteps + directions.dir
 				newrow = row + directions.dir
-				distance = newrow - midrow 			/* Distance from centre row */
-				say 'newrow' newrow 'distance' distance
-				ydelta = midrow - abs(row - midrow)
+				ydelta = lengthofrow(row) + sign((lengthofrow(newrow) - lengthofrow(row)))
 				row = newrow
-				/*
-				ydelta = (midrow - abs(distance))
-				*/
-				say 'ydelta:' ydelta
-				ydelta = (ydelta) * 2 + (directions.dir * 2)
-				say 'ydelta:' ydelta 'row:' row
 				position = position + ydelta * directions.dir
 			end
 		end
-		steps = abs(hsteps) + abs(vsteps)
-		say 'steps:' steps h hsteps v vsteps
-		say 'position:' position
 	end
-	code = code || position
+	code = code || d2x(position)
 end
+
 say 'code:' code
+exit
 
-/*
+lengthofrow: procedure expose numrows midrow
+arg row
+maxlength = numrows
+distance = distancefromcentrerow(row)
+rowlength = maxlength - abs(distance) * 2
+return rowlength
 
-1        1			- 2
-3      2 3 4		2 4
-5    5 6 7 8 9		4 6
-7  0 1 2 3 4 5 6	6 6
-5    7 8 9 0 1		6 4
-3      2 3 4		4 2
-1        5			2 -
-
-
-1          1			- 2
-3        2 3 4			2 4
-5      5 6 7 8 9		4 6
-7    0 1 2 3 4 5 6		6 8
-9  7 8 9 0 1 2 3 4 5 	8 8
-7    6 7 8 9 0 1 2 		8 6
-5      3 4 5 6 7 		6 -
-
-Delta mot tidigare rad är radlängd - 1
-Delta mot följande rad är radlängd + 1
-
-Längd på en rad beräknas:
-antal rader (max radlängd) - avstånd från mittrad * 2
-
-Givet att man har 5 rader är rad 3 mitten och 5 lång.
-Vill ha längd på rad 2 gives att avståndet från mitten (3) är 1.
-5 - 2 * 1  =  5 - 2  =  3
-
-En alternativ formel, men endast giltig för rader ovanför mittraden, är:
-(radnumret - 1) * 2 + 1
-rad 1: 0 * 2 + 1 = 1
-rad 2: 1 * 2 + 1 = 3
-rad 3: 2 * 2 + 1 = 5
-
-*/
+distancefromcentrerow: procedure expose midrow
+arg row
+return row - midrow
