@@ -1,7 +1,7 @@
 
 CFLAGS=-g -pedantic -Wall -Wextra
 
-all: day1-run
+all: day1-run day2-run
 
 obj/aoc-main.o: aoc-main.c Makefile
 	@echo "[ Compiling: $< ]"

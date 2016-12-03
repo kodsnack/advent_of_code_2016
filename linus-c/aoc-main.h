@@ -1,4 +1,4 @@
 
-extern int part1(void);
-extern int part2(void);
+extern void part1(void);
+extern void part2(void);
 

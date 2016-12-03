@@ -27,7 +27,7 @@ static int newdir(int dir, char *input){
 }
 
 
-int part1(){
+void part1(){
   char input[2];
   int dir = 0;
   int length;
@@ -38,11 +38,11 @@ int part1(){
     x += MOVE[dir].dx * length;
     y += MOVE[dir].dy * length;
   }
-  return abs(x) + abs(y);
+  printf("%d\n", abs(x) + abs(y));
 }
 
 #define SIZE  1000
-int part2(){
+void part2(){
   const int ORIGIN = SIZE/2;
   static int map[SIZE][SIZE];
   char input[2];
@@ -60,13 +60,15 @@ int part2(){
       y += MOVE[dir].dy;
       if (x < 0 || y < 0 || x > SIZE-1 || y > SIZE -1){
         printf("Out of bounds.\n");
-        return -1;
+        return;
       }
       if(map[x][y]) {
-        return abs(x-ORIGIN) + abs(y-ORIGIN);
+        printf("%d\n", abs(x-ORIGIN) + abs(y-ORIGIN));
+        return;
       }
       map[x][y] = 1;
     }
   }
-  return -1;
+  printf("Didn't find the end.\n");
+  return;
 }
