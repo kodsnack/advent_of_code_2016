@@ -6,3 +6,4 @@ extra-package-dbs: []
 packages:
 - dec01/
 - dec02/
+- dec03/
