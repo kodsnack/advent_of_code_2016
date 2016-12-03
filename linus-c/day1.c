@@ -1,6 +1,7 @@
 #include <stdio.h>
+#include <string.h>
 
-struct Move{
+static struct Move{
   int dx;
   int dy;
 } MOVE[4] = {
@@ -10,16 +11,16 @@ struct Move{
   {-1, 0}
 };
 
-int abs(int n){
+static int abs(int n){
   return n > 0 ? n : -n;
 }
 
-int readinput(char *input, int *length){
+static int readinput(char *input, int *length){
   scanf("%1s%d", input, length);
   return scanf(", ") != EOF;
 }
 
-int newdir(int dir, char *input){
+static int newdir(int dir, char *input){
   return (dir + 4 + (input[0] == 'R' ? 1 : -1)) % 4;
 }
 
@@ -41,13 +42,14 @@ int day1(){
 #define SIZE  1000
 int day2(){
   const int ORIGIN = SIZE/2;
-  int map[SIZE][SIZE] = {0};
+  static int map[SIZE][SIZE];
   char input[2];
   int length;
   int dir = 0;
   int x = ORIGIN;
   int y = ORIGIN;
   
+  memset(&map, 0, sizeof(map));
   map[x][y] = 1;
   while(readinput(input, &length)){
     dir = newdir(dir, input);
@@ -68,17 +70,18 @@ int day2(){
 }
 
 int main(int argc, char *argv[]){
-  if (argc != 2){
-    printf("What day?\n");
+  if (argc == 2){
+    if(argv[1][0] == '1'){
+      printf("%d\n", day1());
+      return 0;
+    }
+    else if(argv[1][0] == '2'){
+      printf("%d\n", day2());
+      return 0;
+    }
   }
-  if(argv[1][0] == '1'){
-    printf("%d\n", day1());
-  } 
-  else if(argv[1][0] == '2'){
-    printf("%d\n", day2());
-  } 
   else {
     printf("What day?\n");
   }
-  return 0;
+  return 1;
 }
