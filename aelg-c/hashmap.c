@@ -18,16 +18,10 @@ struct HashMapS{
   HMFreeFunc value_free;
 };
 
-static double const MAX_FILL = 0.9;
+static double const MAX_FILL = 0.8;
 
 static void no_free(void *ptr){
   (void)ptr;
-}
-
-static int never_equal(const void *ptr1, const void *ptr2){
-  (void)ptr1;
-  (void)ptr2;
-  return 0;
 }
 
 static void free_key_value(HashMap h, struct KeyValue kv){
@@ -54,7 +48,7 @@ static struct KeyValue *find(HashMap h, const void *key, HMEqualsFunc equals){
 }
 
 static void insert(HashMap h, void *key, void *value){
-  struct KeyValue *kv = find(h, key, never_equal);
+  struct KeyValue *kv = find(h, key, h->equals);
   if(kv->valid){
     free_key_value(h, *kv);
   }
@@ -64,17 +58,17 @@ static void insert(HashMap h, void *key, void *value){
 }
 
 static void increase_size(HashMap h){
-    struct KeyValue *values = h->values;
-    int values_size = h->values_size;
-    h->values_size = values_size == 0 ? 2 : values_size*2;
-    h->values = calloc(h->values_size, sizeof(struct KeyValue));
-    for(int i = 0; i < values_size; ++i){
-      struct KeyValue *kv = &values[i];
-      if(kv->valid){
-        insert(h, kv->key, kv->value);
-      }
+  struct KeyValue *values = h->values;
+  int values_size = h->values_size;
+  h->values_size = values_size == 0 ? 2 : values_size*2;
+  h->values = calloc(h->values_size, sizeof(struct KeyValue));
+  for(int i = 0; i < values_size; ++i){
+    struct KeyValue *kv = &values[i];
+    if(kv->valid){
+      insert(h, kv->key, kv->value);
     }
-    free(values);
+  }
+  free(values);
 }
 
 unsigned int HM_integer_hash(unsigned int x) {
@@ -89,7 +83,7 @@ void HM_set_insert(HashMap h, void *key){
 }
 
 void HM_insert(HashMap h, void *key, void* value){
-  if(h->size + 1 > (float)h->values_size * MAX_FILL){
+  if(h->size + 1 > h->values_size * MAX_FILL){
     increase_size(h);
   }
 
