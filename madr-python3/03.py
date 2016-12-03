@@ -3,21 +3,18 @@ import sys
 
 
 def find_fake_triangles_hor(puzzle):
-    count = 0
-    for line in puzzle.split('\n'):
-        a, b, c = map(lambda s: int(s), line.split())
-        if a + b > c and b + c > a and a + c > b:
-            count += 1
-    return count
+    return sum(map(lambda t: t[0] + t[1] > t[2] and t[1] + t[2] > t[0] and t[0] + t[2] > t[1],
+                   map(lambda s: (int(s[0]), int(s[1]), int(s[2])), map(lambda l: l.split(), puzzle.split('\n')))))
 
 
 def find_fake_triangles_ver(puzzle):
-    count = 0
-    t = list(map(lambda x: int(x), re.findall(r'^\s+(\d+)', puzzle, flags=re.MULTILINE))) + \
-        list(map(lambda x: int(x), re.findall(r'^\s+\d+\s+(\d+)', puzzle, flags=re.MULTILINE))) + \
-        list(map(lambda x: int(x), re.findall(r'^\s+\d+\s+\d+\s+(\d+)', puzzle, flags=re.MULTILINE)))
+    x = (list(map(lambda s: int(s), re.findall(r'^\s+(\d+)', puzzle, flags=re.MULTILINE))) + list(
+        map(lambda s: int(s), re.findall(r'^\s+\d+\s+(\d+)', puzzle, flags=re.MULTILINE))) + list(
+        map(lambda s: int(s), re.findall(r'^\s+\d+\s+\d+\s+(\d+)', puzzle, flags=re.MULTILINE))))
 
-    return sum(map(lambda t: t[0] + t[1] > t[2] and t[1] + t[2] > t[0] and t[0] + t[2] > t[1], [tuple(t[i:i + 3]) for i in range(0, len(t), 3)]))
+    return sum(map(lambda t: t[0] + t[1] > t[2] and t[1] + t[2] > t[0] and t[0] + t[2] > t[1],
+                   [tuple(x[i:i + 3]) for i in range(0, len(puzzle.split('\n')) * 3, 3)]))
+
 
 if __name__ == '__main__':
     try:
