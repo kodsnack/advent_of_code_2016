@@ -3,11 +3,11 @@ CFLAGS=-g -pedantic -Wall -Wextra
 
 all: day1-run day2-run day3-run
 
-obj/aoc-main.o: aoc-main.c Makefile
+obj/aoc-main.o: aoc-main.c aoc-main.h Makefile
 	@echo "[ Compiling: $< ]"
 	@gcc ${CFLAGS} -o $@ -c $<
 
-obj/day%.o: day%.c Makefile
+obj/day%.o: day%.c aoc-main.h Makefile
 	@echo "[ Compiling: $< ]"
 	@gcc ${CFLAGS} -o $@ -c $<
 
