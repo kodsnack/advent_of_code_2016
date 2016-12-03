@@ -40,7 +40,7 @@ DEFINE VARIABLE iStepsToTake AS INTEGER     NO-UNDO.
 /* The "small" steps */
 DEFINE VARIABLE giStep AS INTEGER     NO-UNDO.
 /* Read the input file */
-COPY-LOB FROM FILE "C:\temp\aoc2016\advent_of_code_2016\jensdahlin-progressabl\input1.txt" TO cInstructions.
+COPY-LOB FROM FILE "input1.txt" TO cInstructions.
 
 /* Remove idiotic spaces... */
 cInstructions = REPLACE(cInstructions, " ", "").
