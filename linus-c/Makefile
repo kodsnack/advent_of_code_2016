@@ -42,4 +42,4 @@ day%: day%.o aoc-main.o hashmap.o
 	@./$* 2 < input-$*.txt
 
 clean:
-	@rm -f day1 day2 day3
+	rm -f day1 day2 day3 $(tests) *.o
