@@ -2,6 +2,15 @@ import sys
 from random import randint
 
 
+def run(puzzle):
+    """Day 1: No Time for a Taxicab"""
+    santa_starting_position = (randint(-1024, 1024), randint(-1024, 1024))
+    head_quarters, first_recurrence = direct_santa(santa_starting_position, puzzle)
+
+    print('Distance to Easter Bunny HQ:            %s' % head_quarters)
+    print('Distance to first recurrence:           %s' % first_recurrence)
+
+
 def get_distance(start, current):
     return abs(abs(start[0] - current[0]) + abs(start[1] - current[1]))
 
@@ -90,14 +99,8 @@ def direct_santa(starting_block, directions):
 
 
 if __name__ == '__main__':
-    santa_starting_position = (randint(-1024, 1024), randint(-1024, 1024))
     try:
-        with open(sys.argv[1], 'r') as puzzle:
-            directions = puzzle.read()
-
-        head_quarters, first_recurrence = direct_santa(santa_starting_position, directions)
-        print('Distance to Easter Bunny HQ:            %s' % head_quarters)
-        print('Distance to first recurrence:           %s' % first_recurrence)
-
+        with open(sys.argv[1], 'r') as f:
+            run(f.read())
     except IOError:
         print('please provide a file path to puzzle file, example: ./puzzle.txt')

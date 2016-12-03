@@ -1,6 +1,15 @@
 import sys
 
 
+def run(puzzle):
+    """Day 2: Bathroom Security"""
+    imaginary_code = break_code_imaginary(5, puzzle)
+    real_code = break_code_real(5, puzzle)
+
+    print('Code using imaginary pad:               %s' % imaginary_code)
+    print('Code using real pad:                    %s' % real_code)
+
+
 def break_code_real(start, instructions):
     """
     real pad:
@@ -54,11 +63,6 @@ def break_code_imaginary(start, instructions):
 if __name__ == '__main__':
     try:
         with open(sys.argv[1], 'r') as f:
-            puzzle = f.read()
-        imaginary_code = break_code_imaginary(5, puzzle)
-        real_code = break_code_real(5, puzzle)
-
-        print('Code using imaginary pad:               %s' % imaginary_code)
-        print('Code using real pad:                    %s' % real_code)
+            run(f.read())
     except IOError:
         print('please provide a file path to puzzle file, example: ./puzzle.txt')
