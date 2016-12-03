@@ -22,3 +22,7 @@ day%: day%.o aoc-main.o
 	@./$* 1 < input-$*.txt
 	@echo -n "Part 2: "
 	@./$* 2 < input-$*.txt
+
+
+clean:
+	@rm -f day1 day2 day3
