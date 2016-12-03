@@ -13,13 +13,13 @@ def run(puzzle):
 
 def find_fake_triangles_hor(puzzle):
     # see commit 8fd8787 for the more readable edition
-    return sum(map(lambda t: t[0] + t[1] > t[2] and t[1] + t[2] > t[0] and t[0] + t[2] > t[1],
+    return sum(map(lambda t: [u[0] + u[1] > u[2] for u in [sorted(t)]][0],
                    map(lambda l: [int(s) for s in l.split()], puzzle.split('\n'))))
 
 
 def find_fake_triangles_ver(puzzle):
     # do it in 1 loc? challenge accepted! also, I'm sorry.
-    return sum([map(lambda t: t[0] + t[1] > t[2] and t[1] + t[2] > t[0] and t[0] + t[2] > t[1],
+    return sum([map(lambda t: [u[0] + u[1] > u[2] for u in [sorted(t)]][0],
                     [x[i:i + 3] for i in range(0, len(x), 3)]) for x in
                 [(list(map(lambda s: int(s), re.findall(r'^\s+(\d+)', puzzle, flags=re.MULTILINE))) + list(
                     map(lambda s: int(s), re.findall(r'^\s+\d+\s+(\d+)', puzzle, flags=re.MULTILINE))) + list(
