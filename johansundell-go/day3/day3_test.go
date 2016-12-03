@@ -7,8 +7,8 @@ import (
 )
 
 func Test_Ex1(t *testing.T) {
-	a, b, c := 5, 10, 25
-	if isValid(a, b, c) {
+	a := []int{5, 10, 25}
+	if isValid(a) {
 		t.Error()
 	}
 }

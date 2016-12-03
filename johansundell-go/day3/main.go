@@ -29,24 +29,24 @@ func doCount(inputs []string) (part1, part2 int) {
 		t := fixInput(inputs[i])
 		t1[i%3], t2[i%3], t3[i%3] = t[0], t[1], t[2]
 		if i%3 == 2 {
-			if isValidArr(t1) {
+			if isValid(t1) {
 				part2++
 			}
-			if isValidArr(t2) {
+			if isValid(t2) {
 				part2++
 			}
-			if isValidArr(t3) {
+			if isValid(t3) {
 				part2++
 			}
 		}
-		if isValidArr(t) {
+		if isValid(t) {
 			part1++
 		}
 	}
 	return
 }
 
-func isValidArr(ints []int) bool {
+func isValid(ints []int) bool {
 	sort.Ints(ints)
 	return ints[0]+ints[1] > ints[2]
 }
