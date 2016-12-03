@@ -182,7 +182,7 @@ int main()
 
 	// Compute distance
 	auto distance = pose.position.distanceFromCenter();
-	cout<<"Distance: "<<distance<<endl;
+	cout<<"Day 1 part 1 solution: "<<distance<<endl;
 
 	return 0;
 }
