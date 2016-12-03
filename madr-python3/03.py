@@ -12,8 +12,10 @@ def find_fake_triangles_ver(puzzle):
         map(lambda s: int(s), re.findall(r'^\s+\d+\s+(\d+)', puzzle, flags=re.MULTILINE))) + list(
         map(lambda s: int(s), re.findall(r'^\s+\d+\s+\d+\s+(\d+)', puzzle, flags=re.MULTILINE))))
 
-    return sum(map(lambda t: t[0] + t[1] > t[2] and t[1] + t[2] > t[0] and t[0] + t[2] > t[1],
-                   [tuple(x[i:i + 3]) for i in range(0, len(puzzle.split('\n')) * 3, 3)]))
+    return sum([map(lambda t: t[0] + t[1] > t[2] and t[1] + t[2] > t[0] and t[0] + t[2] > t[1],
+                   [tuple(x[i:i + 3]) for i in range(0, len(puzzle.split('\n')) * 3, 3)]) for x in [(list(map(lambda s: int(s), re.findall(r'^\s+(\d+)', puzzle, flags=re.MULTILINE))) + list(
+        map(lambda s: int(s), re.findall(r'^\s+\d+\s+(\d+)', puzzle, flags=re.MULTILINE))) + list(
+        map(lambda s: int(s), re.findall(r'^\s+\d+\s+\d+\s+(\d+)', puzzle, flags=re.MULTILINE))))]][0])
 
 
 if __name__ == '__main__':
