@@ -1,7 +1,8 @@
 #include <stdio.h>
-#include <string.h>
+#include <stdlib.h>
 
 #include "aoc-main.h"
+#include "hashmap.h"
 
 static struct Move{
   int dx;
@@ -12,10 +13,6 @@ static struct Move{
   {0, -1},
   {-1, 0}
 };
-
-static int abs(int n){
-  return n > 0 ? n : -n;
-}
 
 static int readinput(char *input, int *length){
   scanf("%1s%d", input, length);
@@ -41,34 +38,51 @@ void part1(){
   printf("%d\n", abs(x) + abs(y));
 }
 
-#define SIZE  1000
+
+struct Pos {
+  int x;
+  int y;
+};
+
+static struct Pos *Pos_new(int x, int y){
+  struct Pos *p = malloc(sizeof(struct Pos));
+  p->x = x;
+  p->y = y;
+  return p;
+}
+
+static unsigned int Pos_hash(const void* ptr){
+  const struct Pos *pos = ptr;
+  return HM_integer_hash(pos->x) + HM_integer_hash(pos->x);
+}
+
+static int Pos_equals(const void *ptr1, const void *ptr2){
+  const struct Pos *lhs = ptr1;
+  const struct Pos *rhs = ptr2;
+  return lhs->x == rhs->x && lhs->y == rhs->y;
+}
+
 void part2(){
-  const int ORIGIN = SIZE/2;
-  static int map[SIZE][SIZE];
   char input[2];
   int length;
   int dir = 0;
-  int x = ORIGIN;
-  int y = ORIGIN;
-  
-  memset(&map, 0, sizeof(map));
-  map[x][y] = 1;
+  struct Pos curpos = {0, 0};
+  HashMap h = HM_create(Pos_hash, Pos_equals, free, NULL);
+
+  HM_set_insert(h, Pos_new(curpos.x,curpos.y));
   while(readinput(input, &length)){
     dir = newdir(dir, input);
     for(int i = 0; i < length; ++i){
-      x += MOVE[dir].dx;
-      y += MOVE[dir].dy;
-      if (x < 0 || y < 0 || x > SIZE-1 || y > SIZE -1){
-        printf("Out of bounds.\n");
+      curpos.x += MOVE[dir].dx;
+      curpos.y += MOVE[dir].dy;
+      if(HM_find(h, &curpos)) {
+        printf("%d\n", abs(curpos.x) + abs(curpos.y));
+        HM_destroy(&h);
         return;
       }
-      if(map[x][y]) {
-        printf("%d\n", abs(x-ORIGIN) + abs(y-ORIGIN));
-        return;
-      }
-      map[x][y] = 1;
+      HM_set_insert(h, Pos_new(curpos.x,curpos.y));
     }
   }
   printf("Didn't find the end.\n");
-  return;
+  HM_destroy(&h);
 }
