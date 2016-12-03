@@ -13,8 +13,7 @@ def run(puzzle):
 
 def find_fake_triangles_hor(puzzle):
     # see commit 8fd8787 for the more readable edition
-    return sum(map(lambda t: t[0] + t[1] > t[2],
-                   map(lambda l: sorted(map(int, l.split())), puzzle.split('\n'))))
+    return sum(map(lambda t: t[0] + t[1] > t[2], map(lambda l: sorted(map(int, l.split())), puzzle.split('\n'))))
 
 
 def find_fake_triangles_ver(puzzle):
