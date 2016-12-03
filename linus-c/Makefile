@@ -1,11 +1,20 @@
 
+CFLAGS=-g -pedantic -Wall -Wextra
 
 all: day1-run
 
-
-%: %.c Makefile
+obj/aoc-main.o: aoc-main.c Makefile
 	@echo "[ Compiling: $< ]"
-	@gcc -g -pedantic -Wall -Wextra -o $@ $<
+	@gcc ${CFLAGS} -o $@ -c $<
+
+obj/day%.o: day%.c Makefile
+	@echo "[ Compiling: $< ]"
+	@gcc ${CFLAGS} -o $@ -c $<
+
+.PRECIOUS: day%
+day%: obj/day%.o obj/aoc-main.o
+	@echo "[ Linking: $< ]"
+	@gcc -g -o $@ $^
 
 %-run: % input-%.txt
 	@echo "[ Running: $* ]"

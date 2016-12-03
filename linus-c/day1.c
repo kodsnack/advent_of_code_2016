@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "aoc-main.h"
+
 static struct Move{
   int dx;
   int dy;
@@ -25,7 +27,7 @@ static int newdir(int dir, char *input){
 }
 
 
-int day1(){
+int part1(){
   char input[2];
   int dir = 0;
   int length;
@@ -40,7 +42,7 @@ int day1(){
 }
 
 #define SIZE  1000
-int day2(){
+int part2(){
   const int ORIGIN = SIZE/2;
   static int map[SIZE][SIZE];
   char input[2];
@@ -67,21 +69,4 @@ int day2(){
     }
   }
   return -1;
-}
-
-int main(int argc, char *argv[]){
-  if (argc == 2){
-    if(argv[1][0] == '1'){
-      printf("%d\n", day1());
-      return 0;
-    }
-    else if(argv[1][0] == '2'){
-      printf("%d\n", day2());
-      return 0;
-    }
-  }
-  else {
-    printf("What day?\n");
-  }
-  return 1;
 }
