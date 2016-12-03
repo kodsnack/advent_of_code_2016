@@ -5,7 +5,7 @@ import sys
 def find_fake_triangles_hor(puzzle):
     # see commit 8fd8787 for the more readable edition
     return sum(map(lambda t: t[0] + t[1] > t[2] and t[1] + t[2] > t[0] and t[0] + t[2] > t[1],
-                   map(lambda s: (int(s[0]), int(s[1]), int(s[2])), map(lambda l: l.split(), puzzle.split('\n')))))
+                   map(lambda l: [int(s) for s in l.split()], puzzle.split('\n'))))
 
 
 def find_fake_triangles_ver(puzzle):
