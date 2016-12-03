@@ -59,6 +59,6 @@ if __name__ == '__main__':
         real_code = break_code_real(5, puzzle)
 
         print('Code using imaginary pad:               %s' % imaginary_code)
-        print('Code using read pad:                    %s' % real_code)
+        print('Code using real pad:                    %s' % real_code)
     except IOError:
         print('please provide a file path to puzzle file, example: ./puzzle.txt')
