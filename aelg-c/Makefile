@@ -1,7 +1,9 @@
 
 CFLAGS=-g -pedantic -Wall -Wextra -Werror
 
-all: day1-run day2-run day3-run
+days=day1 day2 day3 day4
+
+all: $(patsubst %,%-run,$(days))
 
 tests=hashmap_test
 
@@ -42,4 +44,4 @@ day%: day%.o aoc-main.o hashmap.o
 	@./$* 2 < input-$*.txt
 
 clean:
-	rm -f day1 day2 day3 $(tests) *.o
+	rm -f $(days) $(tests) *.o
