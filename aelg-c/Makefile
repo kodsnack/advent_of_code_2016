@@ -6,12 +6,13 @@ days=day1 day2 day3 day4
 all: $(patsubst %,%-run,$(days))
 
 tests=hashmap_test
+test_logs=$(patsubst %,%.log,$(tests))
 
-test: $(patsubst %,%.log,$(tests))
+test: $(test_logs)
 
-$(patsubst %,%.log,$(tests)): %.log: %
+$(test_logs): %.log: %
 	@echo "[ Testing: $< ]"
-	@./$< && echo "$< : OK" || echo "$< : FAILED"
+	@./$< | tee $@ && echo "$< : OK" || echo "$< : FAILED"
 
 aoc-main.o: aoc-main.c aoc-main.h Makefile
 	@echo "[ Compiling: $< ]"
@@ -44,4 +45,4 @@ day%: day%.o aoc-main.o hashmap.o
 	@./$* 2 < input-$*.txt
 
 clean:
-	rm -f $(days) $(tests) *.o
+	rm -f $(days) $(tests) $(test_logs) *.o
