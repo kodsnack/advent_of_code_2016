@@ -13,7 +13,7 @@ def get_valid_rooms(puzzle):
 
 
 def sum_sector_ids(puzzle):
-    return sum(map(int, map(lambda l: re.match(r'^(\D+)(\d+)\[(\D+?)\]$', l.translate({ord('-'): None})).group(2),
+    return sum(map(int, map(lambda l: re.match(r'.+-(\d+)\[', l).group(1),
                             get_valid_rooms(puzzle))))
 
 
@@ -30,7 +30,7 @@ def decrypt_name(ciphered, id):
 def find_np_room(puzzle):
     rooms = get_valid_rooms(puzzle)
     for r in rooms:
-        code, id, checksum = re.match(r'^(\D+)-(\d+)\[(\D+?)\]$', r).groups()
+        code, id = re.match(r'^(\D+)-(\d+)\[', r).groups()
         decrypted = decrypt_name(code, int(id))
         if decrypted == 'northpole object storage':
             return id
