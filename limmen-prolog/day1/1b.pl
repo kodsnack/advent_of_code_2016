@@ -11,6 +11,8 @@
 %% South is the number of blocks south of first location visited twice
 %% East is the number of blocks east of first location visited twice
 %% West is the number of blocks West of first location visited twice
+%%
+%% Author Kim Hammar limmen@github.com <kimham@kth.se>
 
 %% Facts
 
@@ -144,7 +146,9 @@ turn(east, Turn, south):-
     right(Turn).
 
 %% Pretty print the result
-pretty_print(N, _, E, _):-
+%% pretty_print(+,+,+,+).
+%% pretty_print(NorthPos, SouthPos, EastPos, WestPos).
+    pretty_print(N, _, E, _):-
     N > 0,
     E > 0,
     T is N + E,

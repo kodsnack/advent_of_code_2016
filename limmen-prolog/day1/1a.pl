@@ -11,6 +11,8 @@
 %% South is the number of blocks south
 %% East is the number of blocks east
 %% West is the number of blocks West
+%%
+%% Author Kim Hammar limmen@github.com <kimham@kth.se>
 
 
 %% Facts
@@ -82,7 +84,7 @@ get_steps([X|Y], Acc, Res, R):-
     
 %% Move Steps steps in the facing direction
 %% move_steps(+,+,+,+,+,+,-,-,-,-).
-%% move_steps(FacingDirection, NoSteps, NortPos, SoutPos, EastPos, WestPos, NewNortPos, NewSouthPos, NewEastPos, NewWestPos).
+%% move_steps(FacingDirection, NoSteps, NortPos, SouthPos, EastPos, WestPos, NewNortPos, NewSouthPos, NewEastPos, NewWestPos).
 move_steps(north, Steps, N, S, E, W, N1, S1, E, W):-
     N1 is N + Steps,
     S1 is S - Steps.
@@ -127,6 +129,8 @@ turn(east, Turn, south):-
     right(Turn).
 
 %% Pretty print the result
+%% pretty_print(+,+,+,+).
+%% pretty_print(NorthPos, SouthPos, EastPos, WestPos).
 pretty_print(N, _, E, _):-
     N > 0,
     E > 0,
