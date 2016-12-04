@@ -104,8 +104,12 @@ static int pos_equals(const void *ptr1, const void *ptr2){
 void custom_frees(int num_entries){
   HashMap h = HM_create(pos_hash, pos_equals, pos_free, pos_free);
   for(int i = 0; i < num_entries; ++i){
+    int before_insert = number_of_pos;
     HM_insert(h, pos_new(i, i*123), pos_new(i*432, i*10));
+    ASSERT(before_insert + 2 == number_of_pos); // Inserted 2 new key-values.
+    int before_replace = number_of_pos;
     HM_insert(h, pos_new(i, i*123), pos_new(i*432, i*10));
+    ASSERT(before_replace == number_of_pos); // Replaced, old values removed.
   }
   for(int i = 0; i < num_entries; ++i){
     struct Pos* key = pos_new(i, i*123);
