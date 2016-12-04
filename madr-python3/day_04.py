@@ -6,7 +6,7 @@ from collections import Counter
 def get_valid_rooms(puzzle):
     def only_valid_rooms(l):
         code, id, checksum = re.match(r'^(\D+)(\d+)\[(\D+?)\]$', l.translate({ord('-'): None})).groups()
-        most_common = ''.join(map(lambda x: x[1], sorted([(-c, k) for (k, c) in Counter(code).most_common()])))
+        most_common = ''.join(map(lambda x: x[0], sorted(Counter(code).most_common(), key=lambda e: (-e[1], e[0]))))
         return most_common.startswith(checksum)
 
     return filter(only_valid_rooms, puzzle.splitlines())
