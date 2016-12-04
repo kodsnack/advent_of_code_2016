@@ -3,29 +3,52 @@ import sys
 from collections import Counter
 
 
-def sum_sector_ids(puzzle):
-    codes = list()
-    for l in puzzle.splitlines():
+def get_valid_rooms(puzzle):
+    def only_valid_rooms(l):
         code, id, checksum = re.match(r'^(\D+)(\d+)\[(\D+?)\]$', l.translate({ord('-'): None})).groups()
         most_common = ''.join(map(lambda x: x[0], sorted(
             sorted(Counter(''.join(sorted(code))).most_common(20)),
             key=lambda x: x[1], reverse=True)[:5]))
-        if most_common == checksum:
-            codes.append(int(id))
-    return sum(codes)
+        return most_common == checksum
+
+    return filter(only_valid_rooms, puzzle.splitlines())
+
+
+def sum_sector_ids(puzzle):
+    return sum(map(int, map(lambda l: re.match(r'^(\D+)(\d+)\[(\D+?)\]$', l.translate({ord('-'): None})).group(2),
+                            get_valid_rooms(puzzle))))
+
+
+def decrypt_name(ciphered, id):
+    v = ''
+    for c in ciphered:
+        dec = ord(c) + (id % 26)
+        if dec > 122:
+            dec -= 26
+        v += ' ' if c == '-' else chr(dec)
+    return v
+
+
+def find_np_room(puzzle):
+    rooms = get_valid_rooms(puzzle)
+    for r in rooms:
+        code, id, checksum = re.match(r'^(\D+)-(\d+)\[(\D+?)\]$', r).groups()
+        decrypted = decrypt_name(code, int(id))
+        if decrypted == 'northpole object storage':
+            return id
 
 
 def run(puzzle):
     """Day 4: Security Through Obscurity"""
     s = sum_sector_ids(puzzle)
+    np = find_np_room(puzzle)
 
     print('Sum of sector IDs, real rooms:          %s' % s)
+    print('Section ID for North Pole storage:      %s' % np)
 
 
 if __name__ == '__main__':
     try:
-        run('\n'.join(['aaaaa-bbb-z-y-x-123[abxyz]', 'a-b-c-d-e-f-g-h-987[abcde]', 'not-a-real-room-404[oarel]',
-                       'totally-real-room-200[decoy]']))
         with open(sys.argv[1], 'r') as f:
             run(f.read())
     except IOError:
