@@ -6,8 +6,9 @@ from collections import Counter
 def get_valid_rooms(puzzle):
     def only_valid_rooms(l):
         code, id, checksum = re.match(r'^(\D+)(\d+)\[(\D+?)\]$', l.translate({ord('-'): None})).groups()
-        most_common = ''.join(map(lambda x: x[0], sorted(Counter(code).most_common(), key=lambda e: (-e[1], e[0]))))
-        return most_common.startswith(checksum)
+        mc = Counter(code).most_common()
+        mc_sorted = sorted(mc, key=lambda e: (-e[1], e[0]))  # because FU, Counter default sort ...
+        return ''.join(map(lambda x: x[0], mc_sorted)).startswith(checksum)
 
     return filter(only_valid_rooms, puzzle.splitlines())
 
@@ -30,10 +31,10 @@ def decrypt_name(ciphered, id):
 def find_np_room(puzzle):
     rooms = get_valid_rooms(puzzle)
     for r in rooms:
-        code, id = re.match(r'^(\D+)-(\d+)\[', r).groups()
-        decrypted = decrypt_name(code, int(id))
+        code, sid = re.match(r'^(\D+)-(\d+)\[', r).groups()
+        decrypted = decrypt_name(code, int(sid))
         if decrypted == 'northpole object storage':
-            return id
+            return sid
 
 
 def run(puzzle):
