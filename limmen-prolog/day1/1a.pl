@@ -35,7 +35,7 @@ start:-
 
 %% Reads inputstring
 %% read_input(-).
-%% read_input(VarToStoreReadData)
+%% read_input(VariableToStoreReadData).
 read_input(Input):-
     open("1a.txt", read, Stream),
     read_input(Stream, [], [], Input),
