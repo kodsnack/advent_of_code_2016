@@ -35,7 +35,7 @@ func TestDay3part1valid(t *testing.T) {
 	}
 }
 
-func TestDay3part1(t *testing.T) {
+func TestDay3Part1(t *testing.T) {
 	f, err := os.OpenFile("day3_input.txt", os.O_RDONLY, 0)
 
 	if err != nil {
@@ -55,12 +55,10 @@ func TestDay3part1(t *testing.T) {
 		}
 	}
 
-	if count != 1050 {
-		t.Error("Unexpected count. Got:", count)
-	}
+	t.Log(count)
 }
 
-func TestDay3part2(t *testing.T) {
+func TestDay3Part2(t *testing.T) {
 	f, err := os.OpenFile("day3_input.txt", os.O_RDONLY, 0)
 
 	if err != nil {
@@ -89,7 +87,5 @@ func TestDay3part2(t *testing.T) {
 		}
 	}
 
-	if count != 1921 {
-		t.Error("Unexpected count. Got:", count)
-	}
+	t.Log(count)
 }
