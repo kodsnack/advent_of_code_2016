@@ -1,0 +1,37 @@
+/* Advent of code, day 3, puzzle 2
+   Calculate valid triangles where sum of any two sides > length of remaining side
+   and where input values are given in columns with three columns in a row
+ */
+
+infile = File('input.txt')
+input = Scanner(infile)
+valid = 0
+line=''
+loop while input.hasNext()
+	loop j=0 to 2
+		line[j] = splitLine( input.nextLine() )
+		end
+	loop j=0 to 2
+		column = linesToCols(line,j)
+		a=column[0] ; b=column[1] ; c=column[2]
+		valid = valid + ( (a + b > c) & (a + c > b) & (b + c > a) ) 
+		end
+	end
+input.close()
+say valid
+
+method linesToCols(lines, column) static returns Rexx
+	newline=''
+	loop i=0 to 2
+		line=lines[i]
+		newline[i] = line[column]
+		end
+	return newline
+
+method splitLine(line) static returns Rexx
+	newline=''
+	loop i=0 while line \= ''
+		parse line a line
+		newline[i] = a
+		end
+	return newline
