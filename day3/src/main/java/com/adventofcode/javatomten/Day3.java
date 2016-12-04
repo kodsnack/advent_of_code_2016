@@ -48,13 +48,11 @@ public class Day3 {
     private void parse(List<String> lines) {
         int valids = 0;
         for (String line : lines) {
-            final String[] sides = line.split(" +");
+            final String[] sides = line.trim().split(" +");
             final List<Integer> triSides = new ArrayList<>();
             for (final String side : sides) {
-                if (!side.equals("")) {
-                    final int s = Integer.parseInt(side);
-                    triSides.add(s);
-                }
+                final int s = Integer.parseInt(side);
+                triSides.add(s);
             }
             Collections.sort(triSides);
             Triangle triangle = new Triangle(triSides);
