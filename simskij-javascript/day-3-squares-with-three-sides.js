@@ -41,7 +41,7 @@ function run() {
         verticals.one.push(a);
         verticals.two.push(b);
         verticals.three.push(c);
-        
+
         counters.rows++;
 
         counters.one = isTriangle(a, b, c) ? counters.one + 1 : counters.one;
@@ -60,8 +60,8 @@ function run() {
 }
 
 function printResult() {
-    console.log('Part one: ' + counters.one + ' of ' + lines.length);
-    console.log('Part two: ' + counters.two + ' of ' + lines.length);
+    console.log('Part one: ' + counters.one);
+    console.log('Part two: ' + counters.two);
 }
 
 run();
