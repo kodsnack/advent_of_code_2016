@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Advent of Code 2016-12-02.
+ * Advent of Code 2016-12-03.
  */
 public class Day3 {
 
