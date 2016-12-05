@@ -17,15 +17,20 @@ type room struct {
 }
 
 type char struct {
-	c          string
-	pos, count int
+	c     string
+	count int
 }
 
 type charList []char
 
-func (c charList) Len() int           { return len(c) }
-func (c charList) Less(i, j int) bool { return c[i].count > c[j].count }
-func (c charList) Swap(i, j int)      { c[i], c[j] = c[j], c[i] }
+func (c charList) Len() int { return len(c) }
+func (c charList) Less(i, j int) bool {
+	if c[i].count == c[j].count {
+		return c[i].c < c[j].c
+	}
+	return c[i].count > c[j].count
+}
+func (c charList) Swap(i, j int) { c[i], c[j] = c[j], c[i] }
 
 func main() {
 	data, err := adventofcode2016.GetInput("day4.txt")
@@ -66,10 +71,7 @@ func (r *room) isValid() bool {
 	str := strings.Replace(r.name, "-", "", -1)
 	for i := 0; i < len(str); i++ {
 		s := string(str[i])
-		c, isCreated := chars[s]
-		if !isCreated {
-			c.pos = i
-		}
+		c, _ := chars[s]
 		c.c = s
 		c.count++
 		chars[s] = c
@@ -85,7 +87,7 @@ func (r *room) isValid() bool {
 	for i := 0; i < len(r.checksum); i++ {
 		a := letters[i]
 		c := string(r.checksum[i])
-		if c == a.c || chars[c].count == a.count {
+		if c == a.c {
 			continue
 		}
 		return false
