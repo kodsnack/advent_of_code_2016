@@ -1,3 +1,3 @@
 module Linuss::Crystal
-  VERSION = "2.2"
+  VERSION = "3.1"
 end
