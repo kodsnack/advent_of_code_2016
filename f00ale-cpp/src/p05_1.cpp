@@ -12,7 +12,6 @@ int main() {
     return 0;
   }
 
-  int found = 0;
   int i = 0;
   std::string ans;
   while(ans.length() < 8) {
