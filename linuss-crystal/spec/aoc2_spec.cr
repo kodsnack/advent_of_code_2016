@@ -51,3 +51,13 @@ describe AoC2 do
     AoC2.new.process(aoc2_test_string).should eq([1, 9, 8, 5])
   end
 end
+
+describe AoC2 do
+  it "empty case" do
+    AoC2b.new.position.should eq 5
+  end
+
+  it "examples" do
+    AoC2b.new.process(aoc2_test_string).should eq([5, 'D', 'B', 3])
+  end
+end
