@@ -45,6 +45,43 @@ std::multimap<B, A> flip_map(const M<A, B, Args...>& src)
 	return dst;
 }
 
+string computeChecksumFromName(string name)
+{
+	name.erase(remove(name.begin(), name.end(), '-'), name.end());
+	sort(name.begin(), name.end());
+	unordered_map<char, int> histogram;
+	for(char c : name)
+	{
+		if(histogram.find(c)==histogram.end())
+		{
+			histogram[c] = 1;
+		} else
+		{
+			histogram[c]++;
+		}
+	}
+	auto countToCharMap = flip_map(histogram);
+	vector<pair<int, char>> countToCharVec;
+	copy(countToCharMap.rbegin(), countToCharMap.rend(), back_inserter(countToCharVec));
+
+	sort(countToCharVec.begin(), countToCharVec.end(),
+		 [](const pair<int, char>& lhs, const pair<int, char>& rhs) {
+		if(lhs.first>rhs.first)
+			return true;
+		if(lhs.first<rhs.first)
+			return false;
+
+		return (lhs.second<rhs.second);
+	});
+
+	string computedChecksum;
+	for(int i = 0; i<5&&i<countToCharVec.size(); i++)
+	{
+		computedChecksum += countToCharVec[i].second;
+	}
+	return computedChecksum;
+}
+
 // return -1 if not valid
 int parseRoomID(string room)
 {
@@ -57,38 +94,8 @@ int parseRoomID(string room)
 		auto sectorID = m[3].str();
 		auto checksum = m[4].str();
 
-		name.erase(remove(name.begin(), name.end(), '-'), name.end());
-		sort(name.begin(), name.end());
-		unordered_map<char, int> histogram;
-		for (char c : name)
-		{
-			if (histogram.find(c) == histogram.end())
-			{
-				histogram[c] = 1;
-			} else
-			{
-				histogram[c]++;
-			}
-		}
-		auto countToCharMap = flip_map(histogram);
-		vector<pair<int, char>> countToCharVec;
-		copy(countToCharMap.rbegin(), countToCharMap.rend(), back_inserter(countToCharVec));
-
-		sort(countToCharVec.begin(), countToCharVec.end(),
-		     [](const pair<int, char>& lhs, const pair<int, char>& rhs) {
-			     if (lhs.first > rhs.first)
-				     return true;
-			     if (lhs.first < rhs.first)
-				     return false;
-
-			     return (lhs.second < rhs.second);
-			 });
-
-		string computedChecksum;
-		for (int i = 0; i < 5 && i < countToCharVec.size(); i++)
-		{
-			computedChecksum += countToCharVec[i].second;
-		}
+		name = name.substr(0, name.length()-1);
+		auto computedChecksum = computeChecksumFromName(name);
 
 		if (checksum == computedChecksum)
 			return atoi(sectorID.c_str());
