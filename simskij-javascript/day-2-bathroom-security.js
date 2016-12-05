@@ -7,21 +7,9 @@ const instructions = [
 ];
 
 
-const n = undefined;
-
 const pads = {
-    one: [
-        [1, 2, 3],
-        [4, 5, 6],
-        [7, 8, 9]
-    ],
-    two: [
-        [n, n, 1, n, n],
-        [n, 2, 3, 4, n],
-        [5, 6, 7, 8, 9],
-        [n, 'A', 'B', 'C', n],
-        [n, n, 'D', n, n]
-    ]
+    one: [[1, 2, 3],[4, 5, 6],[7, 8, 9]],
+    two: [[,,1,,,],[,2,3,4,,],[5,6,7,8,9],[,'A','B','C',,],[,,'D',,,]]
 }
 
 const directions = {
@@ -48,7 +36,7 @@ const positions = {
             pos.x = pad[pos.y][pos.x + dir.x] ? pos.x + dir.x : pos.x;
     }
 
-    instructions.forEach((instruction, index) => {
+    instructions.forEach((instruction) => {
         let steps = instruction.split('');
         let pos = positions;
 

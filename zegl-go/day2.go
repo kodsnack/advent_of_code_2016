@@ -1,15 +1,12 @@
 package main
 
 import (
-	"fmt"
 	"strconv"
 	"strings"
 )
 
 func day2part1(ins string) string {
 	instructions := strings.Split(ins, "\n")
-
-	fmt.Println(instructions)
 
 	currentKey := 5
 
