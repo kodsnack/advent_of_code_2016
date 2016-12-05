@@ -1,7 +1,7 @@
 
 CFLAGS=-g -pedantic -Wall -Wextra -Werror
 
-days=day1 day2 day3 day4
+days=day1 day2 day3 day4 day5
 
 all: $(patsubst %,%-run,$(days))
 
@@ -35,7 +35,7 @@ day%.o: day%.c aoc-main.h Makefile
 .PRECIOUS: day%
 day%: day%.o aoc-main.o hashmap.o
 	@echo "[ Linking: $@ ]"
-	@gcc -g -o $@ $^
+	@gcc -g -lcrypto -o $@ $^
 
 %-run: % input-%.txt test
 	@echo "[ Running: $* ]"
