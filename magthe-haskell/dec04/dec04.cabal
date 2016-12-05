@@ -10,10 +10,10 @@ cabal-version: >=1.10
 
 executable dec04-part1
   main-is:             Part1.hs
-  build-depends:       base >=4.9 && <4.10, mtl >=2.2 && <2.3, parsec
+  build-depends:       base >=4.9 && <4.10, mtl >=2.2 && <2.3, parsec >= 3.1
   default-language:    Haskell2010
 
 executable dec04-part2
   main-is:             Part2.hs
-  build-depends:       base >=4.9 && <4.10, mtl >=2.2 && <2.3
+  build-depends:       base >=4.9 && <4.10, mtl >=2.2 && <2.3, parsec >= 3.1
   default-language:    Haskell2010
