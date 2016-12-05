@@ -52,7 +52,7 @@ string solveDay2(string input)
 			return candidatePos;
 	});
 
-	cout << "Day2 solution: " << passcode << endl;
+	cout << "Day 2 part 2 solution: " << passcode << endl;
 	return passcode;
 }
 
@@ -72,7 +72,7 @@ DRRRLURUDUDUULDLLURLUUDDRRRDUDLURLLDRRLLDDURULUDUURURULLRLDLLUURDLLDLLDLDLRUDLLL
 
 int main()
 {
-	solveDay2(day2_testinput);
+//	solveDay2(day2_testinput);
 	solveDay2(day2_input);
 	return 0;
 }
