@@ -12,11 +12,6 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import absolute_import
 
-try:
-    from itertools import izip_longest as zip_longest  # for Python 2.x
-except ImportError:
-    from itertools import zip_longest # for Python 3.x
-
 
 def splitter(s):
     return list(map(int, s.strip().split()))
@@ -32,6 +27,10 @@ def part_1_generator():
 
 def part_2_generator():
     # Unreadable functional version.
+    # try:
+    #     from itertools import izip_longest as zip_longest  # for Python 2.x
+    # except ImportError:
+    #     from itertools import zip_longest  # for Python 3.x
     # from itertools import chain
     # with open('input_03.txt', 'r') as f:
     #     for column in zip_longest(*[iter(chain(*list(map(

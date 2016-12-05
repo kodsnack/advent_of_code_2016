@@ -46,6 +46,6 @@ int readTrianglesAndCountValid(string trianglesFile)
 int main()
 {
 	auto validCount = readTrianglesAndCountValid(INPUT_FILE);
-	cout << "Day3 part 2 result: " << validCount << endl;
+	cout << "Day 3 part 2 result: " << validCount << endl;
 	return 0;
 }

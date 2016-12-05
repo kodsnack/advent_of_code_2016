@@ -71,7 +71,7 @@ string solveDay2(string input)
 		return moveMap[Move{dir, current}];
 	});
 
-	cout << "Day2 solution: " << passcode << endl;
+	cout << "Day 2 part 1 solution: " << passcode << endl;
 	return passcode;
 }
 
