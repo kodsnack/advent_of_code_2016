@@ -235,7 +235,7 @@ int main()
 
 		// Compute distance
 		auto distance = pos.distanceFromCenter();
-		cout << "Day 1 part 2 solution: " << distance << endl;
+		cout << "Distance: " << distance << endl;
 	} catch (const std::exception&)
 	{
 		cout << "No solution found :(" << endl;

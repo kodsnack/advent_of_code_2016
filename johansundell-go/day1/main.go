@@ -3,12 +3,11 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"log"
 	"math"
 	"strconv"
 	"strings"
-
-	"github.com/johansundell/advent_of_code_2016/johansundell-go/adventofcode2016"
 )
 
 type point struct {
@@ -20,7 +19,7 @@ func (p point) distance() int {
 }
 
 func main() {
-	str, err := adventofcode2016.GetInput("day1.txt")
+	str, err := getInput("day1.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -64,4 +63,12 @@ func walk(input string) (int, point) {
 	}
 
 	return int(math.Abs(float64(x)) + math.Abs(float64(y))), p
+}
+
+func getInput(day string) (string, error) {
+	b, err := ioutil.ReadFile("./../inputs/" + day)
+	if err != nil {
+		return "", err
+	}
+	return string(b), nil
 }

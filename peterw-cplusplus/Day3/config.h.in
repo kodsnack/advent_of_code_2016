@@ -1,3 +1,0 @@
-#include <string>
-
-#define INPUT_FILE "@CMAKE_CURRENT_SOURCE_DIR@/input.txt"

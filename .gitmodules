@@ -8,9 +8,3 @@
 [submodule "acz13-python35"]
 	path = acz13-python35
 	url = https://github.com/acz13/advent-of-code-2016.git
-[submodule "anlif-python2"]
-	path = anlif-python2
-	url = git@github.com:anlif/advent_of_code_2016.git
-[submodule "max-es6"]
-	path = max-es6
-	url = git://github.com/maxwihlborg/advent-of-code-2016.git
