@@ -8,7 +8,8 @@ if input='' then do
 	input = 'abc5278568'
 	input = 'abc5017308'
 	input = 'abc' /* 900150983cd24fb0d6963f7d28e17f72 */
-	input = '' /* 0cc175b9c0f1b6a831c399e269772661 */
+	input = 'a' /* 0cc175b9c0f1b6a831c399e269772661 */
+	input = ''  /* d41d8cd98f00b204e9800998ecf8427e */
 	end
 messagelength = (length(input) * 8) // (2**64)
 input = c2b(input)
@@ -29,6 +30,7 @@ do i = 0 to 63
 	if length(b) <> 4 then signal lenerr
     if length(c) <> 4 then signal lenerr
 	if length(d) <> 4 then signal lenerr
+
 	select
 		when i < 16 then do
 			/* F := (B and C) or ((not B) and D) */
@@ -58,6 +60,7 @@ do i = 0 to 63
         end
         otherwise exit 20
     end
+    if length(f) <> 4 then signal lenerr
     say i s.i
     dtemp = d
     d = c
@@ -112,8 +115,22 @@ return
 ff:
 x = arg(1) ; y = arg(2) ; z = arg(3)
 temp = bitor( bitand(x,y), bitand(bitnot(x),z) )
-return
+return temp
 
+gg:
+x = arg(1) ; y = arg(2) ; z = arg(3)
+temp = bitor( bitand(x,z), bitand(y,bitnot(z)) )
+return temp
+
+hh:
+x = arg(1) ; y = arg(2) ; z = arg(3)
+temp = bitxor( bitxor(x,y), z )
+return temp
+
+ii:
+x = arg(1) ; y = arg(2) ; z = arg(3)
+temp = bitxor( y, bitor( x, bitnot(z) ) )
+return temp
 
 setuptables:
 /*
