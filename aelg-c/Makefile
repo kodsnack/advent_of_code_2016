@@ -37,12 +37,29 @@ day%: day%.o aoc-main.o hashmap.o
 	@echo "[ Linking: $@ ]"
 	@gcc -g -lcrypto -o $@ $^
 
-%-run: % input-%.txt test
+.PRECIOUS: input-day%.txt
+input-day%.txt: session-cookie
+	@echo "[ Downloading $@ ]"
+	@curl -s -f -b session=$$(cat session-cookie) 'http://adventofcode.com/2016/day/$*/input' > $@ || { rm -f session-cookie && false; }
+
+session-cookie: 
+	@echo "What is your session cookie? (will be saved to the file session-cookie)"
+	@read SESSION_COOKIE && echo $$SESSION_COOKIE > session-cookie
+
+clean-cookie:
+	@rm session-cookie
+
+.PRECIOUS: output-%
+output-%: % input-%.txt ${test_logs}
 	@echo "[ Running: $* ]"
-	@echo -n "Part 1: "
-	@./$* 1 < input-$*.txt
-	@echo -n "Part 2: "
-	@./$* 2 < input-$*.txt
+	@echo -n "Part 1: " > $@
+	@./$* 1 < input-$*.txt >> $@
+	@echo -n "Part 2: " >> $@
+	@./$* 2 < input-$*.txt >> $@
+
+%-run: output-%
+	@echo "[ Result: $* ]"
+	@cat $<
 
 clean:
-	rm -f $(days) $(tests) $(test_logs) *.o
+	rm -f $(days) $(tests) $(test_logs) *.o input-day*.txt output-day*
