@@ -25,7 +25,8 @@ func Test_Ex3(t *testing.T) {
 
 func Test_Ex4(t *testing.T) {
 	input := "abc"
-	if findPassword(input) != "18f47a30" {
+	pass, _ := findPassword(input)
+	if pass != "18f47a30" {
 		t.Fail()
 	}
 }
@@ -58,8 +59,16 @@ func Test_Ex7(t *testing.T) {
 func Test_Ex8(t *testing.T) {
 	input := "abc"
 	correct := "05ace8e3"
-	result := findPasswordVersion2(input)
+	_, result := findPassword(input)
 	if result != correct {
 		t.Error("expected " + correct + " got " + result)
+	}
+}
+
+func Test_Ex9(t *testing.T) {
+	input := "ffykfhsq"
+	pass1, pass2 := findPassword(input)
+	if pass1 != "c6697b55" || pass2 != "8c35d1ab" {
+		t.Fail()
 	}
 }

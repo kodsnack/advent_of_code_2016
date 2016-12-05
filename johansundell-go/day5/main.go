@@ -16,19 +16,17 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(findPassword(data), findPasswordVersion2(data))
+	fmt.Println(findPassword(data))
 }
 
-func findPassword(input string) (result string) {
-	for i := 0; len(result) < 8; i++ {
-		result += hash(input + strconv.Itoa(i))
-	}
-	return
-}
-
-func findPasswordVersion2(input string) string {
+func findPassword(input string) (string, string) {
 	result := make([]byte, 8)
-	for i, foundCount := 0, 0; foundCount < 8; i++ {
+	pass1 := ""
+	for i, foundCount := 0, 0; len(pass1) < 8 || foundCount < 8; i++ {
+		// TODO: Get md5 sum once
+		if len(pass1) < 8 {
+			pass1 += hash(input + strconv.Itoa(i))
+		}
 		b, pos, err := hashVersion2(input + strconv.Itoa(i))
 		if err == nil && result[pos] == 0 {
 			result[pos] = b
@@ -36,22 +34,26 @@ func findPasswordVersion2(input string) string {
 			fmt.Println(string(result))
 		}
 	}
-	return string(result)
+	return pass1, string(result)
 }
 
 func hash(str string) (out string) {
-	sum := md5.Sum([]byte(str))
-	result := hex.EncodeToString(sum[:])
-	if result[:5] == "00000" {
+	if result := getMd5(str); len(result) > 0 {
 		out = result[5:6]
 	}
 	return
 }
 
-func hashVersion2(str string) (byte, int, error) {
+func getMd5(str string) string {
 	sum := md5.Sum([]byte(str))
-	result := hex.EncodeToString(sum[:])
-	if result[:5] == "00000" {
+	if result := hex.EncodeToString(sum[:]); result[:5] == "00000" {
+		return result
+	}
+	return ""
+}
+
+func hashVersion2(str string) (byte, int, error) {
+	if result := getMd5(str); len(result) > 0 {
 		out := result[6]
 		pos, err := strconv.Atoi(result[5:6])
 		if err == nil && pos < 8 {
