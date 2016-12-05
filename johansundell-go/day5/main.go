@@ -23,11 +23,11 @@ func findPassword(input string) (string, string) {
 	result := make([]byte, 8)
 	pass1 := ""
 	for i, foundCount := 0, 0; len(pass1) < 8 || foundCount < 8; i++ {
-		// TODO: Get md5 sum once
+		str := getMd5(input + strconv.Itoa(i))
 		if len(pass1) < 8 {
-			pass1 += hash(input + strconv.Itoa(i))
+			pass1 += getPart1(str)
 		}
-		b, pos, err := hashVersion2(input + strconv.Itoa(i))
+		b, pos, err := getPart2(str)
 		if err == nil && result[pos] == 0 {
 			result[pos] = b
 			foundCount++
@@ -37,9 +37,9 @@ func findPassword(input string) (string, string) {
 	return pass1, string(result)
 }
 
-func hash(str string) (out string) {
-	if result := getMd5(str); len(result) > 0 {
-		out = result[5:6]
+func getPart1(str string) (out string) {
+	if len(str) > 0 {
+		out = str[5:6]
 	}
 	return
 }
@@ -52,10 +52,10 @@ func getMd5(str string) string {
 	return ""
 }
 
-func hashVersion2(str string) (byte, int, error) {
-	if result := getMd5(str); len(result) > 0 {
-		out := result[6]
-		pos, err := strconv.Atoi(result[5:6])
+func getPart2(str string) (byte, int, error) {
+	if len(str) > 0 {
+		out := str[6]
+		pos, err := strconv.Atoi(str[5:6])
 		if err == nil && pos < 8 {
 			return out, pos, nil
 		}
