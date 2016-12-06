@@ -10,10 +10,6 @@ class Day5 {
              ->setResult2($this->decodeDoorId(true));
     }
 
-    /**
-     * @param bool $byPosition
-     * @return string
-     */
     private function decodeDoorId(bool $byPosition=false): string {
         $i=0;
         $password = [];

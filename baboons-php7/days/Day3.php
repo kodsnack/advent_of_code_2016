@@ -41,10 +41,6 @@ class Day3 {
         $this->setResult2((string) $validTriangles2);
     }
 
-    /**
-     * @param array $triangle
-     * @return bool
-     */
     private function validateTriangle(array $triangle): bool {
         sort($triangle);
         return $triangle[0] + $triangle[1] > $triangle[2];

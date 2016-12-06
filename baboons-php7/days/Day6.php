@@ -14,11 +14,6 @@ class Day6 {
 
     }
 
-    /**
-     * @param array $array
-     * @param bool|false $ascending
-     * @return string
-     */
     private function getMessage(array $array, bool $ascending = false): string
     {
         $message = '';
@@ -35,9 +30,6 @@ class Day6 {
         return $message;
     }
 
-    /**
-     * @return array
-     */
     private function buildMessageData(): array
     {
         $input = $this->getFile();

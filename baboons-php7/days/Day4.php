@@ -31,11 +31,6 @@ class Day4 {
 
     }
 
-    /**
-     * @param $string
-     * @param $n
-     * @return mixed
-     */
     private function decrypt(string $string, int $n): string {
         $crypted = str_split($string);
         $decrypted = "";
@@ -47,10 +42,6 @@ class Day4 {
         return str_replace("-", " ", $decrypted);
     }
 
-    /**
-     * @param string $string
-     * @return string
-     */
     private function getChecksum(string $string): string {
         $chars = count_chars($string, 1);
         arsort($chars);
@@ -72,11 +63,6 @@ class Day4 {
         return substr(implode("", $arr),0, 5);
     }
 
-    /**
-     * @param string $s
-     * @param int $n
-     * @return string
-     */
     private function strRot(string $s, int $n): string {
         static $letters = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz';
 
