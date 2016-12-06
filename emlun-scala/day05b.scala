@@ -8,6 +8,16 @@ object Main extends App {
       take 4
   )
 
+  def pad(password: Map[Int, Char]) = (
+    0 until targetLength
+      map (i =>
+        password
+          get i
+          getOrElse "_"
+      )
+      mkString ""
+  )
+
   val line = io.Source.stdin.getLines mkString ""
   val doorId = line.trim()
 
@@ -29,12 +39,13 @@ object Main extends App {
       val char = ("%02x" format hash(3)).head
 
       password = password + (index -> char)
-      println(s"${index} ${char}")
+      println(pad(password))
     }
 
     salt += 1
   }
 
-  println(password.keySet.toList.sorted map (password(_)) mkString "")
+  println()
+  println(pad(password))
 
 }
