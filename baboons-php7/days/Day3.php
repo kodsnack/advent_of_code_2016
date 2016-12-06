@@ -6,18 +6,15 @@ class Day3 {
 
     public function execute()
     {
-
         $input = array_map("rtrim", $this->getFile());
         $validTriangles1 = 0;
         $validTriangles2 = 0;
 
         foreach($input as $row) {
-
             $triangle = array_map("trim", str_split($row, 5));
 
-            if($this->validateTriangle($triangle)) {
+            if($this->validateTriangle($triangle))
                 $validTriangles1 += 1;
-            }
         }
 
         $this->setResult1((string) $validTriangles1);
@@ -31,10 +28,8 @@ class Day3 {
                     str_split($input[$i+2], 5)[$j]
                 ];
 
-                if($this->validateTriangle($triangle)) {
+                if($this->validateTriangle($triangle))
                     $validTriangles2 += 1;
-                }
-
             }
         }
 
