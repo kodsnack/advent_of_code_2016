@@ -3,11 +3,11 @@ from collections import Counter
 
 
 def get_message(pinput):
-    return ''.join(map(lambda l: Counter(l).most_common(1)[0][0], zip(*pinput.split('\n'))))
+    return ''.join(map(lambda l: Counter(l).most_common()[0][0], zip(*pinput.split('\n'))))
 
 
 def get_real_message(pinput):
-    return ''.join(map(lambda l: Counter(l).most_common()[-1][0][0], zip(*pinput.split('\n'))))
+    return ''.join(map(lambda l: Counter(l).most_common()[-1][0], zip(*pinput.split('\n'))))
 
 
 def run(pinput):
