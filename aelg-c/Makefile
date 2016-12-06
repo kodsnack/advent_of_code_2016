@@ -1,15 +1,18 @@
 
 CFLAGS=-g -pedantic -Wall -Wextra -Werror
 
-all: day1-run day2-run day3-run
+days=day1 day2 day3 day4 day5
+
+all: $(patsubst %,%-run,$(days))
 
 tests=hashmap_test
+test_logs=$(patsubst %,%.log,$(tests))
 
-test: $(patsubst %,%.log,$(tests))
+test: $(test_logs)
 
-$(patsubst %,%.log,$(tests)): %.log: %
+$(test_logs): %.log: %
 	@echo "[ Testing: $< ]"
-	@./$< && echo "$< : OK" || echo "$< : FAILED"
+	@./$< | tee $@ && echo "$< : OK" || echo "$< : FAILED"
 
 aoc-main.o: aoc-main.c aoc-main.h Makefile
 	@echo "[ Compiling: $< ]"
@@ -32,7 +35,7 @@ day%.o: day%.c aoc-main.h Makefile
 .PRECIOUS: day%
 day%: day%.o aoc-main.o hashmap.o
 	@echo "[ Linking: $@ ]"
-	@gcc -g -o $@ $^
+	@gcc -g -lcrypto -o $@ $^
 
 %-run: % input-%.txt test
 	@echo "[ Running: $* ]"
@@ -42,4 +45,4 @@ day%: day%.o aoc-main.o hashmap.o
 	@./$* 2 < input-$*.txt
 
 clean:
-	rm -f day1 day2 day3 $(tests) *.o
+	rm -f $(days) $(tests) $(test_logs) *.o

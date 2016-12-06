@@ -1,0 +1,15 @@
+/* Advent of code, day 3, puzzle 1
+   Calculate valid triangles where sum of any two sides > length of remaining side
+ */
+
+infile = File('input.txt')
+input = Scanner(infile)
+valid = 0
+
+loop while input.hasNext()
+	line = input.nextLine()
+	parse line a b c .
+	valid = valid + ( (a + b > c) & (a + c > b) & (b + c > a) )
+end
+input.close()
+say valid

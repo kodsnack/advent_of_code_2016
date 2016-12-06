@@ -2,6 +2,8 @@
 Advent of code solutions 2016
 ===
 
+Dependencies: libcrypto (md5-hash calculation, gcc should support -lcrypto)
+
 To build and run all do:
 ```bash
 make

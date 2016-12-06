@@ -53,7 +53,7 @@ static struct Pos *Pos_new(int x, int y){
 
 static unsigned int Pos_hash(const void* ptr){
   const struct Pos *pos = ptr;
-  return HM_integer_hash(pos->x) + HM_integer_hash(pos->x);
+  return HM_integer_hash(pos->x) + HM_integer_hash(pos->y);
 }
 
 static int Pos_equals(const void *ptr1, const void *ptr2){

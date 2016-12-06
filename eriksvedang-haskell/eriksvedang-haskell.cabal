@@ -21,3 +21,4 @@ executable eriksvedang-haskell
                      , text
                      , parsec
                      , split
+                     , MissingH
