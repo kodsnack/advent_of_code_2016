@@ -30,13 +30,6 @@ class Day2 {
 
     }
 
-    /**
-     * @param array $keypad
-     * @param int $y
-     * @param int $x
-     * @return string
-     * @throws Exception
-     */
     private function getKeyCode(array $keypad, int $y , int $x): string  {
         $keycode = '';
 

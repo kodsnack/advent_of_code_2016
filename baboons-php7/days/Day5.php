@@ -6,15 +6,11 @@ class Day5 {
 
     public function execute()
     {
-        $this->setResult1($this->decodeDoorId())
-             ->setResult2($this->decodeDoorId(true));
+        $this->setResult1($this->getPassword())
+             ->setResult2($this->getPassword(true));
     }
 
-    /**
-     * @param bool $byPosition
-     * @return string
-     */
-    private function decodeDoorId(bool $byPosition=false): string {
+    private function getPassword(bool $byPosition=false): string {
         $i=0;
         $password = [];
 

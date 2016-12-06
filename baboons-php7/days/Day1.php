@@ -33,12 +33,12 @@ class Day1 {
                 $x -= $r === 1 ? 1 : 0; // west
                 $x += $r === 3 ? 1 : 0; // east
 
-                $coordinate = md5($x . $y);
+                $cordinate = md5($x . $y);
 
-                if(isset($locations[$coordinate])) {
-                    $locations[$coordinate]->num++;
+                if(isset($locations[$cordinate])) {
+                    $locations[$cordinate]->num++;
                 } else {
-                    $locations[$coordinate] = (object) [
+                    $locations[$cordinate] = (object) [
                         'x'     => $x,
                         'y'     => $y,
                         'num'   => 1

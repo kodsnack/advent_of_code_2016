@@ -6,10 +6,6 @@ trait DayTrait {
     private $input;
     private $result = [];
 
-    /**
-     * DayTrait constructor.
-     * @throws Exception
-     */
     public function __construct()
     {
         $this->input = realpath(__DIR__ . '/../input') . '/' . strtolower(get_class($this)) . '.txt';
@@ -22,10 +18,6 @@ trait DayTrait {
         $this->printResult();
     }
 
-    /**
-     * @param string $value
-     * @return DayTrait
-     */
     private function setResult1(string $value): self
     {
         $this->result[1] = $value;
@@ -33,10 +25,6 @@ trait DayTrait {
         return $this;
     }
 
-    /**
-     * @param string $value
-     * @return DayTrait
-     */
     private function setResult2(string $value): self
     {
         $this->result[2] = $value;
@@ -44,9 +32,6 @@ trait DayTrait {
         return $this;
     }
 
-    /**
-     * Void
-     */
     public function printResult()
     {
         ksort($this->result);
@@ -56,17 +41,11 @@ trait DayTrait {
         }
     }
 
-    /**
-     * @return string
-     */
     private function getInput(): string
     {
         return file_get_contents($this->input);
     }
 
-    /**
-     * @return array
-     */
     private function getFile(): array
     {
         return file($this->input);
