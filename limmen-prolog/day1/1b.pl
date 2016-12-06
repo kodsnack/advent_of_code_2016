@@ -19,7 +19,9 @@
 left(76).
 right(82).
 
-%%Predicates
+%%%===================================================================
+%%% Predicates
+%%%===================================================================
 
 %% Test cases
 test:-
@@ -148,7 +150,7 @@ turn(east, Turn, south):-
 %% Pretty print the result
 %% pretty_print(+,+,+,+).
 %% pretty_print(NorthPos, SouthPos, EastPos, WestPos).
-    pretty_print(N, _, E, _):-
+pretty_print(N, _, E, _):-
     N > 0,
     E > 0,
     T is N + E,
@@ -171,3 +173,10 @@ pretty_print(_, S, _, W):-
     W > 0,
     T is S + W,
     format("First location visited twice is ~p blocks South, ~p blocks West, Total ~p blocks away ~n", [S, W, T]).
+
+%%%===================================================================
+%%% Facts
+%%%===================================================================
+
+left(76).
+right(82).
