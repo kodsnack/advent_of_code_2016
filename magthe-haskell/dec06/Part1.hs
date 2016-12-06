@@ -14,5 +14,5 @@ readMessages = fmap (transpose . lines) . readFile
 main :: IO ()
 main = do
   msgs <- fmap head getArgs >>= readMessages
-  let msg = map (fst . head . reverse . sortBy (compare `on` snd) . toOccurList . fromList) msgs
+  let msg = map (fst . last . sortOn snd . toOccurList . fromList) msgs
   putStrLn msg
