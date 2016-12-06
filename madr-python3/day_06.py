@@ -1,4 +1,3 @@
-import hashlib
 import sys
 from collections import Counter
 
