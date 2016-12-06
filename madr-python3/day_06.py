@@ -2,18 +2,18 @@ import sys
 from collections import Counter
 
 
-def get_message(puzzle):
-    return ''.join(map(lambda l: Counter(l).most_common(1)[0][0], zip(*puzzle.split('\n'))))
+def get_message(pinput):
+    return ''.join(map(lambda l: Counter(l).most_common(1)[0][0], zip(*pinput.split('\n'))))
 
 
-def get_real_message(puzzle):
-    return ''.join(map(lambda l: Counter(l).most_common()[-1][0][0], zip(*puzzle.split('\n'))))
+def get_real_message(pinput):
+    return ''.join(map(lambda l: Counter(l).most_common()[-1][0][0], zip(*pinput.split('\n'))))
 
 
-def run(puzzle):
+def run(pinput):
     """Day 6: Signals and Noise"""
-    m = get_message(puzzle)
-    n = get_real_message(puzzle)
+    m = get_message(pinput)
+    n = get_real_message(pinput)
 
     print('Corrected message, most common char:    %s' % m)
     print('Corrected message, least common char:   %s' % n)

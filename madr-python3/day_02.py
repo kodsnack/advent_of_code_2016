@@ -1,10 +1,10 @@
 import sys
 
 
-def run(puzzle):
+def run(pinput):
     """Day 2: Bathroom Security"""
-    imaginary_code = break_code_imaginary(5, puzzle)
-    real_code = break_code_real(5, puzzle)
+    imaginary_code = break_code_imaginary(5, pinput)
+    real_code = break_code_real(5, pinput)
 
     print('Code using imaginary pad:               %s' % imaginary_code)
     print('Code using real pad:                    %s' % real_code)
