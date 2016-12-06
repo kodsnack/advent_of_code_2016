@@ -25,5 +25,5 @@ for line in file:
         else:
             answ += ' '
     if 'north' in answ:
-    print answ + ' ' + str(number)
+        print answ + ' ' + str(number)
     answ = ''
