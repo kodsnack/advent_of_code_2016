@@ -2,30 +2,34 @@ import java.security.MessageDigest
 
 object Main extends App {
 
-  def md5(s: String): String = (
+  val targetLength = 8
+  def md5(s: String): Array[Byte] = (
     MessageDigest.getInstance("MD5").digest(s.getBytes)
-      take 4
-      map ("%02x" format _)
-      mkString ""
+      take 3
   )
+
+  def pad(password: String) =
+    password + ("_" * (targetLength - password.length))
 
   val line = io.Source.stdin.getLines mkString ""
   val doorId = line.trim()
 
-  var salt = 0
-  var length = 0
+  var salt: Int = 0
+  var password = ""
 
-  while (length < 8) {
+  while (password.length < targetLength) {
     val hash = md5(doorId + salt)
+    lazy val candidate = ("%02x" format hash(2)).last
 
-    if (hash.take(5) == "00000") {
-      print(hash(5))
-      length += 1
+    if (hash(0) == 0 && hash(1) == 0 && hash(2) >= 0 && hash(2) < 16) {
+      println(pad(password + candidate) + " " + salt)
+      password += candidate
     }
 
     salt += 1
   }
 
   println()
+  println(password)
 
 }
