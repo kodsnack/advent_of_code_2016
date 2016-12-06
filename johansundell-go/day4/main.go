@@ -15,22 +15,6 @@ type room struct {
 	name     string
 }
 
-type char struct {
-	c     string
-	count int
-}
-
-type charList []char
-
-func (c charList) Len() int { return len(c) }
-func (c charList) Less(i, j int) bool {
-	if c[i].count == c[j].count {
-		return c[i].c < c[j].c
-	}
-	return c[i].count > c[j].count
-}
-func (c charList) Swap(i, j int) { c[i], c[j] = c[j], c[i] }
-
 func main() {
 	data, err := adventofcode2016.GetInput("day4.txt")
 	if err != nil {
