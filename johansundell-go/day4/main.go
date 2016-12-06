@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"log"
-	"sort"
 	"strconv"
 	"strings"
 
@@ -67,27 +66,14 @@ func newRoom(str string) room {
 }
 
 func (r *room) isValid() bool {
-	chars := make(map[string]char)
 	str := strings.Replace(r.name, "-", "", -1)
-	for i := 0; i < len(str); i++ {
-		s := string(str[i])
-		c, _ := chars[s]
-		c.c = s
-		c.count++
-		chars[s] = c
-	}
-	letters := make(charList, len(chars))
-	i := 0
-	for _, c := range chars {
-		letters[i] = c
-		i++
-	}
-	sort.Sort(charList(letters))
+
+	letters := adventofcode2016.GetSortedCharList(str, false)
 
 	for i := 0; i < len(r.checksum); i++ {
 		a := letters[i]
 		c := string(r.checksum[i])
-		if c == a.c {
+		if c == string(a.R) {
 			continue
 		}
 		return false
