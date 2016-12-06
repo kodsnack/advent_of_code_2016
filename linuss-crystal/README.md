@@ -11,3 +11,6 @@ crystal build src/linuss-crystal.cr
 
 ./linuss-crystal -h
 ./linuss-crystal -1 spec/aoc1_example.txt
+
+If you plan to run the specs or AoC5, then it is good to add --release
+to the ocmmand because it is slow otherwise
