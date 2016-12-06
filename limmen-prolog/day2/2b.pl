@@ -10,6 +10,10 @@
 %%
 %% Author Kim Hammar limmen@github.com <kimham@kth.se>
 
+%%%===================================================================
+%%% Predicates
+%%%===================================================================
+
 %% Test cases
 test:-
     get_bathroom_code(["ULL", "RRDDD", "LURDL", "UUUUD"], "5DB3").
@@ -108,6 +112,16 @@ get_digit([82|T], Acc, Digit):-
     right(Acc, Acc1),
     !,
     get_digit(T, Acc1, Digit).    
+
+%% Pretty print the result
+%% pretty_print(+).
+%% pretty_print(Result).
+pretty_print(Code):-
+    format("The bathroom code is: ~s ~n", [Code]).
+
+%%%===================================================================
+%%% Facts
+%%%===================================================================
 
 %% Moves up on the keypad
 %% up(+, -).
@@ -224,9 +238,3 @@ right(66, 67).
 right(67, 67).
 
 right(68, 68).
-
-%% Pretty print the result
-%% pretty_print(+).
-%% pretty_print(Result).
-pretty_print(Code):-
-    format("The bathroom code is: ~s ~n", [Code]).
