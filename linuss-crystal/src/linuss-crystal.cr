@@ -13,6 +13,8 @@ OptionParser.parse! do |parser|
   parser.on("--4b FNAME", "Day 4b: provide filename") { |name| puts AoC4.north_pole(name).not_nil!.sector }
   parser.on("-5 INPUT", "Day 5: provide input") { |input| puts AoC5.new(input).find_password }
   parser.on("--5b INPUT", "Day 5b: provide input") { |input| puts AoC5.new(input).find_improved_password }
+  parser.on("-6 FILE", "Day 6: provide filename") { |name| puts AoC6.process name }
+  parser.on("--6b FILE", "Day 6b: provide filename") { |name| puts AoC6.process_least name }
 
   parser.on("-h", "--help", "Show this help") { puts parser }
 end
