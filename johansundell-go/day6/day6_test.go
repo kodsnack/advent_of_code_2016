@@ -23,8 +23,15 @@ dvrsen
 enarar`
 
 func Test_Ex1(t *testing.T) {
-	str := parseInput(strings.Split(inputs, "\n"))
+	str, _ := parseInput(strings.Split(inputs, "\n"))
 	if str != "easter" {
+		t.Fail()
+	}
+}
+
+func Test_Ex2(t *testing.T) {
+	_, str := parseInput(strings.Split(inputs, "\n"))
+	if str != "advent" {
 		t.Fail()
 	}
 }

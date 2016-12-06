@@ -28,20 +28,19 @@ func (c charList) Len() int           { return len(c) }
 func (c charList) Less(i, j int) bool { return c[i].count > c[j].count }
 func (c charList) Swap(i, j int)      { c[i], c[j] = c[j], c[i] }
 
-func parseInput(inputs []string) (result string) {
-
+func parseInput(inputs []string) (part1, part2 string) {
 	for i := 0; i < len(inputs[0]); i++ {
 		str := ""
 		for _, row := range inputs {
 			str += string(row[i])
-
 		}
-		result += getMostCommon(str)
+		part1 += getSorted(str, true)
+		part2 += getSorted(str, false)
 	}
 	return
 }
 
-func getMostCommon(input string) (result string) {
+func getSorted(input string, sortRevese bool) string {
 	chars := make(map[rune]int)
 	for _, r := range input {
 		chars[r]++
@@ -52,6 +51,10 @@ func getMostCommon(input string) (result string) {
 		list[i] = char{k, v}
 		i++
 	}
-	sort.Sort(charList(list))
+	if sortRevese {
+		sort.Sort(charList(list))
+	} else {
+		sort.Sort(sort.Reverse(charList(list)))
+	}
 	return string(list[0].r)
 }
