@@ -2,11 +2,10 @@ import java.security.MessageDigest
 
 object Main extends App {
 
-  def md5(s: String): String = (
+  val targetLength = 8
+  def md5(s: String): Array[Byte] = (
     MessageDigest.getInstance("MD5").digest(s.getBytes)
       take 4
-      map ("%02x" format _)
-      mkString ""
   )
 
   val line = io.Source.stdin.getLines mkString ""
@@ -15,18 +14,22 @@ object Main extends App {
   var salt = 0
   var password: Map[Int, Char] = Map.empty
 
-  while (password.size < 8) {
+  while (password.size < targetLength) {
     val hash = md5(doorId + salt)
+    val index = hash(2).toInt
 
-    if (hash.take(5) == "00000" && hash(5) >= '0' && hash(5) <= '9') {
-      val index = hash(5).toString.toInt
+    if (
+        hash(0) == 0
+        && hash(1) == 0
+        && index >= 0
+        && index < targetLength
+        && !(password contains index)
+    ) {
+      val index = hash(2).toInt
+      val char = ("%02x" format hash(3)).head
 
-      println(s"${salt} ${hash(5)} ${hash(6)}")
-
-      if (index >= 0 && index < 8 && !(password contains index)) {
-        password = password + (index -> hash(6))
-        println(s"${index} ${hash(6)}")
-      }
+      password = password + (index -> char)
+      println(s"${index} ${char}")
     }
 
     salt += 1
