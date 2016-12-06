@@ -7,13 +7,18 @@ def get_message(puzzle):
     return ''.join(map(lambda l: Counter(l).most_common(1)[0][0], list(zip(*puzzle.split('\n')))))
 
 
+def get_real_message(puzzle):
+    return ''.join(map(lambda l: Counter(l).most_common()[-1][0][0], list(zip(*puzzle.split('\n')))))
+
+
 def run(puzzle):
     """Day 6: Signals and Noise"""
     m = get_message(puzzle)
+    n = get_real_message(puzzle)
     #q = hack_password_again(puzzle)
 
-    print('Corrected message:                      %s' % m)
-    #print('Password, second door:                  %s' % q)
+    print('Corrected message, most common char:    %s' % m)
+    print('Corrected message, least common char:   %s' % n)
 
 
 if __name__ == '__main__':
