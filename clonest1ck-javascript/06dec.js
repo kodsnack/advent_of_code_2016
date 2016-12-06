@@ -14,7 +14,8 @@ if(file != undefined) {
 }
 
 function recover(data) {
-  var message = "";
+  var messageMost = "";
+  var messageLeast = "";
   data = data.split("\n");
 
   for(var c = 0; c < data[0].length; c++) {
@@ -30,7 +31,18 @@ function recover(data) {
         most = char;
       }
     }
-    message += most;
+    var least = most;
+
+    for(key of Object.keys(dict)) {
+      if(key != "") {
+        if(dict[least] > dict[key]) {
+          least = key;
+        }
+      }
+    }
+    messageMost += most;
+    messageLeast += least;
   }
-  console.log("Message: " + message);
+  console.log("Message with most: " + messageMost);
+  console.log("Message with least: " + messageLeast);
 }
