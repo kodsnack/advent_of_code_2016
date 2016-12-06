@@ -3,11 +3,11 @@ from collections import Counter
 
 
 def get_message(puzzle):
-    return ''.join(map(lambda l: Counter(l).most_common(1)[0][0], list(zip(*puzzle.split('\n')))))
+    return ''.join(map(lambda l: Counter(l).most_common(1)[0][0], zip(*puzzle.split('\n'))))
 
 
 def get_real_message(puzzle):
-    return ''.join(map(lambda l: Counter(l).most_common()[-1][0][0], list(zip(*puzzle.split('\n')))))
+    return ''.join(map(lambda l: Counter(l).most_common()[-1][0][0], zip(*puzzle.split('\n'))))
 
 
 def run(puzzle):
