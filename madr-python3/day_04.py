@@ -3,14 +3,14 @@ import sys
 from collections import Counter
 
 
-def get_valid_rooms(puzzle):
+def get_valid_rooms(pinput):
     def only_valid_rooms(l):
         code, id, checksum = re.match(r'^(\D+)(\d+)\[(\D+?)\]$', l.translate({ord('-'): None})).groups()
         mc = Counter(code).most_common()
         mc_sorted = sorted(mc, key=lambda e: (-e[1], e[0]))  # because FU, Counter default sort ...
         return ''.join(map(lambda x: x[0], mc_sorted)).startswith(checksum)
 
-    return filter(only_valid_rooms, puzzle.splitlines())
+    return filter(only_valid_rooms, pinput.splitlines())
 
 
 def sum_sector_ids(puzzle):
@@ -28,8 +28,8 @@ def decrypt_name(ciphered, id):
     return v
 
 
-def find_np_room(puzzle):
-    rooms = get_valid_rooms(puzzle)
+def find_np_room(pinput):
+    rooms = get_valid_rooms(pinput)
     for r in rooms:
         code, sid = re.match(r'^(\D+)-(\d+)\[', r).groups()
         decrypted = decrypt_name(code, int(sid))
@@ -37,10 +37,10 @@ def find_np_room(puzzle):
             return sid
 
 
-def run(puzzle):
+def run(pinput):
     """Day 4: Security Through Obscurity"""
-    s = sum_sector_ids(puzzle)
-    np = find_np_room(puzzle)
+    s = sum_sector_ids(pinput)
+    np = find_np_room(pinput)
 
     print('Sum of sector IDs, real rooms:          %s' % s)
     print('Section ID for North Pole storage:      %s' % np)
