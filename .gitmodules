@@ -14,3 +14,6 @@
 [submodule "max-es6"]
 	path = max-es6
 	url = git://github.com/maxwihlborg/advent-of-code-2016.git
+[submodule "hillerstorm-elm"]
+	path = hillerstorm-elm
+	url = https://github.com/hillerstorm/advent-of-code-2016
