@@ -15,6 +15,8 @@ OptionParser.parse! do |parser|
   parser.on("--5b INPUT", "Day 5b: provide input") { |input| puts AoC5.new(input).find_improved_password }
   parser.on("-6 FILE", "Day 6: provide filename") { |name| puts AoC6.process name }
   parser.on("--6b FILE", "Day 6b: provide filename") { |name| puts AoC6.process_least name }
+  parser.on("-7 FILE", "Day 7: provide filename") { |name| puts AoC7.count_tls name }
+  parser.on("--7b FILE", "Day 7b: provide filename") { |name| puts AoC7.count_ssl name }
 
   parser.on("-h", "--help", "Show this help") { puts parser }
 end
