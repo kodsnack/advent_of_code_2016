@@ -73,10 +73,10 @@ string generatePassword2(const string& doorID, const int length)
 		auto h = doorHash(doorID, i);
 		if(h.substr(0, 5)=="00000")
 		{
-			 int posIndex = static_cast<int>(h[5] - '0');
-			 if(password[posIndex]==' ')
-			 {
-				 password[posIndex] = h[6];
+			int posIndex = stoul(string(1,h[5]), nullptr, 16);
+			if(posIndex<length && password[posIndex]==' ')
+			{
+				password[posIndex] = h[6];
 				--charsLeft;
 			 }
 
