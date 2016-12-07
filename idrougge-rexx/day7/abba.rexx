@@ -1,5 +1,5 @@
 /* Advent of code, day 7, puzzle 1
-   Give a string containing a sequence of letters a-z interspersed with
+   Given a string containing a sequence of letters a-z interspersed with
    sequences between square brackets, find pairs of letters followed by 
    a pair that is the reverse of that pair, such as ABBA.
    If such a pair is found inside the brackets on a line, that line is
@@ -18,7 +18,7 @@ do #=1 while lines(file)
 		if check(middle) then iterate #
 		line = word line
 	end
-	found = found + check(word)
+	found = found + check(line)
 end
 
 say found
