@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-04
------------
+Advent of Code, Day 4
+=====================
 
-:copyright: 2016-12-04 by hbldh <henrik.blidh@nedomkull.com>
+Author: hbldh <henrik.blidh@nedomkull.com>
 
 """
 
