@@ -7,6 +7,8 @@ add_subdirectory(Day2)
 add_subdirectory(Day3)
 add_subdirectory(Day4)
 add_subdirectory(Day5)
+add_subdirectory(Day6)
+add_subdirectory(Day7)
 
 add_custom_target(run
   DEPENDS
@@ -15,4 +17,6 @@ add_custom_target(run
     Day3_p1-run Day3_p2-run
     Day4_p1-run Day4_p2-run
     Day5-run
+    Day6-run
+    Day7-run
 )

@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-:mod:`06`
-=======================
+Advent of Code, Day 6
+=====================
 
-.. moduleauthor:: hbldh <henrik.blidh@nedomkull.com>
-Created on 2016-12-06, 09:21
+Author: hbldh <henrik.blidh@nedomkull.com>
 
 """
 
