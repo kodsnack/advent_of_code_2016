@@ -80,14 +80,10 @@ func hasAbba(input string) bool {
 	if len(input) < 4 {
 		return false
 	}
-	c := make([]byte, 3)
-	c[0], c[1], c[2] = input[0], input[1], input[2]
 	for i := 3; i < len(input); i++ {
-		current := input[i]
-		if c[0] == current && c[1] == c[2] && c[0] != c[1] {
+		if input[i-3] == input[i] && input[i-2] == input[i-1] && input[i-3] != input[i-2] {
 			return true
 		}
-		c[0], c[1], c[2] = c[1], c[2], current
 	}
 	return false
 }
@@ -97,14 +93,10 @@ func getAba(input string) []string {
 	if len(input) < 3 {
 		return result
 	}
-	c := make([]byte, 2)
-	c[0], c[1] = input[0], input[1]
 	for i := 2; i < len(input); i++ {
-		current := input[i]
-		if c[0] == current && c[1] != current {
-			result = append(result, string(c[1])+string(c[0])+string(c[1]))
+		if input[i-2] == input[i] && input[i-1] != input[i] {
+			result = append(result, string(input[i-1])+string(input[i])+string(input[i-1]))
 		}
-		c[0], c[1] = c[1], current
 	}
 	return result
 }
