@@ -1,5 +1,3 @@
-import java.security.MessageDigest
-
 object Main extends App {
 
   val abbaPattern = raw".*(.)((?!\1).)\2\1.*"
