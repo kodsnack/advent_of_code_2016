@@ -2,7 +2,7 @@
    Select most common letter per column
    and the least common letter per column */
 
-file = 'input1.txt'
+file = 'input.txt'
 alphabet = xrange('a','z')
 letters. = 0
 
