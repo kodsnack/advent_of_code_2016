@@ -9,10 +9,7 @@ extension Array where Element: Integer {
 
         let change = (direction == "R" && x != 0) || (direction == "L" && y != 0)
 
-        self[0] = (change ? y * -1 : y * 1) as! Element
-        self[1] = (change ? x * -1 : x * 1) as! Element
-
-        return self
+        return [(change ? y * -1 : y * 1) as! Element, (change ? x * -1 : x * 1) as! Element]
     }
 
 }
