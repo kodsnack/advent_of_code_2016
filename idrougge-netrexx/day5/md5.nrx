@@ -1,0 +1,24 @@
+/* Advent of code, day 5, puzzle 1
+   Given a string, append an ascending number to that string
+   and calculate its MD5 hash. If the hash's hexadecimal
+   representation begins with five zeros, the sixth digit
+   is added to an eight-letter password.
+ */
+import java.security.MessageDigest
+options binary
+
+input = 'uqwqemis'
+md5 = MessageDigest.getInstance("MD5")
+found = 0
+password=''
+
+loop i=0 until found = 8
+	message = input || i
+	hash = md5.digest(message.getBytes())
+	if hash[0] = 0 & hash[1] = 0 & hash[2] < 16 & hash[2] >= 0 then do
+		password = password || (rexx hash[2]).d2x()
+		found = found + 1
+		end
+	end
+
+say password
