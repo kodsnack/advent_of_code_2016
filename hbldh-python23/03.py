@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Day 03
-------
+Advent of Code, Day 3
+=====================
 
-:copyright: 2016-12-03 by hbldh <henrik.blidh@nedomkull.com>
+Author: hbldh <henrik.blidh@nedomkull.com>
 
 """
 
