@@ -32,3 +32,6 @@
 [submodule "karjonas-rust"]
 	path = karjonas-rust
 	url = https://github.com/karjonas/aoc2016
+[submodule "tlycken-fsharp"]
+	path = tlycken-fsharp
+	url = git@github.com:tlycken/advent-of-code-2016
