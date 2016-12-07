@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"log"
-	"sort"
 	"strconv"
 	"strings"
 
@@ -15,22 +14,6 @@ type room struct {
 	checksum string
 	name     string
 }
-
-type char struct {
-	c     string
-	count int
-}
-
-type charList []char
-
-func (c charList) Len() int { return len(c) }
-func (c charList) Less(i, j int) bool {
-	if c[i].count == c[j].count {
-		return c[i].c < c[j].c
-	}
-	return c[i].count > c[j].count
-}
-func (c charList) Swap(i, j int) { c[i], c[j] = c[j], c[i] }
 
 func main() {
 	data, err := adventofcode2016.GetInput("day4.txt")
@@ -67,27 +50,14 @@ func newRoom(str string) room {
 }
 
 func (r *room) isValid() bool {
-	chars := make(map[string]char)
 	str := strings.Replace(r.name, "-", "", -1)
-	for i := 0; i < len(str); i++ {
-		s := string(str[i])
-		c, _ := chars[s]
-		c.c = s
-		c.count++
-		chars[s] = c
-	}
-	letters := make(charList, len(chars))
-	i := 0
-	for _, c := range chars {
-		letters[i] = c
-		i++
-	}
-	sort.Sort(charList(letters))
+
+	letters := adventofcode2016.GetSortedCharList(str, false)
 
 	for i := 0; i < len(r.checksum); i++ {
 		a := letters[i]
 		c := string(r.checksum[i])
-		if c == a.c {
+		if c == string(a.R) {
 			continue
 		}
 		return false
