@@ -1,0 +1,37 @@
+var input = "L4, L1, R4, R1, R1, L3, R5, L5, L2, L3, R2, R1, L4, R5, R4, L2, R1, R3, L5, R1, L3, L2, R5, L4, L5, R1, R2, L1, R5, L3, R2, R2, L1, R5, R2, L1, L1, R2, L1, R1, L2, L2, R4, R3, R2, L3, L188, L3, R2, R54, R1, R1, L2, L4, L3, L2, R3, L1, L1, R3, R5, L1, R5, L1, L1, R2, R4, R4, L5, L4, L1, R2, R4, R5, L2, L3, R5, L5, R1, R5, L2, R4, L2, L1, R4, R3, R4, L4, R3, L4, R78, R2, L3, R188, R2, R3, L2, R2, R3, R1, R5, R1, L1, L1, R4, R2, R1, R5, L1, R4, L4, R2, R5, L2, L5, R4, L3, L2, R1, R1, L5, L4, R1, L5, L1, L5, L1, L4, L3, L5, R4, R5, R2, L5, R5, R5, R4, R2, L1, L2, R3, R5, R5, R5, L2, L1, R4, R3, R1, L4, L2, L3, R2, L3, L5, L2, L2, L1, L2, R5, L2, L2, L3, L1, R1, L4, R2, L4, R3, R5, R3, R4, R1, R5, L3, L5, L5, L3, L2, L1, R3, L4, R3, R2, L1, R3, R1, L2, R4, L3, L3, L3, L1, L2"
+
+var dir = { N: { R: "E", L: "W" }, E: { R: "S", L: "N" }, S: { R: "W", L: "E" }, W: { R: "N", L: "S" } }
+
+var moves = input.split(', ').reduce((acc, strPair) => {
+  const turn = strPair.slice(0,1)
+  const dist = Number(strPair.slice(1))
+  var [N, E] = acc.loc                           // N,E Location instead of N,E,S,W moves
+  acc.direction = dir[acc.direction][turn]
+
+  for (var i = 0; i < dist; i += 1) {            // Step 1 instead of jump dist
+    switch (acc.direction) {
+    case 'N': N += 1; break
+    case 'E': E += 1; break
+    case 'S': N -= 1; break
+    case 'W': E -= 1; break
+    }
+
+    const locStr = [N, E].toString()             // Stringify to match in Set. JS :/
+    if (acc.locs.has(locStr)) {                  // If visited, add match
+      acc.matches.push({locStr, N, E})
+    }
+    acc.locs.add(locStr)                         // Save loc (string) for tracking
+  }
+  acc.loc = [N, E]
+  return acc
+}, { direction: "N", loc: [0,0], locs: new Set(), matches: [] })
+
+
+// Get target or null
+var target = null
+try {
+  target = moves.matches[0]
+  target = Math.abs(target.N) + Math.abs(target.E)
+} catch (e) {}
+
+target
