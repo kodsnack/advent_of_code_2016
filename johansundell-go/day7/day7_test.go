@@ -15,3 +15,18 @@ func Test_Ex1(t *testing.T) {
 		}
 	}
 }
+
+func Test_Ex2(t *testing.T) {
+	cases := map[string]bool{
+		"aba[bab]xyz":   true,
+		"xyx[xyx]xyx":   false,
+		"aaa[kek]eke":   true,
+		"zazbz[bzb]cdb": true,
+	}
+	for input, expected := range cases {
+		if supportsSsl(input) != expected {
+			t.Error(input, "expected", expected)
+		}
+
+	}
+}
