@@ -12,7 +12,7 @@ DEFINE VARIABLE iCountOK   AS INTEGER     NO-UNDO.
 
 FUNCTION containsXYYX RETURNS LOGICAL (INPUT pcString AS CHARACTER) FORWARD.
 
-INPUT FROM VALUE("C:\temp\advent_of_code_2016\advent_of_code_2016\jensdahlin-progressabl\input7.txt").
+INPUT FROM VALUE("input7.txt").
 REPEAT :
 
     ASSIGN 
