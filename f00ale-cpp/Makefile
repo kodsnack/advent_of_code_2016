@@ -3,7 +3,7 @@ SRCS:=$(sort $(wildcard src/*.cpp))
 OBJS:=$(addprefix .obj/,$(SRCS:.cpp=.o))
 OBJS_Q:=$(addprefix .obj/q,$(SRCS:.cpp=.o))
 OUTS:=$(addprefix .out/,$(SRCS:.cpp=))
-CXXFLAGS:=-std=gnu++14 -O3 -Wall -Wextra
+CXXFLAGS:=-std=gnu++14 -O3 -MMD -Wall -Wextra
 CXXFLAGS_Q:=$(CXXFLAGS) -DQUICK
 
 all: $(OBJS)
@@ -26,3 +26,4 @@ $(OBJS): .obj/%.o: %.cpp
 	@mkdir -p $(dir $@)
 	$(Q)g++ $(CXXFLAGS) -o $@ $<
 
+-include $(OBJS:.o=.d) $(OBJS_Q:.o=.d)

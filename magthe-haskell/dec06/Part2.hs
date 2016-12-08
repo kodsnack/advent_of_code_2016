@@ -1,4 +1,5 @@
-#! /usr/bin/env runhaskell
+#! /usr/bin/env stack
+{- stack runghc -}
 
 module Main
   where
