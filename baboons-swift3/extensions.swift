@@ -25,6 +25,18 @@ extension String {
         return self.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
     }
 
+    func isDigit() -> Bool {
+        let digitSet = CharacterSet.decimalDigits
+        var valid = true
+        for c in self.unicodeScalars {
+            if(!digitSet.contains(c) && valid) {
+                valid = false
+            }
+        }
+
+        return valid
+    }
+
     func matchingStrings(regex: String) -> [[String]] {
         guard let regex = try? NSRegularExpression(pattern: regex, options: []) else { return [] }
         let nsString = self as NSString
