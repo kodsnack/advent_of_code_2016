@@ -20,3 +20,6 @@
 [submodule "neochrome-various"]
 	path = neochrome-various
 	url = https://github.com/neochrome/aoc2016-various.git
+[submodule "stiju-cpp"]
+	path = stiju-cpp
+	url = https://github.com/Stiju/AdventOfCode.git
