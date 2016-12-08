@@ -1,2 +1,1 @@
-Solutions by David Ådvall
-david@advall.se
+Solutions in Python 2.7 by David Ådvall
