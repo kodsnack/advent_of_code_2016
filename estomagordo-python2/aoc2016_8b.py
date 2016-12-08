@@ -33,4 +33,5 @@ for line in f:
 		else:
 			matrix = rotcol(matrix, id, steps)
 
-print matrix
+for line in matrix:
+	print ''.join(c for c in line)
