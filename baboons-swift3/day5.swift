@@ -31,11 +31,12 @@ func getPassword(byPosition: Bool) -> String
                 let position = hash.substring(with: 5..<6)
                 if(position.isDigit() && Int(position)! < 8) {
                     password[Int(position)!] = (hash.substring(with: 6..<7))
+                    length += 1
                 }
             } else {
                 password[length] = hash.substring(with: 5..<6)
+                length += 1
             }
-            length += 1
         }
         i += 1
     }
@@ -43,7 +44,7 @@ func getPassword(byPosition: Bool) -> String
     return password.joined()
 }
 
-print("Part 1: \(getPassword(byPosition: false))")
+//print("Part 1: \(getPassword(byPosition: false))")
 print("Part 2: \(getPassword(byPosition: true))")
 
 
