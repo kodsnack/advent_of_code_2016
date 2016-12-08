@@ -1,4 +1,4 @@
-&SCOPED-DEFINE maxY 4
+&SCOPED-DEFINE maxY 5
 &SCOPED-DEFINE maxX 49
 
 DEFINE TEMP-TABLE ttDisplay NO-UNDO
@@ -22,22 +22,16 @@ END.
 
 
 
-INPUT FROM VALUE("C:\temp\advent_of_code_2016\advent_of_code_2016\jensdahlin-progressabl\input8-test.txt").
+INPUT FROM VALUE("input8.txt").
 REPEAT:
     IMPORT cInput.
-
-    DISP cInput.
 
     IF cInput[1] = "rect" THEN
         RUN createRect(INTEGER(ENTRY(1, cInput[2], "x")) - 1, INTEGER(ENTRY(2, cInput[2], "x")) - 1, TRUE).
     ELSE 
-        RUN rotateRect(cInput[2], ENTRY(2, cInput[3], "="), cInput[5]).
+        RUN rotate(cInput[2], ENTRY(2, cInput[3], "="), cInput[5]).
 END.
-
 INPUT CLOSE.
-
-
-
 
 PROCEDURE createRect:
     DEFINE INPUT  PARAMETER piX   AS INTEGER     NO-UNDO.
@@ -62,19 +56,15 @@ PROCEDURE createRect:
     END.
 END PROCEDURE.
 
-PROCEDURE rotateRect:
+PROCEDURE rotate:
     DEFINE INPUT  PARAMETER pcTarget AS CHARACTER   NO-UNDO.
     DEFINE INPUT  PARAMETER piId     AS INTEGER     NO-UNDO.
     DEFINE INPUT  PARAMETER piRotate AS INTEGER     NO-UNDO.
 
-    //DISP pcTarget piId piRotate.
-
     DEFINE VARIABLE iRotate AS INTEGER     NO-UNDO.
 
+    /* This if statement can be more efficient and compact but this works... */
     IF pcTarget = "row" THEN DO:
-
-        DISPLAY pcTarget piId piRotate.
-
         IF iRotate > {&maxX} THEN
             iRotate = TRUNCATE(piRotate / {&maxX}, 0).
         ELSE 
@@ -82,20 +72,12 @@ PROCEDURE rotateRect:
             
         /* Rotate */
         FOR EACH ttDisplay WHERE ttDisplay.rowY = piID BY ttDisplay.colX DESCENDING:
-
             ttDisplay.colX = ttDisplay.colX + iRotate.
+        END.
 
-            /* Overflowing coordinates will be moved to the beginning */
-            IF ttDisplay.colX > {&maxX} THEN DO:
-                
-                //DISP "HEJ" ttDisplay.colX rowY.
-
-                ttDisplay.colX = ttDisplay.colX - ({&maxX} + 1).
-
-                //PAUSE.
-
-                //DISP "HEJDå" ttDisplay.colX  rowY.
-            END.
+        /* Overflowing coordinates will be moved to the beginning */
+        FOR EACH ttDisplay WHERE ttDisplay.colX > {&maxX}:
+            ttDisplay.colX = ttDisplay.colX - ({&maxX} + 1).
         END.
     END.
     ELSE DO:
@@ -106,21 +88,27 @@ PROCEDURE rotateRect:
             iRotate = piRotate.
             
         /* Rotate */
-        FOR EACH ttDisplay WHERE ttDisplay.colX = piID BY ttDisplay.rowY DESC:
-
+        FOR EACH ttDisplay WHERE ttDisplay.colX = piID BY ttDisplay.rowY DESCENDING:
             ttDisplay.rowY = ttDisplay.rowY + iRotate.
+        END.
 
-            /* Overflowing coordinates will be moved to the beginning */
-            IF ttDisplay.rowY > {&maxY} THEN DO:
-                ttDisplay.rowY = ttDisplay.rowY - ({&maxY} + 1).
-            END.
+        /* Overflowing coordinates will be moved to the beginning */
+        FOR EACH ttDisplay WHERE ttDisplay.rowY > {&maxY}:
+            ttDisplay.rowY = ttDisplay.rowY - ({&maxY} + 1).
         END.
     END.
+
+END.
+
+FOR EACH ttDisplay WHERE isLit:
+    iLit = iLit + 1.
 END.
 
 
-OUTPUT TO c:\temp\grid.csv.
-
+/* This is just to display the message... */
+/* Open the file in any editor            */
+/* Making this a readable message would be horrible work... */
+OUTPUT TO "message.txt".
 DO iMaxY = 0 TO {&maxY}:
     DO iMaxX = 0 TO {&maxX}:
         FIND FIRST ttDisplay WHERE ttDisplay.colX = iMaxX 
@@ -129,22 +117,13 @@ DO iMaxY = 0 TO {&maxY}:
         IF AVAILABLE ttDisplay THEN DO:
     
             IF ttDisplay.isLit THEN 
-                PUT UNFORMATTED "X;".
+                PUT UNFORMATTED CHR(219).
             ELSE 
-                PUT UNFORMATTED "o;".
+                PUT UNFORMATTED " ".
         END.
-    
-
     END.
-    PUT UNFORMATTED SKIP.
+    PUT UNFORMATTED "~n".
 END.
 OUTPUT CLOSE.
 
-FOR EACH ttDisplay WHERE isLit:
-
-    
-    iLit = iLit + 1.
-
-END.
-
-DISPLAY iLit.
+MESSAGE "Num lit:" iLit VIEW-AS ALERT-BOX.
