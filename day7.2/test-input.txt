@@ -1,0 +1,4 @@
+aba[bab]xyz#true
+xyx[xyx]xyx#false
+aaa[kek]eke#true
+zazbz[bzb]cdb#true
