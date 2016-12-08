@@ -1,0 +1,34 @@
+These are my solutions to Advent of Code 2016, written in Haskell.
+
+* Preparations
+
+1. Ensure ~stack~ is installed. Just follow the instructions for your OS/distro/... at [[https://docs.haskellstack.org/en/stable/README/][The Haskell Tool Stack]].
+2. Change into this directory and run the command =stack setup= followed by =stack install --dependencies-only=.
+
+Both of these steps may take a few minutes to finish.
+
+* To run
+
+On OSs that supports it all solution files are marked as executable:
+
+#+BEGIN_SRC shell
+./Part1.hs input
+#+END_SRC
+
+On other OSs it's necessary to run it using ~stack~:
+
+#+BEGIN_SRC shell
+stack Part1.hs input
+#+END_SRC
+
+* Input to solutions
+
+Almost all solutions accept on the command line a file that is expected to contain the input, e.g. see the examples above. All solutions print the result to standard out.
+
+The exceptions to this are
+
+|------------+--------------------------------------------|
+| Date       | Instructions                               |
+|------------+--------------------------------------------|
+| December 5 | Takes the door ID as command line argument |
+|------------+--------------------------------------------|
