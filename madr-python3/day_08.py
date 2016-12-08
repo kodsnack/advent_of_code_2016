@@ -3,52 +3,66 @@ import sys
 
 
 def rotate(o, w, h, matrix):
-    try:
-        t, s, d = re.match(r'rotate.+([x|y])=([\d+]) by ([\d+])', o).groups()
-        print(t, s, d)
-        if t == 'y':
-            lit = list()
+    e = re.match(r'rotate.+([x|y])=(\d+) by (\d+)', o)
+    if e:
+        t, s, d = e.groups()
+        lit = list()
+        m = list()
+        if t == 'x':
             for c in range(0, w):
                 lit.append(matrix[c::w])
             for r in range(0, int(d)):
-                c = lit[int(s)]
-                lit[int(s)] = c[2:].extend(c[0])
-        #for c in range(0, int(x)):
-        #    lit += matrix[c::w][:int(y)]
-        return [p in lit for p in list(range(0, w * h))]
-    except AttributeError:
+                lit[int(s)] = lit[int(s)][h - 1:] + lit[int(s)][0:h - 1]
+            for c in zip(*lit):
+                m.extend(c)
+        if t == 'y':
+            for c in range(0, w):
+                lit.append(matrix[c::w])
+            lit = list(zip(*lit))
+            for r in range(0, int(d)):
+                lit[int(s)] = lit[int(s)][w - 1:] + lit[int(s)][0:w - 1]
+            for c in lit:
+                m.extend(c)
+        return m
+    else:
         return matrix
 
 
 def rect(o, w, h, matrix):
-    try:
-        x, y = re.match(r'rect (\d+)x(\d+)', o).groups()
+    e = re.match(r'rect (\d+)x(\d+)', o)
+    if e:
+        x, y = e.groups()
         lit = list()
+        r = list(range(0, w * h))
         for c in range(0, int(x)):
-            lit += matrix[c::w][:int(y)]
-        return [p in lit for p in list(range(0, w * h))]
-    except AttributeError:
+            lit += r[c::w][:int(y)]
+        for n in lit:
+            matrix[n] = True
+        return matrix
+    else:
         return matrix
 
 
 def lit_screen(w, h, pinput):
-    matrix = list(range(0, w * h))
+    matrix = [False for i in range(0, w * h)]
 
     for o in pinput:
         matrix = rect(o, w, h, matrix)
+        matrix = rotate(o, w, h, matrix)
 
+    out = list()
     for l in range(0, w * h, w):
-        print(''.join(map(lambda l: '#' if l else '.', matrix[l:l+w])))
-    return sum(matrix)
+        out.append(''.join(map(lambda l: '#' if l else ' ', matrix[l:l+w])))
+
+    return sum(matrix), '\n'.join(out)
 
 
 def run(pinput):
     """Day 8: Two-Factor Authentication"""
-    pl = lit_screen(7, 3, ['rect 3x2', 'rotate column x=1 by 1', 'rotate row y=0 by 4', 'rotate column x=1 by 1'])
-    #pl2 = lit_screen(50, 6, pinput)
+    pl, out = lit_screen(50, 6, pinput.strip().split('\n'))
 
+    print('\n%s\n' % out)
     print('Pixels lit:                             %s' % pl)
-    #print('Pixels lit:                             %s' % pl2)
 
 
 if __name__ == '__main__':
