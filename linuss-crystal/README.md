@@ -5,12 +5,13 @@ Advent of code implementation in Crystal.
 ## Installation
 
 [Install crystal](https://crystal-lang.org/docs/installation/)
-crystal build src/linuss-crystal.cr
+make spec
+make
 
 ## Usage
 
 ./linuss-crystal -h
 ./linuss-crystal -1 spec/aoc1_example.txt
 
-If you plan to run the specs or AoC5, then it is good to add --release
-to the ocmmand because it is slow otherwise
+If you plan to run the full specs, then it is good to add --release
+to the spec command because it is slow otherwise due to AoC5.
