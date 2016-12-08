@@ -40,7 +40,7 @@ do while lines(file)
 			otherwise nop
 		end
 		linediff = oldlength - newlength
-		lastletter = letter
+		prevletter = letter
 	end
 	sum = sum + number
 end

@@ -1,3 +1,5 @@
+""" Advent of Code 2016 - Day 4 - Security Through Obscurity """
+
 import re
 from collections import Counter
 
