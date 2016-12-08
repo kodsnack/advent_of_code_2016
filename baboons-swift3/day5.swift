@@ -35,7 +35,6 @@ func getPassword(byPosition: Bool) -> String
             } else {
                 password[length] = hash.substring(with: 5..<6)
             }
-
             length += 1
         }
         i += 1
