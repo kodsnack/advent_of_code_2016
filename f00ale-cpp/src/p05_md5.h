@@ -4,14 +4,14 @@
 #include <cstring>
 
 // tables from wikipedia
-constexpr std::array<uint32_t, 64> s {
+constexpr std::array<uint32_t, 64> s{{
   7, 12, 17, 22,  7, 12, 17, 22,  7, 12, 17, 22,  7, 12, 17, 22,
   5,  9, 14, 20,  5,  9, 14, 20,  5,  9, 14, 20,  5,  9, 14, 20,
   4, 11, 16, 23,  4, 11, 16, 23,  4, 11, 16, 23,  4, 11, 16, 23,
   6, 10, 15, 21,  6, 10, 15, 21,  6, 10, 15, 21,  6, 10, 15, 21
-};
+}};
 
-constexpr std::array<uint32_t, 64> K {
+constexpr std::array<uint32_t, 64> K{{
   0xd76aa478, 0xe8c7b756, 0x242070db, 0xc1bdceee,
   0xf57c0faf, 0x4787c62a, 0xa8304613, 0xfd469501,
   0x698098d8, 0x8b44f7af, 0xffff5bb1, 0x895cd7be,
@@ -28,7 +28,7 @@ constexpr std::array<uint32_t, 64> K {
   0x655b59c3, 0x8f0ccc92, 0xffeff47d, 0x85845dd1,
   0x6fa87e4f, 0xfe2ce6e0, 0xa3014314, 0x4e0811a1,
   0xf7537e82, 0xbd3af235, 0x2ad7d2bb, 0xeb86d391
-};
+}};
 
 
 // reduced md5sum
