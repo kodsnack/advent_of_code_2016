@@ -15,13 +15,13 @@ def count_ips(pinput):
         a = re.sub(r'\[.+?\]', lambda x: ' ', l)
         b = ' '.join(re.findall(r'\[(.+?)\]', l))
 
-        abas = list(filter(lambda v: v, map(
+        abas = set(filter(lambda v: v, map(
             lambda i: a[i:i + 3] if a[i:i + 3] == a[i:i + 3][::-1] and a[i:i + 1] != a[i + 1:i + 2] else None,
             range(0, len(a) - 2))))
         babs = set(filter(lambda v: v, map(
             lambda i: b[i + 1:i + 3] + b[i + 1] if b[i:i + 3] == b[i:i + 3][::-1] and b[i:i + 1] != b[i + 1:i + 2] else None,
             range(0, len(b) - 2))))
-        return len(set(abas).intersection(babs)) > 0
+        return len(abas.intersection(babs)) > 0
 
     return sum(map(tls, pinput.split('\n'))), sum(map(ssl, pinput.split('\n')))
 
