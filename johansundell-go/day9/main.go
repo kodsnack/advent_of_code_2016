@@ -16,28 +16,10 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(len(strings.Replace(parseInput(data), " ", "", -1)), parseInputPart2(data))
+	fmt.Println(parseInput(data, false), parseInput(data, true))
 }
 
-func parseInput(input string) string {
-	for i := 0; i < len(input); i++ {
-		if string(input[i]) == "(" {
-			end := strings.Index(input[i:], ")") + i
-			fields := strings.FieldsFunc(input[i+1:end], xFn)
-			chars, _ := strconv.Atoi(fields[0])
-			repeat, _ := strconv.Atoi(fields[1])
-			part := ""
-			for n := 0; n < repeat; n++ {
-				part += input[end+1 : end+1+chars]
-			}
-			input = input[:i] + part + input[end+1+chars:]
-			i += len(part) - 1
-		}
-	}
-	return input
-}
-
-func parseInputPart2(input string) int {
+func parseInput(input string, isPart2 bool) int {
 	count := 0
 	for {
 		startPos := strings.Index(input, "(")
@@ -53,8 +35,8 @@ func parseInputPart2(input string) int {
 		for n := 0; n < repeat; n++ {
 			part += input[endPos+1 : endPos+1+chars]
 		}
-		if strings.Contains(part, "(") {
-			count += parseInputPart2(part)
+		if strings.Contains(part, "(") && isPart2 {
+			count += parseInput(part, isPart2)
 		} else {
 			count += len(part)
 		}
