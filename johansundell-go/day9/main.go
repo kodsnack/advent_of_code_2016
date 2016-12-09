@@ -9,8 +9,6 @@ import (
 	"github.com/johansundell/advent_of_code_2016/johansundell-go/adventofcode2016"
 )
 
-var xFn = func(r rune) bool { return r == 'x' }
-
 func main() {
 	data, err := adventofcode2016.GetInput("day9.txt")
 	if err != nil {
@@ -27,7 +25,7 @@ func parseInput(input string, isPart2 bool) int {
 		if startPos == -1 {
 			return count + len(input)
 		}
-		fields := strings.FieldsFunc(input[startPos+1:endPos], xFn)
+		fields := strings.FieldsFunc(input[startPos+1:endPos], func(r rune) bool { return r == 'x' })
 		chars, _ := strconv.Atoi(fields[0])
 		repeat, _ := strconv.Atoi(fields[1])
 		part := ""
