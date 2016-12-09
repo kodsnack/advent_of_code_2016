@@ -36,3 +36,9 @@ func ReadFileByRow(fileName string) []string {
 
 	return lines
 }
+
+func ReadEntireFile(fileName string) string {
+	data, err := ioutil.ReadFile(fileName)
+	check(err)
+	return string(data)
+}

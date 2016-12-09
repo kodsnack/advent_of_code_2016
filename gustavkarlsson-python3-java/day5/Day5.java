@@ -1,3 +1,5 @@
+/* Advent of Code - Day 5 - How About a Nice Game of Chess? */
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 

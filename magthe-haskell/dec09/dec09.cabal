@@ -1,0 +1,19 @@
+name: dec09
+version: 0.0.1
+synopsis: AOC for December 9
+homepage: https://github.com/magthe/advent_of_code_2016
+license: BSD3
+author: Magnus Therning
+maintainer: magnus@therning.org
+build-type: Simple
+cabal-version: >=1.10
+
+executable dec09-part1
+  main-is:             Part1.hs
+  build-depends:       base >=4.9 && <4.10, mtl >=2.2 && <2.3, parsec
+  default-language:    Haskell2010
+
+executable dec09-part2
+  main-is:             Part2.hs
+  build-depends:       base >=4.9 && <4.10, mtl >=2.2 && <2.3, parsec
+  default-language:    Haskell2010
