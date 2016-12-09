@@ -60,5 +60,4 @@ func parseInputPart2(input string) int {
 		}
 		input = input[endPos+1+chars:]
 	}
-	return count
 }
