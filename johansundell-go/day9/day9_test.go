@@ -26,6 +26,8 @@ func Test_Ex2(t *testing.T) {
 		"A(2x3)BCDE":        9,
 		"A(1x5)BCYY":        len("ABBBBBCYY"),
 		"ADVENT":            6,
+		"(25x3)(3x3)ABC(2x3)XY(5x2)PQRSTX(18x9)(3x2)TWO(5x7)SEVEN": 445,
+		"(27x12)(20x12)(13x14)(7x10)(1x12)A":                       241920,
 	}
 
 	for a, b := range cases {
