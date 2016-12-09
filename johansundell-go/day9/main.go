@@ -27,7 +27,6 @@ func parseInput(input string, isPart2 bool) int {
 		if startPos == -1 {
 			return count + len(input)
 		}
-		count += startPos
 		fields := strings.FieldsFunc(input[startPos+1:endPos], xFn)
 		chars, _ := strconv.Atoi(fields[0])
 		repeat, _ := strconv.Atoi(fields[1])
@@ -36,9 +35,9 @@ func parseInput(input string, isPart2 bool) int {
 			part += input[endPos+1 : endPos+1+chars]
 		}
 		if strings.Contains(part, "(") && isPart2 {
-			count += parseInput(part, isPart2)
+			count += startPos + parseInput(part, isPart2)
 		} else {
-			count += len(part)
+			count += startPos + len(part)
 		}
 		input = input[endPos+1+chars:]
 	}
