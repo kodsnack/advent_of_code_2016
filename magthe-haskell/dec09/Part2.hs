@@ -18,17 +18,15 @@ parseInput s = (either (const $ error "parseFailure") id) $ runParser parseSeq (
 
 parseSeq :: Parsec String () [Seq]
 parseSeq = many1 $ choice [try parseCompressed, try parseUncompressed]
+  where
+    parseUncompressed = Unc <$> many1 upper
 
-parseUncompressed :: Parsec String () Seq
-parseUncompressed = Unc <$> many1 upper
-
-parseCompressed :: Parsec String () Seq
-parseCompressed = do
-  (c, r) <- between (char '(') (char ')') $ (,) <$>
-            (read <$> many1 digit) <* char 'x' <*>
-            (read <$> many1 digit)
-  s <- count c anyChar
-  return $ Com r s
+    parseCompressed = do
+      (c, r) <- between (char '(') (char ')') $ (,) <$>
+                (read <$> many1 digit) <* char 'x' <*>
+                (read <$> many1 digit)
+      s <- count c anyChar
+      return $ Com r s
 
 seqsLen :: [Seq] -> Int
 seqsLen = sum . map f
