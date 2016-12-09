@@ -35,5 +35,5 @@ def solve(data):
 	print(str(abs(currentPosition[0]) + abs(currentPosition[1])))
 	print(str(abs(hq[0]) + abs(hq[1])))
 
-with open('data/day_01.txt', 'r') as file:
+with open('data/01.txt', 'r') as file:
 	solve(file.read())
