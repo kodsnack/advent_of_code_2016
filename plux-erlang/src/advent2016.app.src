@@ -1,0 +1,15 @@
+{application, advent2016,
+ [{description, "Advent of Code 2016 Solutions"},
+  {vsn, "0.1.0"},
+  {registered, []},
+  {applications,
+   [kernel,
+    stdlib
+   ]},
+  {env,[]},
+  {modules, []},
+
+  {maintainers, []},
+  {licenses, []},
+  {links, []}
+ ]}.
