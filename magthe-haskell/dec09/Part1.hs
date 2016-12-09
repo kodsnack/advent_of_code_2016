@@ -28,13 +28,13 @@ parseSeq = many1 $ choice [try parseCompressed, try parseUncompressed]
       s <- count c anyChar
       return $ Com r s
 
-seqs2String :: [Seq] -> String
-seqs2String = concatMap f
+seqsLen :: [Seq] -> Int
+seqsLen = sum . map f
   where
-    f (Unc s) = s
-    f (Com r s) = concat $ replicate r s
+    f (Unc s) = length s
+    f (Com r s) = r * length s
 
 main :: IO ()
 main = (head <$> getArgs) >>=
-       (fmap (length . seqs2String . parseInput . filter (/= ' ') . head . lines) . readFile) >>=
+       (fmap (seqsLen . parseInput . filter (/= ' ') . head . lines) . readFile) >>=
        print
