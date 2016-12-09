@@ -23,3 +23,6 @@
 [submodule "stiju-cpp"]
 	path = stiju-cpp
 	url = https://github.com/Stiju/AdventOfCode.git
+[submodule "plux-erlang"]
+	path = plux-erlang
+	url = https://github.com/plux/advent2016.git
