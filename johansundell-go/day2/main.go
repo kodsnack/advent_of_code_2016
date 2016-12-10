@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
 	"strings"
+
+	"github.com/johansundell/advent_of_code_2016/johansundell-go/adventofcode2016"
 )
 
 var (
@@ -13,7 +14,7 @@ var (
 )
 
 func main() {
-	test, err := getInput("day2.txt")
+	test, err := adventofcode2016.GetInput("day2.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -64,12 +65,4 @@ func getButton(startX, startY int, row string, keypad []string) (x, y int, butto
 	}
 	button = string(keypad[y][x])
 	return
-}
-
-func getInput(day string) (string, error) {
-	b, err := ioutil.ReadFile("./../inputs/" + day)
-	if err != nil {
-		return "", err
-	}
-	return string(b), nil
 }

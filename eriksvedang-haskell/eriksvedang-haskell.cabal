@@ -20,3 +20,5 @@ executable eriksvedang-haskell
   build-depends:       base >= 4.7 && < 5
                      , text
                      , parsec
+                     , split
+                     , MissingH

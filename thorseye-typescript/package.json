@@ -1,0 +1,24 @@
+{
+  "name": "advent-of-code-2016",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "./node_modules/.bin/tsc",
+    "test": "npm run build && ./node_modules/.bin/mocha -d dist/test",
+    "start": "npm run build && node dist/index.js"
+  },
+  "engines": {
+    "node": ">=6"
+  },
+  "author": "Jonas Thoursie <jonas.thoursie@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "@types/mocha": "^2.2.33",
+    "@types/node": "^0.0.2",
+    "typescript": "^2.0.10"
+  },
+  "devDependencies": {
+    "mocha": "^3.2.0"
+  }
+}

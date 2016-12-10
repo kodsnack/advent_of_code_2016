@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Advent of Code, Day 1
+Advent of Code, Day 2
 =====================
 
 Author: hbldh <henrik.blidh@nedomkull.com>
