@@ -42,7 +42,7 @@ int rdp(Vector in, int pos, long long *length, int recurse){
 
 void part1(){
   char c;
-  Vector in = Vector_create();
+  Vector in = Vector_create_char();
   long long count = 0;
   while(scanf("%c", &c) != EOF){
     Vector_push_char(in, c);
@@ -59,7 +59,7 @@ void part1(){
 
 void part2(){
   char c;
-  Vector in = Vector_create();
+  Vector in = Vector_create_char();
   long long count = 0;
   while(scanf("%c", &c) != EOF){
     Vector_push_char(in, c);
