@@ -20,6 +20,8 @@ aoc-main.o: aoc-main.c aoc-main.h Makefile
 
 hashmap.o: hashmap.c hashmap.h Makefile
 
+vector.o: vector.c vector.h Makefile
+
 %.o: %.c Makefile
 	@echo "[ Compiling: $< ]"
 	@gcc ${CFLAGS} -o $@ -c $<
@@ -33,7 +35,7 @@ day%.o: day%.c aoc-main.h Makefile
 	@gcc ${CFLAGS} -o $@ -c $<
 
 .PRECIOUS: day%
-day%: day%.o aoc-main.o hashmap.o
+day%: day%.o aoc-main.o hashmap.o vector.o
 	@echo "[ Linking: $@ ]"
 	@gcc -g -lcrypto -o $@ $^
 
