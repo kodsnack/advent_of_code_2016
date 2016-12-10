@@ -19,4 +19,4 @@
 	url = https://github.com/hillerstorm/advent-of-code-2016
 [submodule "neochrome-various"]
 	path = neochrome-various
-	url = https://github.com/neochrome/aoc2016-various.git
+	url = git@github.com:neochrome/aoc2016-various.git
