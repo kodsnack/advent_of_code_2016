@@ -7,63 +7,46 @@ class Day9 {
 
     public function execute()
     {
-        /*
-        var_dump(filesize($this->decompress($this->getInputFilename(), false)));
-        var_dump(filesize($this->decompress($this->getInputFilename(), true)));
-        */
+        $this->setResult1((string) $this->getDecompressedSize($this->getInput(), false))
+             ->setResult2((string) $this->getDecompressedSize($this->getInput(), true));
     }
 
-    private function decompress(string $filename, bool $continue = false): string
+    private function getDecompressedSize(string $data, $recursive = false): int
     {
-        $decompressedFilename = "/tmp/decompressed";
-        $tempFilename = tempnam("/tmp", "");
+        $handle = fopen('data://text/plain,' . $data, "r");
 
-        $fh = fopen($filename, "r");
-        $fd = fopen($tempFilename, "w");
-
+        $size = 0;
         $marker = false;
-
-        while(!feof($fh)) {
-            $c = fread($fh, 1);
-
+        while(!feof($handle)) {
+            $char = fread($handle, 1);
             switch(true) {
-                case $c == "(":
+                case $char == "(":
                     $marker = "";
                     break;
-                case $c == ")":
+                case $char == ")":
                     list($length, $repeat) = explode("x", $marker);
-                    $string = fread($fh, (int) $length);
-                    for($i=0; $i<$repeat; $i++) {
-                        fwrite($fd, $string, (int) $length);
+                    $string = fread($handle, (int) $length);
+
+                    if($recursive) {
+                        $size += $this->getDecompressedSize($string, $recursive) * $repeat;
+                    } else {
+                        $size += $length * $repeat;
                     }
 
                     $marker = false;
                     break;
                 case ($marker !== false):
-                    $marker .= $c;
+                    $marker .= $char;
+                    break;
+                case empty($char):
                     break;
                 default:
-                    fwrite($fd, $c, 1);
+                    $size += 1;
                     break;
             }
         }
 
-        $readPosition = ftell($fh);
-        $writePosition = ftell($fd);
-
-        fclose($fh);
-        fclose($fd);
-
-        rename($tempFilename, $decompressedFilename);
-
-        var_dump($continue);
-        var_dump($readPosition);
-        var_dump($writePosition);
-        if($continue && $readPosition !== $writePosition) {
-            return $this->decompress($decompressedFilename, true);
-        }
-
-        return $decompressedFilename;
+        return $size;
     }
 
 }
