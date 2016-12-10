@@ -25,7 +25,6 @@ def solve(file):
             triangle = list(map(int, list(triangle)))
 
             if possible_triangle(triangle):
-                print(triangle)
                 valid += 1
     print(valid)
 
