@@ -7,6 +7,7 @@ Dependencies: libcrypto (md5-hash calculation, gcc should support -lcrypto), cur
 To build and run all do:
 ```bash
 make
+make # Make again for less noisy output.
 ```
 You will have to supply your session cookie so that input can be downloaded.
 In chrome log into advent of code, goto Developer tools (Ctrl+Shift+J), click Application and find
