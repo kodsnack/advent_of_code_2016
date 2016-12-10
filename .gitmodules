@@ -26,3 +26,6 @@
 [submodule "plux-erlang"]
 	path = plux-erlang
 	url = https://github.com/plux/advent2016.git
+[submodule "karjonas-rust"]
+	path = karjonas-rust
+	url = https://github.com/karjonas/aoc2016
