@@ -13,6 +13,8 @@ som första programargument, t ex såhär: `python day_03.py puzzles/03.txt`
    läsbarhet och en (ill-)vilja för att ha fyndiga variabelnamn.
  * För `Day 3: Squares With Three Sides` fanns ett osunt behov av att lösa
    allt med en rad. Förlåt ...
+ * Latmasken hämtade [en befintlig algoritm](https://www.reddit.com/r/adventofcode/comments/5hbygy/2016_day_9_solutions/)
+   för andra delen av `Day 9: Explosives in Cyberspace` på grund av tidsbrist.
 
 ## Förtydligande
 
