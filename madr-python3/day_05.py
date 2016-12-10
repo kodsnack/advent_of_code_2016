@@ -43,3 +43,5 @@ if __name__ == '__main__':
             run(f.read().strip())
     except IOError:
         print('please provide a file path to puzzle file, example: ./puzzle.txt')
+    except IndexError:
+        print('please provide a file path to puzzle file, example: ./puzzle.txt')

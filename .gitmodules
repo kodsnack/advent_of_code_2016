@@ -20,3 +20,9 @@
 [submodule "neochrome-various"]
 	path = neochrome-various
 	url = git@github.com:neochrome/aoc2016-various.git
+[submodule "stiju-cpp"]
+	path = stiju-cpp
+	url = https://github.com/Stiju/AdventOfCode.git
+[submodule "plux-erlang"]
+	path = plux-erlang
+	url = https://github.com/plux/advent2016.git
