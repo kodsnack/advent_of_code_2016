@@ -51,6 +51,11 @@ trait DayTrait {
         return file($this->input);
     }
 
+    private function getInputFilename()
+    {
+        return $this->input;
+    }
+
     public function execute() {}
 
 }
