@@ -88,8 +88,8 @@ int solve(int print){
         cur = cur->next;
       }
       if(print){
-        if(found) printf("#");
-        else printf(".");
+        if(found) printf("|");
+        else printf(" ");
       }
     }
   }

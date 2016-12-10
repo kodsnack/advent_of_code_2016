@@ -1,7 +1,7 @@
 
 CFLAGS=-g -pedantic -Wall -Wextra -Werror
 
-days=day1 day2 day3 day4 day5 day6 day7 day8
+days=day1 day2 day3 day4 day5 day6 day7 day8 day9 day10
 
 all: $(patsubst %,%-run,$(days))
 
@@ -20,6 +20,8 @@ aoc-main.o: aoc-main.c aoc-main.h Makefile
 
 hashmap.o: hashmap.c hashmap.h Makefile
 
+vector.o: vector.c vector.h Makefile
+
 %.o: %.c Makefile
 	@echo "[ Compiling: $< ]"
 	@gcc ${CFLAGS} -o $@ -c $<
@@ -33,7 +35,7 @@ day%.o: day%.c aoc-main.h Makefile
 	@gcc ${CFLAGS} -o $@ -c $<
 
 .PRECIOUS: day%
-day%: day%.o aoc-main.o hashmap.o
+day%: day%.o aoc-main.o hashmap.o vector.o
 	@echo "[ Linking: $@ ]"
 	@gcc -g -lcrypto -o $@ $^
 
