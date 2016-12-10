@@ -22,12 +22,10 @@ class Robot {
     this.lower = null;
     this.higher = null;
     this.chips = 0;
-    //console.log("Found : " + found + ". Res: " + res);
     return [this, found, res];
   }
 
   giveChip(value) {
-    //console.log("Got value! " + value + " " + this.chips);
     if(this.chips == 0) {
       this.lower = value;
       this.chips++;
@@ -41,7 +39,6 @@ class Robot {
       }
       this.chips++;
       if(this.instruction.length > 0 && this.chips == 2) {
-        //console.log("Checking...");
         return this.check();
       } else {
         return [this, false, null];
@@ -70,10 +67,8 @@ if(file != undefined) {
   var data = fs.readFileSync(file);
 
   var result1 = extracter1(data.toString());
-  //var result2 = extracter2(data.toString());
 
-  console.log(result1);
-  //console.log(result2);
+  console.log(result1["output 0"] * result1["output 1"] * result1["output 2"]);
 
 } else {
   console.log("Undefined input, exiting...");
@@ -91,15 +86,12 @@ function extracter1(input) {
 }
 
 function processInstr(bots, instr) {
-  //console.log(instr);
   var ins = instr.split(" ");
 
   if(ins[0] === "value") {
     var to = ins[4] + " " + ins[5];
     var val = parseInt(ins[1]);
     var res;
-
-    //console.log(ins[4]);
 
     if(ins[4] === "output") {
       bots[to] = bots[to] + val || val;
