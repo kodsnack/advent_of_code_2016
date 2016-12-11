@@ -28,22 +28,8 @@ namespace AdventOfCode
 
 			foreach (string s in textBoxInput.Text.Split(','))
 			{
-				if (s.Trim()[0] == 'L')
-				{
-					direction--;
-					if (direction < 0)
-					{
-						direction += 4;
-					}
-				}
-				else
-				{
-					direction++;
-					if (direction > 3)
-					{
-						direction -= 4;
-					}
-				}
+				direction = s.Trim()[0] == 'L' ? --direction : ++direction;
+				direction = (direction + directionMovement.Length) % directionMovement.Length;
 
 				for (int i = 0; i < int.Parse(s.Trim().Substring(1)); i++)
 				{

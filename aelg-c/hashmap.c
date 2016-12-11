@@ -1,6 +1,7 @@
 #include "hashmap.h"
 
 #include <stdlib.h>
+#include <string.h>
 
 struct KeyValue{
   void *key;
@@ -60,7 +61,7 @@ static void insert(HashMap h, void *key, void *value){
 static void increase_size(HashMap h){
   struct KeyValue *values = h->values;
   int values_size = h->values_size;
-  h->values_size = values_size == 0 ? 2 : values_size*2;
+  h->values_size = values_size*2;
   h->values = calloc(h->values_size, sizeof(struct KeyValue));
   for(int i = 0; i < values_size; ++i){
     struct KeyValue *kv = &values[i];
@@ -76,6 +77,20 @@ unsigned int HM_integer_hash(unsigned int x) {
   x = ((x >> 16) ^ x) * 0x45d9f3b;
   x = (x >> 16) ^ x;
   return x;
+}
+
+// http://www.cse.yorku.ca/~oz/hash.html
+unsigned int HM_string_hash(const void *s)
+{
+  unsigned char *str = (unsigned char*)s;
+  unsigned long hash = 5381;
+  int c;
+  while ((c = *str++)) hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+  return hash;
+}
+
+int HM_string_equal(const void *lhs, const void* rhs){
+  return strcmp(lhs, rhs) == 0;
 }
 
 void HM_set_insert(HashMap h, void *key){
@@ -96,14 +111,26 @@ void *HM_find(HashMap h, const void *key){
   return kv->valid ? kv->value : NULL;
 }
 
+void HM_foreach(HashMap h, HMForEachFunc func, void *arg){
+  for(int i = 0; i < h->values_size; ++i){
+    if(h->values[i].valid){
+      func(h->values[i].key, h->values[i].value, arg);
+    }
+  }
+}
+
+int HM_size(HashMap h){
+  return h->size;
+}
+
 HashMap HM_create(HMHashFunc hash, HMEqualsFunc equals, HMFreeFunc key_free, HMFreeFunc value_free){
   HashMap h;
   if(hash == NULL || equals == NULL){
     return NULL;
   }
   h = malloc(sizeof(struct HashMapS));
-  h->values = NULL;
-  h->values_size = 0;
+  h->values = calloc(1, sizeof(struct KeyValue));
+  h->values_size = 1;
   h->size = 0;
   h->hash = hash;
   h->equals = equals;

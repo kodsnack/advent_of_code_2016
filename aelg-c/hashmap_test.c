@@ -55,6 +55,14 @@ void basic_usage(){
   ASSERT(h == NULL);
 }
 
+void foreach(void *key, void *value, void* arg){
+  long k = (long) key;
+  long v = (long) value;
+  int * a = arg;
+  ASSERT(v == k*10);
+  ++(*a);
+}
+
 void many_entries(HMHashFunc hash, int num_entries){
   HashMap h = HM_create(hash, ptr_equals, NULL, NULL);
   for(int i = 0; i < num_entries; ++i){
@@ -66,6 +74,11 @@ void many_entries(HMHashFunc hash, int num_entries){
   for(int i = num_entries; i < 2*num_entries; ++i){
     ASSERT(find(h, i) == 0);
   }
+
+  int counter = 0;
+  HM_foreach(h, foreach, &counter);
+  ASSERT(counter == num_entries);
+
   HM_destroy(&h);
 }
 

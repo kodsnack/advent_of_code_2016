@@ -1,9 +1,11 @@
 
-CFLAGS=-g -pedantic -Wall -Wextra -Werror
+CFLAGS=-O3 -pedantic -Wall -Wextra -Werror
 
-days=day1 day2 day3 day4 day5 day6 day7 day8
+days=day1 day2 day3 day4 day5 day6 day7 day8 day9 day10 day11
 
 all: $(patsubst %,%-run,$(days))
+save-all: $(patsubst %,output/output-%,$(days))
+check-all: $(patsubst %,check-%,$(days))
 
 tests=hashmap_test
 test_logs=$(patsubst %,%.log,$(tests))
@@ -20,6 +22,8 @@ aoc-main.o: aoc-main.c aoc-main.h Makefile
 
 hashmap.o: hashmap.c hashmap.h Makefile
 
+vector.o: vector.c vector.h Makefile
+
 %.o: %.c Makefile
 	@echo "[ Compiling: $< ]"
 	@gcc ${CFLAGS} -o $@ -c $<
@@ -33,7 +37,7 @@ day%.o: day%.c aoc-main.h Makefile
 	@gcc ${CFLAGS} -o $@ -c $<
 
 .PRECIOUS: day%
-day%: day%.o aoc-main.o hashmap.o
+day%: day%.o aoc-main.o hashmap.o vector.o
 	@echo "[ Linking: $@ ]"
 	@gcc -g -lcrypto -o $@ $^
 
@@ -56,6 +60,16 @@ output-%: % input-%.txt ${test_logs}
 	@./$* 1 < input-$*.txt >> $@
 	@echo -n "Part 2: " >> $@
 	@./$* 2 < input-$*.txt >> $@
+
+# No dependecies here, we don't want to accidentally overwrite the outputs
+output/output-day%:
+	@echo "[ Saving $@ ]"
+	@mkdir -p output
+	@cp output-day$* $@
+
+check-day%: output-day%
+	@echo "[ Verifying day$* ]"
+	@diff output/output-day$* output-day$* && echo "[ Day $*: OK ]" || echo "[ Day $*: Fail ]"
 
 %-run: output-%
 	@echo "[ Result: $* ]"
