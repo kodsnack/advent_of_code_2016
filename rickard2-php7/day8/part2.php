@@ -10,4 +10,9 @@ foreach ($operations as $operation) {
     $operation->applyOnto($screen);
 }
 
-printf('There are %d pixels lit' . PHP_EOL, $screen->getNumberOfPixelsLit());
+echo 'Screen looks like this: ' . PHP_EOL;
+echo PHP_EOL;
+
+$screen->draw();
+
+echo PHP_EOL;

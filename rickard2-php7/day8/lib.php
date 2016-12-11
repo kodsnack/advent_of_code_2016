@@ -210,29 +210,10 @@ class Screen
 
     public function draw()
     {
-        echo '  ';
-
-        for ($w = 0; $w < $this->width; $w++) {
-            echo floor($w / 10);
-        }
-
-        echo PHP_EOL;
-
-        echo '  ';
-
-        for ($w = 0; $w < $this->width; $w++) {
-            echo $w % 10;
-        }
-
-        echo PHP_EOL;
-
-
         for ($h = 0; $h < $this->height; $h++) {
 
-            echo $h . ' ';
-
             for ($w = 0; $w < $this->width; $w++) {
-                echo $this->area[$h][$w] ? 'X' : '.';
+                echo $this->area[$h][$w] ? 'X' : ' ';
             }
 
             echo PHP_EOL;
