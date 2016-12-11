@@ -22,4 +22,4 @@ while (strlen(join('', $password)) < 8) {
     $index++;
 }
 
-printf('The password is: %s', join('', $password));
+printf('The password is: %s' . PHP_EOL, join('', $password));

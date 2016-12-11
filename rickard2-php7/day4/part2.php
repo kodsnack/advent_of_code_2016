@@ -11,7 +11,7 @@ $realRooms = array_filter($rooms, function (Room $room) {
 
 foreach ($realRooms as $room) {
     if ($room->getName() === 'northpole object storage') {
-        printf('The sector ID of the room where North Pole objects are stored is %d', $room->getSectorId());
+        printf('The sector ID of the room where North Pole objects are stored is: %d' . PHP_EOL, $room->getSectorId());
         exit;
     }
 }

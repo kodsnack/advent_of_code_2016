@@ -16,4 +16,4 @@ while (strlen($password) < 8) {
     $index++;
 }
 
-printf('The password is: %s', $password);
+printf('The password is: %s' . PHP_EOL, $password);
