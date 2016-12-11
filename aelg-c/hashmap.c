@@ -1,6 +1,7 @@
 #include "hashmap.h"
 
 #include <stdlib.h>
+#include <string.h>
 
 struct KeyValue{
   void *key;
@@ -78,6 +79,20 @@ unsigned int HM_integer_hash(unsigned int x) {
   return x;
 }
 
+// http://www.cse.yorku.ca/~oz/hash.html
+unsigned int HM_string_hash(const void *s)
+{
+  unsigned char *str = (unsigned char*)s;
+  unsigned long hash = 5381;
+  int c;
+  while ((c = *str++)) hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+  return hash;
+}
+
+int HM_string_equal(const void *lhs, const void* rhs){
+  return strcmp(lhs, rhs) == 0;
+}
+
 void HM_set_insert(HashMap h, void *key){
   HM_insert(h, key, key);
 }
@@ -102,6 +117,10 @@ void HM_foreach(HashMap h, HMForEachFunc func, void *arg){
       func(h->values[i].key, h->values[i].value, arg);
     }
   }
+}
+
+int HM_size(HashMap h){
+  return h->size;
 }
 
 HashMap HM_create(HMHashFunc hash, HMEqualsFunc equals, HMFreeFunc key_free, HMFreeFunc value_free){

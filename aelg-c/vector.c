@@ -32,6 +32,8 @@ void Vector_pop(Vector v, void *elem){
     v->length = new_length;
   }
 }
+
+// Char vector
 Vector Vector_create_char(void){
   return Vector_create(sizeof(char));
 }
@@ -42,6 +44,25 @@ void Vector_push_char(Vector v, char c){
 
 char* Vector_data_char(Vector v){
   return v->data;
+}
+
+// Int vector
+Vector Vector_create_int(void){
+  return Vector_create(sizeof(int));
+}
+
+void Vector_push_int(Vector v, int n){
+  Vector_push(v, &n);
+}
+
+int Vector_pop_int(Vector v){
+  int res;
+  Vector_pop(v, &res);
+  return res;
+}
+
+int* Vector_data_int(Vector v){
+  return (int*)v->data;
 }
 
 Vector Vector_create(size_t element_size){

@@ -28,4 +28,7 @@
 	url = https://github.com/plux/advent2016.git
 [submodule "neochrome-ocaml"]
 	path = neochrome-ocaml
-	url = git@github.com:neochrome/aoc2016-ocaml
+	url = git@github.com:neochrome/aoc2016-ocaml.git
+[submodule "karjonas-rust"]
+	path = karjonas-rust
+	url = https://github.com/karjonas/aoc2016

@@ -52,6 +52,7 @@ void part2(){
   scanf("%s", input);
   id_len = strlen(input);
   end_of_id = input + id_len;
+  fprintf(stderr, "********\r");
 
   for(;;){
     for(;;){
@@ -72,9 +73,12 @@ void part2(){
     }
     int done = 1;
     for(int k = 0; k < 8; ++k){
+      fprintf(stderr, "%c", password[k] ? password[k] : '*');
       if(password[k] == 0) done = 0;
     }
+    fprintf(stderr, "\r");
     if(done) break;
   }
+  fprintf(stderr, "\n");
   printf("%s\n", password);
 }

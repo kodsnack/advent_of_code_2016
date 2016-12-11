@@ -1,9 +1,11 @@
 
-CFLAGS=-g -pedantic -Wall -Wextra -Werror
+CFLAGS=-O3 -pedantic -Wall -Wextra -Werror
 
-days=day1 day2 day3 day4 day5 day6 day7 day8 day9 day10
+days=day1 day2 day3 day4 day5 day6 day7 day8 day9 day10 day11
 
 all: $(patsubst %,%-run,$(days))
+save-all: $(patsubst %,output/output-%,$(days))
+check-all: $(patsubst %,check-%,$(days))
 
 tests=hashmap_test
 test_logs=$(patsubst %,%.log,$(tests))
@@ -58,6 +60,16 @@ output-%: % input-%.txt ${test_logs}
 	@./$* 1 < input-$*.txt >> $@
 	@echo -n "Part 2: " >> $@
 	@./$* 2 < input-$*.txt >> $@
+
+# No dependecies here, we don't want to accidentally overwrite the outputs
+output/output-day%:
+	@echo "[ Saving $@ ]"
+	@mkdir -p output
+	@cp output-day$* $@
+
+check-day%: output-day%
+	@echo "[ Verifying day$* ]"
+	@diff output/output-day$* output-day$* && echo "[ Day $*: OK ]" || echo "[ Day $*: Fail ]"
 
 %-run: output-%
 	@echo "[ Result: $* ]"
