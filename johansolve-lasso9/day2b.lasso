@@ -22,19 +22,15 @@ define buttons => type {
 		.y=2
 	}
 	public move(movement::string) => {
-		if(#movement==='U') => {
+		if(#movement==='U' && .y<3) => {
 			.y+=1
-		else(#movement==='D')
+		else(#movement==='D' && .y>1)
 			.y-=1
-		else(#movement==='R')
+		else(#movement==='R' && .x<3)
 			.x+=1
-		else(#movement==='L')
+		else(#movement==='L' && .x>1)
 			.x-=1
 		}
-		.x<1 ? .x=1
-		.x>3 ? .x=3
-		.y<1 ? .y=1
-		.y>3 ? .y=3
 	}
 	public decode => {
 		local(button=.x)
@@ -43,7 +39,7 @@ define buttons => type {
 		else(.y===2)
 			#button+=3
 		}
-		return #button
+		return string(#button)
 	}
 }
 
@@ -64,7 +60,7 @@ do {
 	do {
 		#buttons->move(#character)
 	}
-	#code+=string(#buttons->decode)
+	#code->append(#buttons->decode)
 }
 
 'The code is ' + #code + ' calculated in ' (date_msec-#timer) + ' ms'
