@@ -35,6 +35,10 @@ namespace AdventOfCode
                         Day3 day3 = new Day3();
                         day3.Run();
                         break;
+                    case "4":
+                        Day4 day4 = new Day4();
+                        day4.Run();
+                        break;
                     case "0":
                         repeat = false;
                         break;
