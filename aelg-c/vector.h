@@ -10,6 +10,11 @@ Vector Vector_create_char(void);
 void Vector_push_char(Vector v, char c);
 char* Vector_data_char(Vector v);
 
+Vector Vector_create_int(void);
+void Vector_push_int(Vector v, int n);
+int Vector_pop_int(Vector v);
+int* Vector_data_int(Vector v);
+
 Vector Vector_create(size_t element_size);
 
 void Vector_free(Vector v);
