@@ -9,10 +9,7 @@ class Day11 {
         $matrix = [];
 
         foreach($this->getFile() as $i => $line) {
-            $items = explode(' a ', substr($line, strpos($line,'contains')));
-            unset($items[0]);
-
-            $matrix[] = count($items);
+            $matrix[] = count(explode(' a ', substr($line, strpos($line,'contains')))) -1;
         }
 
         $this->setResult1((string) $this->sum($matrix));
@@ -26,8 +23,7 @@ class Day11 {
         $sum = 0;
 
         for($i=0;$i<4;$i++) {
-            $partial = array_slice($matrix, 0, $i);
-            $sum += 2 * array_sum($partial) - 3;
+            $sum += 2 * array_sum(array_slice($matrix, 0, $i)) - 3;
         }
 
         return $sum + 3;
