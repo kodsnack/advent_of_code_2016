@@ -44,6 +44,8 @@ define buttons => type {
 	}
 }
 
+local(timer=date_msec)
+
 local(buttons=buttons,
 	code=string)
 
@@ -61,6 +63,6 @@ iterate(#input) => {
 	#code+=string(#buttons->decode)
 }
 
-'The code is ' + #code
+'The code is ' + #code + ' calculated in ' (date_msec-#timer) + ' ms'
 
 ]
