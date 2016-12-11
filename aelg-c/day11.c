@@ -3,12 +3,13 @@
 #include "hashmap.h"
 
 #include <stdio.h>
+#include <regex.h>
+#include <string.h>
 
-static int N_ITEMS = 7;
-static int E = 14; // N_ITEMS*2
+static int N_ITEMS = 0;
 
 static int get_floor(int state, int n){
-  return (state >> 2*n) & 3;
+  return (state >> (n*2)) & 3;
 }
 
 static int g_floor(int state, int n){
@@ -20,7 +21,7 @@ static int c_floor(int state, int n){
 }
 
 static int e_floor(int state){
-  return get_floor(state, E);
+  return get_floor(state, N_ITEMS*2);
 }
 
 static int is_paired(int state, int n){
@@ -59,77 +60,70 @@ static struct Node *node_create(int state){
   return n;
 }
 
-static unsigned int node_hash(const void* data){
-  const struct Node *n = data;
-  return HM_integer_hash(n->state);
+static unsigned int state_hash(const void* data){
+  return HM_integer_hash((long)data);
 }
 
-static int node_equals(const void* data1, const void *data2){
-  const struct Node *lhs = data1;
-  const struct Node *rhs = data2;
-  return lhs->state == rhs->state;
+static int state_equals(const void* lhs, const void *rhs){
+  return (long)lhs == (long)rhs;
 }
 
 struct Node *get_node(HashMap h, int state){
-  struct Node *tmp = node_create(state);
-  struct Node *n = HM_find(h, tmp);
+  struct Node *n = HM_find(h, (void*)(long)state);
   if (n){
-    free(tmp);
     return n;
   }
-  n = tmp;
-  HM_set_insert(h, n);
+  n = node_create(state);
+  HM_insert(h, (void*)(long)state, n);
   return n;
 }
 
-static void update_weight(HashMap h, int state, int weight){
-  struct Node *n = get_node(h, state);
+static void update_weight(struct Node *n, int weight){
   if(n->weight == -1 || n->weight > weight) n->weight = weight;
 }
 
-static void push_legal_moves(Vector stack, HashMap h, int state, int weight){
-  int e = e_floor(state);
-  if(e > 0){
-    for(int i = 0; i < N_ITEMS*2; ++i){
-      if(get_floor(state,i) != e) continue;
-      int new_state = update_state(update_state(state, E, e-1), i, e-1);
-      if(is_legal(new_state)){
-        Vector_push_int(stack, new_state);
-        update_weight(h, new_state, weight);
-      }
-      for(int j = 0; j < i; ++j){
-        if(get_floor(state,j) != e) continue;
-        int new_state2 = update_state(new_state, j, e-1);
-        if(is_legal(new_state2)){
-          Vector_push_int(stack, new_state2);
-          update_weight(h, new_state2, weight);
-        }
-      }
+static void push_if_legal(Vector stack, HashMap h, int state, int weight){
+  if(is_legal(state)){
+    struct Node *n = get_node(h, state);
+    if (!n->visited) {
+      Vector_push_int(stack, state);
+      update_weight(n, weight);
     }
   }
-  if(e < 3){
-    for(int i = 0; i < N_ITEMS*2; ++i){
-      if(get_floor(state,i) != e) continue;
-      int new_state = update_state(update_state(state, E, e+1), i, e+1);
-      if(is_legal(new_state)){
-        Vector_push_int(stack, new_state);
-        update_weight(h, new_state, weight);
+}
+
+
+static void push_legal_moves(Vector stack, HashMap h, int state, int weight){
+  int e = e_floor(state);
+  for(int i = 0; i < N_ITEMS*2; ++i){
+    if(get_floor(state,i) != e) continue;
+    int move_down_state = 0;
+    int move_up_state = 0;
+    if(e > 0){
+      move_down_state = update_state(update_state(state, N_ITEMS*2, e-1), i, e-1);
+      push_if_legal(stack, h, move_down_state, weight);
+    }
+    if(e < 3){
+      move_up_state = update_state(update_state(state, N_ITEMS*2, e+1), i, e+1);
+      push_if_legal(stack, h, move_up_state, weight);
+    }
+    for(int j = 0; j < i; ++j){
+      if(get_floor(state,j) != e) continue;
+      if(e > 0){
+        int move_down_state2 = update_state(move_down_state, j, e-1);
+        push_if_legal(stack, h, move_down_state2, weight);
       }
-      for(int j = 0; j < i; ++j){
-        if(get_floor(state,j) != e) continue;
-        int new_state2 = update_state(new_state, j, e+1);
-        if(is_legal(new_state2)){
-          Vector_push_int(stack, new_state2);
-          update_weight(h, new_state2, weight);
-        }
+      if(e < 3){
+        int move_up_state2 = update_state(move_up_state, j, e+1);
+        push_if_legal(stack, h, move_up_state2, weight);
       }
     }
   }
 }
 
-void solve(){
+void solve(int start_state){
   Vector stack = Vector_create_int();
-  HashMap h = HM_create(node_hash, node_equals, NULL, free);
+  HashMap h = HM_create(state_hash, state_equals, NULL, free);
   int goal = 0;
   for(int i = 0; i < N_ITEMS*2+1; ++i){
     goal=update_state(goal, i, 3);
@@ -144,22 +138,110 @@ void solve(){
     n = get_node(h, state);
     if(n->visited) continue;
     n->visited = 1;
-    if (state == ((1 << (2*(N_ITEMS+0))) | (1 << (2*(N_ITEMS+1))))){
-      printf("weight: %d\n", n->weight);
+    if (state == start_state){
+      printf("%d\n", n->weight);
     }
     push_legal_moves(stack, h, state, n->weight+1);
   }
   Vector_push_int(stack, goal);
+  Vector_free(stack);
+  HM_destroy(&h);
 }
 
+struct Element{
+  int id;
+  int generator_floor;
+  int microchip_floor;
+};
+
+struct Element *element_create(int id){
+  struct Element *e = malloc(sizeof(struct Element));
+  e->id = id;
+  return e;
+}
+
+void push_generator(HashMap h, const char *s, int length, int floor){
+  char *ss = malloc((length+1) * sizeof(char));
+  strncpy(ss, s, length);
+  ss[length] = 0;
+  struct Element *e = HM_find(h, ss);
+  if(e){
+    e->generator_floor = floor;
+    free(ss);
+  }
+  else{
+    e = element_create(HM_size(h));
+    e->generator_floor = floor;
+    HM_insert(h, ss, e);
+  }
+}
+
+void push_microchip(HashMap h, const char *s, int length, int floor){
+  char *ss = malloc((length+1) * sizeof(char));
+  strncpy(ss, s, length);
+  ss[length] = 0;
+  struct Element *e = HM_find(h, ss);
+  if(e){
+    e->microchip_floor = floor;
+    free(ss);
+  }
+  else{
+    e = element_create(HM_size(h));
+    e->microchip_floor = floor;
+    HM_insert(h, ss, e);
+  }
+}
+
+void parseline(regex_t *regex, HashMap h, int floor){
+  Vector s = Vector_create_char();
+  regmatch_t match[3];
+  for(;;){
+    char c = fgetc(stdin);
+    if(c == '\n' || c == EOF) break;
+    Vector_push_char(s, c);
+  }
+  int res = regexec(regex, Vector_data_char(s), 3, match, 0);
+  int pos = 0;
+  while(res == 0){
+    if(match[1].rm_so != -1){
+      push_generator(h, &Vector_data_char(s)[pos+match[1].rm_so], match[1].rm_eo - match[1].rm_so, floor);
+    }
+    else{
+      push_microchip(h, &Vector_data_char(s)[pos+match[2].rm_so], match[2].rm_eo - match[2].rm_so, floor);
+    }
+    pos += match[0].rm_eo;
+    res = regexec(regex, &Vector_data_char(s)[pos], 3, match, 0);
+  }
+}
+
+void foreach(void* key, void* value, void *arg){
+  (void) key;
+  int *start_pos = arg;
+  struct Element *e = value;
+  *start_pos |= e->generator_floor << (e->id*2);
+  *start_pos |= e->microchip_floor << ((e->id+N_ITEMS)*2);
+}
+
+int parseinput(int extra_items){
+  regex_t regex;
+  HashMap h = HM_create(HM_string_hash, HM_string_equal, free, free);
+  regcomp(&regex, "([a-z]*) generator|([a-z]*)-compatible", REG_EXTENDED);
+  int start_pos = 0;
+  for(int i = 0; i < 4; ++i){
+    parseline(&regex, h, i);
+  }
+  N_ITEMS = HM_size(h) + extra_items;
+  HM_foreach(h, foreach, &start_pos);
+  return start_pos;
+}
+
+
 void part1(){
-  N_ITEMS = 5;
-  E = 10;
-  solve();
+  int start_pos = parseinput(0);
+  solve(start_pos);
 }
 
 void part2(){
-  N_ITEMS = 7;
-  E = 14;
-  solve();
+  int start_pos = parseinput(2);
+  solve(start_pos);
 }
