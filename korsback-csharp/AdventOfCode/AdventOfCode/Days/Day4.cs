@@ -9,10 +9,11 @@ namespace AdventOfCode.Days
     class Day4
     {
         private List<string> rows;
-        private int idSum=0;
+        private int idSum;
 
         public void Run()
         {
+            idSum = 0;
             rows = Instructions.GetInput(rows, 4);
             Dictionary<char, int> charCounts = new Dictionary<char, int>();
 
@@ -22,31 +23,30 @@ namespace AdventOfCode.Days
                 string lastPart = parts.Last();
                 parts.RemoveAt(parts.Count - 1);
 
+                string letters = "";
+                parts.ForEach(x => letters += x);
                 int value = Convert.ToInt32(lastPart.Substring(0, lastPart.IndexOf('[')));
-                string checksum = lastPart.Substring(lastPart.IndexOf('[')+1).Split(']').First();
+                string checksum = lastPart.Substring(lastPart.IndexOf('[') + 1, 5);
 
-                foreach(var part in parts)
+                foreach(char x in letters)
                 {
-                    foreach(char x in part)
+                    if (charCounts.ContainsKey(x))
                     {
-                        if (charCounts.ContainsKey(x))
-                        {
-                            charCounts[x] += 1;
-                        }
-                        else
-                            charCounts.Add(x, 1);
+                        charCounts[x] += 1;
                     }
+                    else
+                        charCounts.Add(x, 1);
                 }
 
                 var orderedDictionary = charCounts
                                         .OrderBy(x=>x.Key)
                                         .OrderByDescending(x => x.Value)
                                         .ToList();
+                ///Check room
                 string result = "";
-
                 for (int i = 0; i < 5; i++)
                 {
-                    result += orderedDictionary[i].Key;
+                    result += orderedDictionary[i].Key;                  
                 }
 
                 if (result == checksum)
