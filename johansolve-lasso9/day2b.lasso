@@ -3,6 +3,9 @@
 /*
 
 Advent of code 2016 Day 2 by Johan Sölve
+This variant uses query expressions, an interesting language construct.
+	http://www.lassosoft.com/Lasso-9-Query-Expressions
+	http://lassoguide.com/language/query-expressions.html
 
 */
 
@@ -19,19 +22,15 @@ define buttons => type {
 		.y=2
 	}
 	public move(movement::string) => {
-		if(#movement==='U') => {
+		if(#movement==='U' && .y<3) => {
 			.y+=1
-		else(#movement==='D')
+		else(#movement==='D' && .y>1)
 			.y-=1
-		else(#movement==='R')
+		else(#movement==='R' && .x<3)
 			.x+=1
-		else(#movement==='L')
+		else(#movement==='L' && .x>1)
 			.x-=1
 		}
-		.x<1 ? .x=1
-		.x>3 ? .x=3
-		.y<1 ? .y=1
-		.y>3 ? .y=3
 	}
 	public decode => {
 		local(button=.x)
@@ -40,7 +39,7 @@ define buttons => type {
 		else(.y===2)
 			#button+=3
 		}
-		return #button
+		return string(#button)
 	}
 }
 
@@ -55,12 +54,13 @@ RDDRUDLRLDDDRLRRLRRLUULDRLRUUURULRRLUURLLLRLULDDLDLRLULULUUDDDRLLLUDLLRUDURUDDLL
 LLDDDDLUDLLDUDURRURLLLLRLRRLDULLURULDULDLDLLDRRDLUDRULLRUUURDRLLURDDLLUDDLRLLRDDLULRLDDRURLUDRDULLRUDDLUURULUUURURLRULRLDLDDLRDLDLLRUURDLUDRRRDDRDRLLUDDRLDRLLLRULRDLLRLRRDDLDRDDDUDUDLUULDLDUDDLRLDUULRULDLDULDDRRLUUURUUUDLRDRULDRRLLURRRDUDULDUDUDULLULLULULURLLRRLDULDULDLRDDRRLRDRLDRLUDLLLUULLRLLRLDRDDRUDDRLLDDLRULLLULRDDDLLLDRDLRULDDDLULURDULRLDRLULDDLRUDDUDLDDDUDRDRULULDDLDLRRDURLLRLLDDURRLRRULLURLRUDDLUURULULURLRUDLLLUDDURRLURLLRLLRRLDULRRUDURLLDDRLDLRRLULUULRRUURRRDULRLRLRDDRDULULUUDULLLLURULURRUDRLL
 UULLULRUULUUUUDDRULLRLDDLRLDDLULURDDLULURDRULUURDLLUDDLDRLUDLLRUURRUDRLDRDDRRLLRULDLLRUUULLLDLDDULDRLRURLDRDUURLURDRUURUULURLRLRRURLDDDLLDDLDDDULRUDLURULLDDRLDLUDURLLLLLRULRRLLUDRUURLLURRLLRDRLLLRRDDDRRRDLRDRDUDDRLLRRDRLRLDDDLURUUUUULDULDRRRRLUDRLRDRUDUDDRULDULULDRUUDUULLUDULRLRRURDLDDUDDRDULLUURLDRDLDDUURULRDLUDDLDURUDRRRDUDRRDRLRLULDRDRLRLRRUDLLLDDDRURDRLRUDRRDDLDRRLRRDLUURLRDRRUDRRDLDDDLRDDLRDUUURRRUULLDDDLLRLDRRLLDDRLRRRLUDLRURULLDULLLUDLDLRLLDDRDRUDLRRDDLUU')
 
-#input=#input->split('\n')
-iterate(#input) => {
-	iterate(loop_value) => {
-		#buttons->move(loop_value)
+with line in #input->eachLineBreak
+do {
+	with character in #line->eachCharacter
+	do {
+		#buttons->move(#character)
 	}
-	#code+=string(#buttons->decode)
+	#code->append(#buttons->decode)
 }
 
 'The code is ' + #code + ' calculated in ' (date_msec-#timer) + ' ms'
