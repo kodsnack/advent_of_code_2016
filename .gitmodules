@@ -26,3 +26,6 @@
 [submodule "plux-erlang"]
 	path = plux-erlang
 	url = https://github.com/plux/advent2016.git
+[submodule "neochrome-ocaml"]
+	path = neochrome-ocaml
+	url = git@github.com:neochrome/aoc2016-ocaml
