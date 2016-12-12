@@ -21,7 +21,9 @@ OptionParser.parse! do |parser|
   parser.on("--8b FILE", "Day 8b: provide filename") { |name| puts AoC8.process_file(name).to_s }
   parser.on("--9 FILE", "Day 9: provide filename") { |name| puts AoC9.decompressed_size(name) }
   parser.on("--9b FILE", "Day 9b: provide filename") { |name| puts AoC9.decompressed_v2_size(name) }
-  parser.on("--10 FILE", "Day 10: provide filename") { |name| puts AoC10.compute(name) }
+  parser.on("--10 FILE", "Day 10a&b: provide filename") { |name| puts AoC10.compute(name) }
+  parser.on("--11 FILE", "Day 11a: provide filename") { |name| puts AoC11.compute(name) }
+  parser.on("--11b FILE", "Day 11b: provide filename") { |name| puts AoC11.computeb(name) }
 
   parser.on("-h", "--help", "Show this help") { puts parser }
 end
