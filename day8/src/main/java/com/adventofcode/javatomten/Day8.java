@@ -12,7 +12,7 @@ import static java.lang.Integer.parseInt;
 
 
 /**
- * Advent of Code 2016-12-07.
+ * Advent of Code 2016-12-08.
  */
 public class Day8 {
 
