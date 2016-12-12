@@ -1,12 +1,19 @@
 // Open input file
 var file = process.argv[2];
+var part = process.argv[3];
 
 // Valid input?
 if(file != undefined) {
   var fs = require("fs");
   var data = fs.readFileSync(file);
 
-  var regA = simulate(data.toString());
+  if(part === "1") {
+    var cone = false;
+  } else {
+    var cone = true;
+  }
+
+  var regA = simulate(data.toString(), cone);
   console.log("Register A: " + regA);
   //console.log(result1["output 0"] * result1["output 1"] * result1["output 2"]);
 
@@ -15,13 +22,19 @@ if(file != undefined) {
   process.exit();
 }
 
-function simulate(prgrm) {
+function simulate(prgrm, cone) {
   prgrm = prgrm.split("\n");
   var regs = {};
   regs["a"] = 0;
   regs["b"] = 0;
-  regs["c"] = 0;
   regs["d"] = 0;
+
+  if(cone) {
+    regs["c"] = 1;
+  } else {
+    regs["c"] = 0;
+  }
+
   var step = 1;
 
   for(var sp = 0; sp < prgrm.length; sp += step) {
