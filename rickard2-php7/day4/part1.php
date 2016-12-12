@@ -15,4 +15,4 @@ foreach ($realRooms as $realRoom) {
     $sum += $realRoom->getSectorId();
 }
 
-printf('The sum of the sector IDs of the real rooms is %d' . PHP_EOL, $sum);
+printf('The sum of the sector IDs of the real rooms is: %d' . PHP_EOL, $sum);

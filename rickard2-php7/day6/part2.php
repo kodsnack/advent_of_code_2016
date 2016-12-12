@@ -1,6 +1,6 @@
 <?php
 
-$rows   = explode(PHP_EOL, file_get_contents('input'));
+$rows   = explode(PHP_EOL, file_get_contents(dirname(__FILE__) . '/input'));
 $length = strlen($rows[0]);
 
 echo 'The original message that Santa is trying to send is: ';
