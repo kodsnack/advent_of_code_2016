@@ -143,7 +143,6 @@ void solve(int start_state){
     }
     push_legal_moves(stack, h, state, n->weight+1);
   }
-  Vector_push_int(stack, goal);
   Vector_free(stack);
   HM_destroy(&h);
 }
@@ -200,6 +199,7 @@ void parseline(regex_t *regex, HashMap h, int floor){
     if(c == '\n' || c == EOF) break;
     Vector_push_char(s, c);
   }
+  Vector_push_char(s, 0);
   int res = regexec(regex, Vector_data_char(s), 3, match, 0);
   int pos = 0;
   while(res == 0){
@@ -212,6 +212,7 @@ void parseline(regex_t *regex, HashMap h, int floor){
     pos += match[0].rm_eo;
     res = regexec(regex, &Vector_data_char(s)[pos], 3, match, 0);
   }
+  Vector_free(s);
 }
 
 void foreach(void* key, void* value, void *arg){
@@ -230,8 +231,10 @@ int parseinput(int extra_items){
   for(int i = 0; i < 4; ++i){
     parseline(&regex, h, i);
   }
+  regfree(&regex);
   N_ITEMS = HM_size(h) + extra_items;
   HM_foreach(h, foreach, &start_pos);
+  HM_destroy(&h);
   return start_pos;
 }
 

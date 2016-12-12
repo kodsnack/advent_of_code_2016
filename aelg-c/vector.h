@@ -4,6 +4,7 @@ typedef struct VectorS *Vector;
 
 void Vector_push(Vector v, void* data);
 void Vector_pop(Vector v, void *elem);
+void* Vector_data(Vector v);
 int Vector_size(Vector v);
 
 Vector Vector_create_char(void);
