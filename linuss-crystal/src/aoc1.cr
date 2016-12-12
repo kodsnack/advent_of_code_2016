@@ -5,14 +5,36 @@ module AoC1
     calculate_bunny_distance(File.read(fname))
   end
 
-  def self.calculate_bunny_distance(str)
-    instructions = parse(str)
+  def self.first_second(fname)
+    instructions = parse(File.read(fname))
+    seen = Set(Complex).new
+    pos = follow_instructions(instructions) do |pos|
+      if seen.includes?(pos)
+        break pos
+      else
+        seen << pos
+      end
+    end
+    Int32.new(pos.real.abs + pos.imag.abs)
+  end
+
+  def self.follow_instructions(instructions)
     direction = Complex.new(1, 0)
     pos = Complex.new(0, 0)
-    destination = instructions.each do |left_or_right, steps|
+    yield pos
+    instructions.each do |left_or_right, steps|
       direction = direction * turn(left_or_right)
-      pos = pos + direction * steps
+      steps.times {
+        pos = pos + direction
+        yield pos
+      }
     end
+    pos
+  end
+
+  def self.calculate_bunny_distance(str)
+    instructions = parse(str)
+    pos = follow_instructions(instructions) { }
     Int32.new(pos.real.abs + pos.imag.abs)
   end
 
