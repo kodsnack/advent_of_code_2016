@@ -27,8 +27,9 @@ Almost all solutions accept on the command line a file that is expected to conta
 
 The exceptions to this are
 
-|------------+--------------------------------------------|
-| Date       | Instructions                               |
-|------------+--------------------------------------------|
-| December 5 | Takes the door ID as command line argument |
-|------------+--------------------------------------------|
+|-------------+--------------------------------------------------------|
+| Date        | Instructions                                           |
+|-------------+--------------------------------------------------------|
+| December 5  | Takes the door ID as command line argument             |
+| December 11 | Takes no input, instead it's hardcoded into the source |
+|-------------+--------------------------------------------------------|
