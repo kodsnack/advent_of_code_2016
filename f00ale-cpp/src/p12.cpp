@@ -3,6 +3,7 @@
 #include <deque>
 #include <string>
 #include <unordered_map>
+#include <array>
 
 const char p12data[] = R"(
 cpy 1 a
@@ -286,13 +287,13 @@ std::vector<Command> compile(std::deque<Token> tokens) { //NB! token queue as va
 }
 
 int p12_1(const std::vector<Command> & prog) {
-  std::array<int, 4> regs = {0, 0, 0, 0};
+  std::array<int, 4> regs{{0, 0, 0, 0}};
   runprog(prog, regs);
   return regs[0];
 }
 
 int p12_2(const std::vector<Command> & prog) {
-  std::array<int, 4> regs = {0, 0, 1, 0};
+  std::array<int, 4> regs{{0, 0, 1, 0}};
   runprog(prog, regs);
   return regs[0];
 }
