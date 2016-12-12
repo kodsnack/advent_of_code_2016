@@ -33,6 +33,10 @@ void Vector_pop(Vector v, void *elem){
   }
 }
 
+void* Vector_data(Vector v){
+  return v->data;
+}
+
 // Char vector
 Vector Vector_create_char(void){
   return Vector_create(sizeof(char));
