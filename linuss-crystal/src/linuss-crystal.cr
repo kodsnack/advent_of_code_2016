@@ -24,6 +24,8 @@ OptionParser.parse! do |parser|
   parser.on("--10 FILE", "Day 10a&b: provide filename") { |name| puts AoC10.compute(name) }
   parser.on("--11 FILE", "Day 11a: provide filename") { |name| puts AoC11.compute(name) }
   parser.on("--11b FILE", "Day 11b: provide filename") { |name| puts AoC11.computeb(name) }
+  parser.on("--12 FILE", "Day 12: provide filename") { |name| puts AoC12.compute(name) }
+  parser.on("--12b FILE", "Day 12b: provide filename") { |name| puts AoC12.computeb(name) }
 
   parser.on("-h", "--help", "Show this help") { puts parser }
 end
