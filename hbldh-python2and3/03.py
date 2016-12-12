@@ -46,9 +46,7 @@ def part_2_generator():
 
 
 def solve(generator):
-    print("{0} valid triangles.".format(
-        sum([((x[0] + x[1]) > x[2]) for x in generator])))
+    return sum([((x[0] + x[1]) > x[2]) for x in generator])
 
-
-solve(part_1_generator())
-solve(part_2_generator())
+print("[Part 1] {0} valid triangles.".format(solve(part_1_generator())))
+print("[Part 2] {0} valid triangles.".format(solve(part_2_generator())))

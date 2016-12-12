@@ -54,5 +54,5 @@ def ssl_support(s):
     return any(["{1}{0}{1}".format(bab[0], bab[1]) in abas for bab in hypernet_abas])
 
 
-print("Number of IPs with TLS support: {0}".format(sum([tls_support(ip) for ip in data_generator()])))
-print("Number of IPs with SSL support: {0}".format(sum([ssl_support(ip) for ip in data_generator()])))
+print("[Part 1] Number of IPs with TLS support: {0}".format(sum([tls_support(ip) for ip in data_generator()])))
+print("[Part 2] Number of IPs with SSL support: {0}".format(sum([ssl_support(ip) for ip in data_generator()])))

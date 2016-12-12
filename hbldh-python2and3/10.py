@@ -31,7 +31,7 @@ class Bot(object):
 
     def check_part_1(self):
         if self.is_ready and self.chips[0] == 17 and self.chips[1] == 61:
-            print("Bot {0} is responsible for comparing 61 and 17 microchips.".format(self.nbr))
+            print("[Part 1] Bot {0} is responsible for comparing 61 and 17 microchips.".format(self.nbr))
 
     def add_chip(self, chip):
         self.chips.append(int(chip))
@@ -91,4 +91,4 @@ while len(ready_bots):
         next_ready_bots += bots.get(k).execute_instruction(bots, outputs)
     ready_bots = next_ready_bots
 
-print("Multiplied contents of Output 0, 1 & 2: {0}".format(outputs[0] * outputs[1] * outputs[2]))
+print("[Part 2] Multiplied contents of Output 0, 1 & 2: {0}".format(outputs[0] * outputs[1] * outputs[2]))

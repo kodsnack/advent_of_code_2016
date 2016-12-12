@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-11.py
------------
+Advent of Code, Day 11
+======================
 
-:copyright: 2016-12-11 by hbldh <henrik.blidh@nedomkull.com>
+Author: hbldh <henrik.blidh@nedomkull.com>
 
 """
 
@@ -13,14 +13,13 @@ from __future__ import print_function
 from __future__ import absolute_import
 
 import re
-from copy import copy
+import time
 from collections import namedtuple
-from itertools import chain, combinations
+from itertools import combinations
 try:
     from queue import PriorityQueue
 except ImportError:
     from Queue import PriorityQueue
-
 
 state_tuple = namedtuple('state', ['d', 'e', 'F1', 'F2', 'F3', 'F4'])
 
@@ -43,13 +42,13 @@ initial_state_2 = state_tuple(d=0, e='F1', F1=['thG', 'thM', 'plG', 'stG', 'elG'
 
 
 def is_valid(s):
-    for floor in ['F1', 'F2', 'F3', 'F4']:
-        microchips = [x for x in getattr(s, floor) if x.endswith('M')]
-        generators = [x for x in getattr(s, floor) if x.endswith('G')]
-        if len(generators) > 0:
-            for m in microchips:
-                if m[:2] + 'G' not in generators:
-                    return False
+    for floor in [getattr(s, 'F1'), getattr(s, 'F2'), getattr(s, 'F3'), getattr(s, 'F4')]:
+        generators = [x for x in floor if x.endswith('G')]
+        if len(generators):
+            for e in floor:
+                if e[-1] == 'M':
+                    if e[:2] + 'G' not in generators:
+                        return False
     return True
 
 
@@ -62,31 +61,16 @@ def get_possible_moves(s):
     possible_moves = []
     current_floor_contents = getattr(s, s.e)
     for components_to_move in list(combinations(current_floor_contents, 1)) + list(combinations(current_floor_contents, 2)):
-        # Move components down one level
-        if int(s.e[1]) - 1 > 0:
+        for new_floor in [int(s.e[1]) - 1, int(s.e[1]) + 1]:
+            if new_floor < 1 or new_floor > 4:
+                continue
             s_move = state_tuple(**{
                 'd': s.d + 1,
-                'e': "F{0}".format(int(s.e[1]) - 1),
-                'F1': copy(s.F1),
-                'F2': copy(s.F2),
-                'F3': copy(s.F3),
-                'F4': copy(s.F4)
-            })
-            for c in components_to_move:
-                getattr(s_move, s.e).remove(c)
-                getattr(s_move, s_move.e).append(c)
-            if is_valid(s_move):
-                possible_moves.append(s_move)
-
-        # Move components up one level
-        if int(s.e[1]) + 1 < 5:
-            s_move = state_tuple(**{
-                'd': s.d + 1,
-                'e': "F{0}".format(int(s.e[1]) + 1),
-                'F1': copy(s.F1),
-                'F2': copy(s.F2),
-                'F3': copy(s.F3),
-                'F4': copy(s.F4)
+                'e': "F{0}".format(new_floor),
+                'F1': s.F1[:],
+                'F2': s.F2[:],
+                'F3': s.F3[:],
+                'F4': s.F4[:]
             })
             for c in components_to_move:
                 getattr(s_move, s.e).remove(c)
@@ -97,7 +81,6 @@ def get_possible_moves(s):
 
 
 def solve(data, initial_state):
-
     q = PriorityQueue()
     q.put(initial_state)
     elements = re.findall('(\w*) generator', data, re.M)
@@ -113,8 +96,14 @@ def solve(data, initial_state):
                 if h not in visited:
                     q.put(changed_state)
                     visited[h] = 1
-    print(state)
+    return state
 
-solve(data_1, initial_state_1)
-solve(data_2, initial_state_2)
+t = time.time()
+solution_1 = solve(data_1, initial_state_1)
+print("[Part 1] Minimum number of steps: {0} (Runtime: {1:.2f} s)".format(solution_1.d, time.time() - t))
+
+t = time.time()
+print("N.B. Runtime of part 2 is at least 15 minutes...")
+solution_2 = solve(data_2, initial_state_2)
+print("[Part 2] Minimum number of steps: {0} (Runtime: {1:.2f} s)".format(solution_2.d, time.time() - t))
 

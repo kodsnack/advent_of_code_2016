@@ -14,7 +14,8 @@ from __future__ import absolute_import
 
 import hashlib
 
-data = "wtnhxymk"
+with open('input_05.txt', 'r') as f:
+    data = f.read().strip()
 
 pwd = []
 n = 0
@@ -25,7 +26,7 @@ while len(pwd) < 8:
         pwd.append(s[5])
         print(n, s[5])
 
-print("Part 1 Password: {0}".format("".join(pwd)))
+print("[Part 1] Password: {0}".format("".join(pwd)))
 
 
 pwd = [-1] * 8
@@ -39,4 +40,4 @@ while -1 in pwd:
             pwd[i] = s[6]
             print(n, s[5], s[6])
 
-print("Part 2 Password: {0}".format("".join(pwd)))
+print("[Part 2] Password: {0}".format("".join(pwd)))

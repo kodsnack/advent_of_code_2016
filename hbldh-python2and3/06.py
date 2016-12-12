@@ -25,5 +25,5 @@ for column in columns:
     message_1.append(c.most_common(1)[0][0])
     message_2.append(c.most_common()[-1][0])
 
-print("Message #1: {0}".format("".join(message_1)))
-print("Message #2: {0}".format("".join(message_2)))
+print("[Part 1] Message: {0}".format("".join(message_1)))
+print("[Part 2] Message: {0}".format("".join(message_2)))
