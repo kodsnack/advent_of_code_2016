@@ -26,7 +26,7 @@ object Main extends App {
 
   while (password.size < targetLength) {
     val hash = md5(doorId + salt)
-    val index = hash(2).toInt
+    val index = hash(2)
 
     if (
         hash(0) == 0
@@ -35,10 +35,9 @@ object Main extends App {
         && index < targetLength
         && !(password contains index)
     ) {
-      val index = hash(2).toInt
       val char = ("%02x" format hash(3)).head
 
-      password = password + (index -> char)
+      password = password + (index.toInt -> char)
       println(pad(password))
     }
 
