@@ -13,7 +13,7 @@ executable dec13-part1
   build-depends:       base >=4.9 && <4.10, mtl >=2.2 && <2.3, containers
   default-language:    Haskell2010
 
--- executable dec13-part2
---   main-is:             Part2.hs
---   build-depends:       base >=4.9 && <4.10, mtl >=2.2 && <2.3
---   default-language:    Haskell2010
+executable dec13-part2
+  main-is:             Part2.hs
+  build-depends:       base >=4.9 && <4.10, mtl >=2.2 && <2.3, containers
+  default-language:    Haskell2010
