@@ -1,7 +1,6 @@
 <?php
 declare(strict_types=1);
 
-define('MAGIC', 1358);
 define('START', [1,1]);
 define('END',[31,39]);
 
@@ -11,12 +10,12 @@ class Day13 {
     public function execute()
     {
 
-        $map = new Map();
+        $map = new Map((int) $this->getInput());
         $map->find();
 
         $this->setResult1((string) $map->steps);
 
-        $map = new Map();
+        $map = new Map((int) $this->getInput());
         $map->find(50);
 
         $this->setResult2((string) $map->steps);
@@ -27,8 +26,12 @@ class Map {
 
     public $steps = 0;
 
-    public function __construct()
+    private $magic = 0;
+
+    public function __construct(int $magic)
     {
+        $this->magic = $magic;
+
         $this->directions = [
             [1,  0],
             [0,  1],
@@ -96,7 +99,7 @@ class Map {
 
     private function wall(array $position): int {
         list($x, $y) = $position;
-        $bin = decbin(($x*$x + 3*$x + 2*$x*$y + $y + $y*$y + MAGIC));
+        $bin = decbin(($x*$x + 3*$x + 2*$x*$y + $y + $y*$y + $this->magic));
 
         return substr_count($bin, '1') % 2;
     }
