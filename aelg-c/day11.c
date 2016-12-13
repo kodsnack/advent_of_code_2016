@@ -45,44 +45,26 @@ static int is_legal(int state){
   return 1;
 }
 
-
 struct Node{
-  int state;
-  int visited;
-  int weight;
+  char visited;
+  char weight;
 };
 
-static struct Node *node_create(int state){
-  struct Node *n = malloc(sizeof(struct Node));
-  n->state = state;
-  n->visited = 0;
-  n->weight = -1;
-  return n;
-}
-
-static unsigned int state_hash(const void* data){
-  return HM_integer_hash((long)data);
-}
-
-static int state_equals(const void* lhs, const void *rhs){
-  return (long)lhs == (long)rhs;
-}
-
-struct Node *get_node(HashMap h, int state){
-  struct Node *n = HM_find(h, (void*)(long)state);
-  if (n){
+struct Node *get_node(struct Node *h, int state){
+  struct Node *n = &h[state];
+  if (n->visited != -1){
     return n;
   }
-  n = node_create(state);
-  HM_insert(h, (void*)(long)state, n);
+  n->visited = 0;
+  n->weight = 127;
   return n;
 }
 
 static void update_weight(struct Node *n, int weight){
-  if(n->weight == -1 || n->weight > weight) n->weight = weight;
+  if(n->weight > weight) n->weight = weight;
 }
 
-static void push_if_legal(Vector stack, HashMap h, int state, int weight){
+static void push_if_legal(Vector stack, struct Node *h, int state, int weight){
   if(is_legal(state)){
     struct Node *n = get_node(h, state);
     if (!n->visited) {
@@ -93,7 +75,7 @@ static void push_if_legal(Vector stack, HashMap h, int state, int weight){
 }
 
 
-static void push_legal_moves(Vector stack, HashMap h, int state, int weight){
+static void push_legal_moves(Vector stack, struct Node *h, int state, int weight){
   int e = e_floor(state);
   for(int i = 0; i < N_ITEMS*2; ++i){
     if(get_floor(state,i) != e) continue;
@@ -121,9 +103,18 @@ static void push_legal_moves(Vector stack, HashMap h, int state, int weight){
   }
 }
 
+struct Node * Map_create(){
+  int size = 1<<30;
+  struct Node * h = malloc(size * sizeof(struct Node));
+  for(int i = 0; i < size; ++i){
+    h[i].visited = -1;
+  }
+  return h;
+}
+
 void solve(int start_state){
   Vector stack = Vector_create_int();
-  HashMap h = HM_create(state_hash, state_equals, NULL, free);
+  struct Node *h = Map_create();
   int goal = 0;
   for(int i = 0; i < N_ITEMS*2+1; ++i){
     goal=update_state(goal, i, 3);
@@ -144,7 +135,7 @@ void solve(int start_state){
     push_legal_moves(stack, h, state, n->weight+1);
   }
   Vector_free(stack);
-  HM_destroy(&h);
+  free(h);
 }
 
 struct Element{
