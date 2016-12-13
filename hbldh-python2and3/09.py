@@ -62,8 +62,8 @@ def count(data, recursive=True):
 
 
 decompressed_data = decompress(input_data, False)
-print("Part 1 Decompressed length: {0}".format(len(decompressed_data)))
+print("[Part 1] Decompressed length: {0}".format(len(decompressed_data)))
 
 recursively_decompressed_data_length = count(input_data, True)
-print("Part 2 Decompressed length: {0}".format(recursively_decompressed_data_length))
+print("[Part 2] Decompressed length: {0}".format(recursively_decompressed_data_length))
 

@@ -54,6 +54,7 @@ for instruction in data_generator():
         else:
             rotate_column(display, int(rc_id.split('=')[-1]), int(distance))
 
-print("Number of lit pixels: {0}".format(sum([sum([element == '#' for element in row]) for row in display])))
+print("[Part 1] Number of lit pixels: {0}".format(sum([sum([element == '#' for element in row]) for row in display])))
+print("[Part 2]")
 for r in display:
     print("".join(r))

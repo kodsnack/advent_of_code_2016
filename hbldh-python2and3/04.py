@@ -46,7 +46,7 @@ the_sum = 0
 for row in data_generator():
     split_row = splitter(row)
     the_sum += int(split_row[1]) if validator(split_row) else 0
-print("Section ID Sum Part 1: {0}".format(the_sum))
+print("[Part 1] Section ID Sum: {0}".format(the_sum))
 
 
 def translate(s, section_id):
@@ -59,4 +59,4 @@ for row in data_generator():
     if validator(split_row):
         decrypted_name = translate(split_row[0], int(split_row[1]))
         if 'north' in decrypted_name and 'pole' in decrypted_name:
-            print("Room name: {0}, Sector ID: {1}".format(decrypted_name, split_row[1]))
+            print("[Part 2] Room name: {0}, Sector ID: {1}".format(decrypted_name, split_row[1]))
