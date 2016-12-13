@@ -242,7 +242,7 @@ int main()
 		if (i != env.bots.end())
 		{
 			auto d = distance(env.bots.begin(), i);
-			cout << "Day 9 part 1 result: " << d << endl;
+			cout << "Day 10 part 1 result: " << d << endl;
 		}
 	}
 
@@ -258,7 +258,7 @@ int main()
 				r *= value;
 			}
 		}
-		cout << "Day 9 part 2 result: " << r << endl;
+		cout << "Day 10 part 2 result: " << r << endl;
 	}
 	return 0;
 }
