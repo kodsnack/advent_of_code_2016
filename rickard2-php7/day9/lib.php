@@ -21,10 +21,6 @@ class Text implements Piece
     public function __construct(string $value)
     {
         $this->value = $value;
-
-        if (!preg_match('/^[A-Z]+$/', $value)) {
-            echo '';
-        }
     }
 
     public function compress() : string
