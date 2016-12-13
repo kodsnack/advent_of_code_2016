@@ -31,8 +31,7 @@ object Main extends App {
               dxdy <- List((0, 1), (1, 0), (0, -1), (-1, 0))
               nextPos = (path.last._1 + dxdy._1, path.last._2 + dxdy._2)
               if !isWall(nextPos)
-              nextPath = path :+ nextPos
-            } yield nextPath
+            } yield path :+ nextPos
 
             search(prevPositions + path.last, nextNextPaths enqueue possibleNextPaths)
           }
