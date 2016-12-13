@@ -19,10 +19,16 @@
 	url = https://github.com/hillerstorm/advent-of-code-2016
 [submodule "neochrome-various"]
 	path = neochrome-various
-	url = https://github.com/neochrome/aoc2016-various.git
+	url = git@github.com:neochrome/aoc2016-various.git
 [submodule "stiju-cpp"]
 	path = stiju-cpp
 	url = https://github.com/Stiju/AdventOfCode.git
 [submodule "plux-erlang"]
 	path = plux-erlang
 	url = https://github.com/plux/advent2016.git
+[submodule "neochrome-ocaml"]
+	path = neochrome-ocaml
+	url = git@github.com:neochrome/aoc2016-ocaml.git
+[submodule "karjonas-rust"]
+	path = karjonas-rust
+	url = https://github.com/karjonas/aoc2016

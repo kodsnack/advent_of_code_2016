@@ -1,0 +1,8 @@
+* Earlier attempts
+
+I've kept my first two attempts to solve the problem. Have a look at ~Part0.hs~ and ~Part1.hs~.
+
+* To be fixed (maybe)
+
+- No parsing of input - for now you need to modify the source. The start state is at the top of the file. Add isotopes (~Isotope~) as needed and then modify the state to match your input.
+- The pruning is rather ad-hoc, for my input 1000 is enough for part 1, and 25000 is enough for part 2. This might need adjusting for your input!

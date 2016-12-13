@@ -5,6 +5,7 @@ require "option_parser"
 OptionParser.parse! do |parser|
   parser.banner = "Usage: -daynumber [args]"
   parser.on("--1 FNAME", "Day 1: provide filename") { |name| puts AoC1.bunny_distance(name) }
+  parser.on("--1b FNAME", "Day 1b: provide filename") { |name| puts AoC1.first_second(name) }
   parser.on("--2 FNAME", "Day 2a: provide filename") { |name| puts AoC2.new.process(File.read name).join }
   parser.on("--2b FNAME", "Day 2b: provide filename") { |name| puts AoC2b.new.process(File.read name).join }
   parser.on("--3 FNAME", "Day 3a: provide filename") { |name| puts AoC3.count_by_row name }
@@ -21,7 +22,11 @@ OptionParser.parse! do |parser|
   parser.on("--8b FILE", "Day 8b: provide filename") { |name| puts AoC8.process_file(name).to_s }
   parser.on("--9 FILE", "Day 9: provide filename") { |name| puts AoC9.decompressed_size(name) }
   parser.on("--9b FILE", "Day 9b: provide filename") { |name| puts AoC9.decompressed_v2_size(name) }
-  parser.on("--10 FILE", "Day 10: provide filename") { |name| puts AoC10.compute(name) }
+  parser.on("--10 FILE", "Day 10a&b: provide filename") { |name| puts AoC10.compute(name) }
+  parser.on("--11 FILE", "Day 11a: provide filename") { |name| puts AoC11.compute(name) }
+  parser.on("--11b FILE", "Day 11b: provide filename") { |name| puts AoC11.computeb(name) }
+  parser.on("--12 FILE", "Day 12: provide filename") { |name| puts AoC12.compute(name) }
+  parser.on("--12b FILE", "Day 12b: provide filename") { |name| puts AoC12.computeb(name) }
 
   parser.on("-h", "--help", "Show this help") { puts parser }
 end
