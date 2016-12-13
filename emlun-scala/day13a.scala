@@ -20,7 +20,7 @@ object Main extends App {
         nextPaths: Queue[List[(Int, Int)]] = Queue.empty
     ): Option[List[(Int, Int)]] =
       nextPaths.dequeueOption match {
-        case None => None
+        case None => None // Can't do flatMap because Scala won't optimize that as tail-call recursion
         case Some((path, nextNextPaths)) => {
           if (path.last == target) {
             Some(path)
