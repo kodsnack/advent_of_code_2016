@@ -46,7 +46,8 @@ solve2 luckyN ((move, pos):states) visited
 
 main = do
     input <- readFile "d13_input.txt"
-    let answer1 = solve (31,39) 1364 [(0, (1, 1))] (fromList [(1, 1)])
+    let luckyNumber = read input :: Integer
+    let answer1 = solve (31,39) luckyNumber [(0, (1, 1))] (fromList [(1, 1)])
     let answer2 = solve2 1364 [(0, (1, 1))] (fromList [(1, 1)])
     putStrLn $ "Part one: " ++ show answer1
     putStrLn $ "Part one: " ++ show answer2
