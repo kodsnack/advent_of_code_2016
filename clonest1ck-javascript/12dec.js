@@ -83,8 +83,16 @@ function dec(regs, x) {
 }
 
 function jnz(regs, x, y, step) {
-  if(regs[x] !== 0) {
-    step = parseInt(y);
+  var xi = parseInt(x);
+
+  if(isNaN(xi)) {
+    if(regs[x] !== 0) {
+      step = parseInt(y);
+    }
+  } else {
+    if(xi !== 0) {
+      step = parseInt(y);
+    }
   }
 
   return [regs, step];
