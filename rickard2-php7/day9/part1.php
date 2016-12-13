@@ -4,7 +4,7 @@ require 'lib.php';
 
 $input = file_get_contents(dirname(__FILE__) . '/input');
 
-$parser = new Parser($input);
+$parser = new Parser1($input);
 
 $pieces = $parser->getPieces();
 
