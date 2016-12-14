@@ -16,7 +16,6 @@ lines=[]
 fo = open('02.data','r')
 for line in fo:
 	lines.append(line)
-	#print ('>%s') % line
 fo.close()
 
 # ****************************************** challenge 1 ****************************************** 
