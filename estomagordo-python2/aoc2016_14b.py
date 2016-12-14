@@ -28,12 +28,13 @@ while True:
 			
 	if quintuplet:
 		triplets = last[quintuplet]
-		while len(triplets) > 0:
+		very_big_candidate = triplets[-1]
+		while len(triplets) > 0:			
 			candidate = triplets.pop()
 			if index - candidate <= 1000:
 				keys.append(candidate)
 				if len(keys) == key_target:
-					very_big = candidate + 999
+					very_big = very_big_candidate + 999
 					
 	if index > very_big:
 		break
