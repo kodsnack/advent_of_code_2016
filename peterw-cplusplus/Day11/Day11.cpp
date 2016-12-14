@@ -289,7 +289,7 @@ void allValidMoveTwo(const State &state, int nextLevel, vector<State>& nextState
 	assert(((currLevel + 1) == nextLevel) || ((currLevel - 1) == nextLevel));
 
 	auto& ci = state.floors[state.elevator.level].items;
-	for (auto& i=ci.begin();i!=ci.end();++i)
+	for (auto i=ci.begin();i!=ci.end();++i)
 	{
 		auto j = i;
 		++j;

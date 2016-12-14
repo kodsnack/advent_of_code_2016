@@ -1,5 +1,4 @@
 
-configure_file(../Day5/md5-1.3.0/conf.h.in conf.h)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 include_directories(../Day5/md5-1.3.0)
 
