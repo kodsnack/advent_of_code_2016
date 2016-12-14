@@ -59,7 +59,8 @@ def solve(initial_state, magic_number, target_position):
                     x_group[new_y] = is_wall(new_x, new_y)
                     if x_group[new_y]:
                         continue
-                q.put(path(priority=priority_fcn(state, new_x, new_y), x=new_x, y=new_y, history=history))
+                q.put(path(priority=priority_fcn(state, new_x, new_y),
+                           x=new_x, y=new_y, history=history))
 
     # Print map
     columns = []
