@@ -1,0 +1,8 @@
+
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DNDEBUG")
+
+add_executable(Day13 Day13.cpp)
+add_custom_target(Day13-run
+  COMMAND Day13
+  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+)
