@@ -17,3 +17,4 @@ add_custom_target(Day4_p2-run
   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
   SOURCES ${Day4_p2_SOURCES}
 )
+set_target_properties(Day4_p1-run Day4_p2-run PROPERTIES EXCLUDE_FROM_ALL 1 EXCLUDE_FROM_DEFAULT_BUILD 1)
