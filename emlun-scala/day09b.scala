@@ -48,7 +48,7 @@ object Main extends App {
         solve(repeat.after, nextMultipliers, outputLength + stepsTaken)
       }
       case None => {
-        val stepSize = stepMultipliers(multipliers, input.length)._1
+        val (stepSize, _) = stepMultipliers(multipliers, input.length)
         println("Finish")
         println("Advance " + stepSize)
         outputLength + stepSize
