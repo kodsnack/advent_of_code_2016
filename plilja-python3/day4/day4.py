@@ -3,13 +3,14 @@ from collections import Counter, namedtuple
 
 Room = namedtuple('Room', 'encrypted_name sector_id checksum')
 
+
 def read_rooms():
     def parse_room(room_str):
         room_str = room_str.strip()
         parts = room_str.split('-')
         sector_id, checksum = parts[-1][:-1].split('[')
         sector_id = int(sector_id)
-        encrypted_name = '-'.join(parts[:-1]) 
+        encrypted_name = '-'.join(parts[:-1])
         return Room(encrypted_name, sector_id, checksum)
 
     def is_real_room(room):
@@ -28,8 +29,10 @@ def read_rooms():
             r += [room]
     return r
 
+
 def step1(rooms):
     return sum(map(lambda room: room.sector_id, rooms))
+
 
 def step2(rooms):
     def decrypt(room):
@@ -45,6 +48,7 @@ def step2(rooms):
         if 'northpole' in decrypt(room):
             return room.sector_id
     return -1
+
 
 rooms = read_rooms()
 print(step1(rooms))
