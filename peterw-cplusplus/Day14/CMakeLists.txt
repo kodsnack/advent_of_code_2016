@@ -1,5 +1,6 @@
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
+include_directories(${CMAKE_CURRENT_BINARY_DIR}/../Day5)
 include_directories(../Day5/md5-1.3.0)
 
 add_executable(Day14
