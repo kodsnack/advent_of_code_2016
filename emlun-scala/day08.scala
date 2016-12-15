@@ -20,7 +20,7 @@ object Main extends App {
   val instructions = for {
     line <- io.Source.stdin.getLines
     instruction = line.trim
-    words = (instruction split raw"\s+").toList
+    words = (instruction split raw"\s+|=").toList
   } yield words
 
   val finalState = instructions.foldLeft(initialState) { (state, instruction) =>
@@ -37,11 +37,11 @@ object Main extends App {
         }
       }
 
-      case List("rotate", "row", a, "by", b) =>
-        rotate(state, a.drop(2).toInt, b.toInt)
+      case List("rotate", "row", "y", rowIndex, "by", steps) =>
+        rotate(state, rowIndex.toInt, steps.toInt)
 
-      case List("rotate", "column", a, "by", b) =>
-        rotate(state.transpose, a.drop(2).toInt, b.toInt).transpose
+      case List("rotate", "column", "x", colIndex, "by", steps) =>
+        rotate(state.transpose, colIndex.toInt, steps.toInt).transpose
 
       case _ => ???
     }
