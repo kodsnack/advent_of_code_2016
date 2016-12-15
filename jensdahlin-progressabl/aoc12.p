@@ -1,10 +1,18 @@
-DEFINE VARIABLE cInstr AS CHARACTER   NO-UNDO.
-
-
 DEFINE TEMP-TABLE ttReg NO-UNDO
-    FIELD reg      AS CHARACTER
-    FIELD val     AS INTEGER.
+    FIELD reg AS CHARACTER
+    FIELD val AS INTEGER
+    INDEX id1 reg.
 
+DEFINE VARIABLE cInstr   AS CHARACTER   NO-UNDO.
+DEFINE VARIABLE iPointer AS INTEGER     NO-UNDO.
+
+DEFINE TEMP-TABLE ttInstr NO-UNDO
+    FIELD instr    AS CHARACTER
+    FIELD reg      AS CHARACTER
+    FIELD instrNum AS INTEGER
+    INDEX id1 instrNum.
+
+/* Initialize registers */
 CREATE ttReg.
 ASSIGN ttReg.reg = "a".
 
@@ -15,21 +23,10 @@ CREATE ttReg.
 ASSIGN ttReg.reg = "c".
 
 /* Part 2  - uncomment below*/
-/*
 ttReg.val = 1.
-*/
+
 CREATE ttReg.
 ASSIGN ttReg.reg = "d".
-
-DEFINE VARIABLE iPointer AS INTEGER     NO-UNDO.
-
-DEFINE TEMP-TABLE ttInstr NO-UNDO
-    FIELD instr    AS CHARACTER
-    FIELD reg      AS CHARACTER
-    FIELD instrNum AS INTEGER.
-    .
-
-     
 
 INPUT FROM "input12.txt".
 REPEAT:
@@ -47,30 +44,20 @@ REPEAT:
 END.
 INPUT CLOSE.
 
-
+/* Reset pointer */
 iPointer = 1.
+
 
 exec:
 REPEAT:
 
     FIND FIRST ttInstr WHERE ttInstr.instrNum = iPointer NO-ERROR.
     IF AVAILABLE ttInstr THEN DO:
-
-
         cInstr = ENTRY(1, ttInstr.instr, " ").
         RUN VALUE("instr-" + cInstr)  ( INPUT TRIM(SUBSTRING(ttInstr.instr, INDEX(ttInstr.instr, " "))) ). 
-    
-        /*
-        FOR EACH ttReg:
-            DISP ttReg.
-        END.
-        */
 
         IF cInstr <> "jnz" THEN
             iPointer = iPointer + 1.
-
-       
-
     END.
     ELSE 
         LEAVE exec.
@@ -80,8 +67,6 @@ END.
 FIND FIRST ttReg WHERE ttReg.reg = "a".
 
 MESSAGE "Value of reg a: " ttReg.val VIEW-AS ALERT-BOX INFO.
-
-
 
 PROCEDURE instr-cpy:
     DEFINE INPUT  PARAMETER pcData AS CHARACTER   NO-UNDO.
@@ -108,8 +93,6 @@ PROCEDURE instr-jnz:
     DEFINE INPUT  PARAMETER pcData AS CHARACTER   NO-UNDO.
 
     DEFINE VARIABLE iVal AS INTEGER     NO-UNDO.
-    
-    //DISP pcData INTEGER(TRIM(ENTRY(2, pcData, " "))).
 
     FIND FIRST ttReg WHERE ttReg.reg = TRIM(ENTRY(1, pcData, " ")) NO-ERROR.
     IF NOT AVAILABLE ttReg THEN
@@ -117,18 +100,10 @@ PROCEDURE instr-jnz:
     ELSE 
         iVal = ttReg.val.
     
-    //DISP "pre " ipointer "(" iVal ")".
-
     IF iVal <> 0 THEN
         iPointer = iPointer + INTEGER(TRIM(ENTRY(2, pcData, " "))).
     ELSE 
         iPointer = iPointer + 1.
-    
-    //    PAUSE.
-
-    //DISP "post " ipointer.
-
-
 END.
 
 PROCEDURE instr-inc:
