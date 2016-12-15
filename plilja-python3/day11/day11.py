@@ -1,19 +1,21 @@
-import sys
 import re
-from collections import *
 from math import *
+import sys
 
 microchip_re = re.compile('\w+-compatible microchip')
 generator_re = re.compile('\w+ generator')
 
+
 def step1(inp):
     return solve(parse_floors())
 
+
 def step2(inp):
     floors = parse_floors()
-    free_number = 1000 # Can be any number, as long as it doesn't clash with the ones given by parse_floors
-    floors = (floors[0] | {free_number, -free_number, free_number + 1, -free_number - 1}, ) + floors[1:]
+    free_number = 1000  # Can be any number, as long as it doesn't clash with the ones given by parse_floors
+    floors = (floors[0] | {free_number, -free_number, free_number + 1, -free_number - 1},) + floors[1:]
     return solve(floors)
+
 
 def solve(initial_floors):
     initial_floors = generify(initial_floors)
@@ -31,7 +33,7 @@ def solve(initial_floors):
 
         floor = floors[floor_nr]
         for pick in pick_one_or_two(floor):
-            floor_after = floor - pick 
+            floor_after = floor - pick
             if is_stable(floor_after):
                 # Try to take items from pick up or down one floor
                 for new_floor_nr in range(max(0, floor_nr - 1), min(4, floor_nr + 2)):
@@ -40,13 +42,14 @@ def solve(initial_floors):
                     new_floor_after = floors[new_floor_nr] | pick
                     if is_stable(new_floor_after):
                         new_floors = floors[:floor_nr] + (floor_after,) + floors[floor_nr + 1:]
-                        new_floors = new_floors[:new_floor_nr] + (new_floor_after, ) + new_floors[new_floor_nr + 1:]
+                        new_floors = new_floors[:new_floor_nr] + (new_floor_after,) + new_floors[new_floor_nr + 1:]
                         new_floors = generify(new_floors)
                         if (new_floor_nr, new_floors) not in visited:
                             visited |= {(new_floor_nr, new_floors)}
                             queue += [(dist + 1, new_floors, new_floor_nr)]
 
-    return float('inf') # unsolvable
+    return float('inf')  # unsolvable
+
 
 def parse_floors():
     floors = [frozenset() for i in range(0, 4)]
@@ -70,11 +73,13 @@ def parse_floors():
         floors[i] = (floor)
     return tuple(floors)
 
+
 def is_done(floors):
     for floor in floors[0:3]:
         if len(floor) > 0:
             return False
     return True
+
 
 def is_stable(floor):
     has_generator = False
@@ -88,6 +93,7 @@ def is_stable(floor):
                 return False
     return True
 
+
 def pick_one_or_two(floor):
     r = []
     floor_list = list(floor)
@@ -97,11 +103,14 @@ def pick_one_or_two(floor):
             r += [{floor_list[i], floor_list[j]}]
     return r
 
+
 def is_generator(item):
     return item < 0
 
+
 def is_microship(item):
     return item > 0
+
 
 def generify(floors):
     """

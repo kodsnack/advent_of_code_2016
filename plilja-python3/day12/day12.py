@@ -1,5 +1,6 @@
 import sys
 
+
 class Machine():
     def __init__(self, a, b, c, d, pc):
         self.a = a
@@ -7,16 +8,19 @@ class Machine():
         self.c = c
         self.d = d
         self.pc = pc
-        
+
+
 def step1(inp):
     instructions = parse_instructions(inp)
     m = execute(Machine(0, 0, 0, 0, 0), instructions)
     return m.a
 
+
 def step2(inp):
     instructions = parse_instructions(inp)
     m = execute(Machine(0, 0, 1, 0, 0), instructions)
     return m.a
+
 
 def parse_instructions(inp):
     if not inp:
@@ -32,7 +36,8 @@ def parse_instructions(inp):
         elif xs[0] == 'jnz':
             return [jnz(xs[1], xs[2])] + parse_instructions(inp[1:])
         else:
-            raise ValueError('Unexpected instruction [%s]' % s)
+            raise ValueError('Unexpected instruction [%s]' % inp[0])
+
 
 def execute(machine, instructions):
     while machine.pc < len(instructions):
@@ -40,32 +45,40 @@ def execute(machine, instructions):
         instruction(machine)
     return machine
 
+
 def register_or_constant(machine, unknown):
     if unknown in ('a', 'b', 'c', 'd'):
         return get_register(machine, unknown)
     else:
         return int(unknown)
 
+
 def cpy(value, register):
     def f(m):
         v = register_or_constant(m, value)
         set_register(m, register, v)
         m.pc += 1
+
     return lambda m: f(m)
+
 
 def inc(register):
     def f(m):
         v = get_register(m, register)
         set_register(m, register, v + 1)
         m.pc += 1
+
     return lambda m: f(m)
+
 
 def dec(register):
     def f(m):
         v = get_register(m, register)
         set_register(m, register, v - 1)
         m.pc += 1
+
     return lambda m: f(m)
+
 
 def jnz(value, delta):
     def f(m):
@@ -74,7 +87,9 @@ def jnz(value, delta):
             m.pc += 1
         else:
             m.pc += int(delta)
+
     return lambda m: f(m)
+
 
 def get_register(machine, register):
     if register == 'a':
@@ -87,6 +102,7 @@ def get_register(machine, register):
         return machine.d
     raise ValueError('Unexpected register %s' % register)
 
+
 def set_register(machine, register, value):
     if register == 'a':
         machine.a = value
@@ -98,6 +114,7 @@ def set_register(machine, register, value):
         machine.d = value
     else:
         raise ValueError('Unexpected register %s' % register)
+
 
 inp = sys.stdin.readlines()
 print('Step 1')

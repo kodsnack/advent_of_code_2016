@@ -1,5 +1,6 @@
-import sys
 from collections import *
+import sys
+
 
 def solve(inp):
     value_to_bot = {}
@@ -22,7 +23,7 @@ def solve(inp):
             low_to = int(instruction[6])
             high_type = instruction[10]
             high_to = int(instruction[11])
-            giveaways+= [(bot, Giveaway(bot, low_to, low_type, high_to, high_type))]
+            giveaways += [(bot, Giveaway(bot, low_to, low_type, high_to, high_type))]
 
     while giveaways:
         if 61 in value_to_bot and 17 in value_to_bot and value_to_bot[61] == value_to_bot[17]:

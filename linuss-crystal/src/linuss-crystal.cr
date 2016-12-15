@@ -29,6 +29,8 @@ OptionParser.parse! do |parser|
   parser.on("--12b FILE", "Day 12b: provide filename") { |name| puts AoC12.computeb(name) }
   parser.on("--13", "Day 13") { puts AoC13.new("1362").search({31, 39}) }
   parser.on("--13b INPUT", "Day 13b INPUT") { |input| puts puts AoC13.new("1362").reachable_in(input.to_i) }
+  parser.on("--14 INPUT", "Day 14 INPUT") { |input| puts AoC14.new(input, AoC14::MD5Iterator).at(64) }
+  parser.on("--14b INPUT", "Day 14b INPUT") { |input| puts AoC14.new(input, AoC14::StretchedMD5Iterator).at(64) }
 
   parser.on("-h", "--help", "Show this help") { puts parser }
 end
