@@ -9,7 +9,7 @@ All data needed to execute the solutions are commited. The code are all in one f
 
 Example: 
 ```
-./python 01.py
+python 01.py
 
 ```
 
