@@ -33,6 +33,8 @@ OptionParser.parse! do |parser|
   parser.on("--14b INPUT", "Day 14b INPUT") { |input| puts AoC14.new(input, AoC14::StretchedMD5Iterator).at(64) }
   parser.on("--15 FILE", "Day 15 INPUT") { |name| puts AoC15.process name }
   parser.on("--15b FILE", "Day 15b INPUT") { |name| puts AoC15.process11 name }
+  parser.on("--16 INPUT", "Day 16 INPUT") { |input| puts AoC16.new(input).generate(272) }
+  parser.on("--16b INPUT", "Day 16b INPUT") { |input| puts AoC16.new(input).generate(35651584) }
 
   parser.on("-h", "--help", "Show this help") { puts parser }
 end
