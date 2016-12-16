@@ -40,7 +40,7 @@ namespace AdventOfCode
                         day4.Run();
                         break;
                     case "5":
-                        Day5 day5 = new Day4();
+                        Day5 day5 = new Day5();
                         day5.Run();
                         break;
                     case "0":
