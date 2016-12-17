@@ -1,5 +1,7 @@
 #include <stdlib.h>
 
+#define Vector_as_array(type, v) ((type*)Vector_data(v))
+
 typedef struct VectorS *Vector;
 
 void Vector_push(Vector v, void* data);
