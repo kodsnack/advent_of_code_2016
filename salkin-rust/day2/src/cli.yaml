@@ -1,0 +1,12 @@
+name: Day1
+version: "1.0"
+args:
+  - help:
+      short: h
+      long: help
+      help: Show the help
+  - moves:
+      short: m
+      long: moves
+      help: The moves to make in space separated list with Rx Lx where x is a number.
+      takes_value: true

@@ -1,0 +1,14 @@
+[package]
+name = "day3"
+version = "0.1.0"
+authors = ["Wik Niklas Peter Jakob <niklas.wik@nsn.com>"]
+
+[features]
+yaml = []
+
+[dependencies.clap]
+features = ["yaml"]
+version = "2.*"
+
+[dependencies.input]
+path = "../input"
