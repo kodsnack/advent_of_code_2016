@@ -9,29 +9,25 @@ class Day17 {
 
     public function execute()
     {
-
         $map = new Map($this->getInput());
         $map->solve();
-        $this->setResult1((string) $map->path);
 
-        $map = new Map($this->getInput(), true);
-        $map->solve();
-        $this->setResult2((string) $map->steps);
+        $this->setResult1((string) $map->path)
+             ->setResult2((string) $map->longest);
     }
 }
 
 class Map {
 
     private $passcode;
-    private $longest = false;
 
-    public $steps = 0;
-    public $path = "";
+    public $steps   = 0;
+    public $longest = 0;
+    public $path    = "";
 
-    public function __construct(string $passcode, bool $longest = false)
+    public function __construct(string $passcode)
     {
         $this->passcode   = $passcode;
-        $this->longest    = $longest;
         $this->directions = [
             'R' => [1,  0],
             'D' => [0,  1],
@@ -49,29 +45,23 @@ class Map {
         $heap->insert([$startX,$startY,0, ""]);
 
         while(true) {
-            if($heap->isEmpty()) {
-                break;
-            }
+            if($heap->isEmpty()) break;
 
             list($x, $y, $steps, $path) = $heap->extract();
 
             if($x == $endX && $y == $endY) {
-                $this->path = $path;
-                $this->steps = $steps;
-
-                if($this->longest) {
-                    if($this->steps < $steps) $this->steps = $steps;
-                    continue;
-                } else {
-                    break;
+                if(empty($this->path)) {
+                    $this->path = $path;
+                    $this->steps = $steps;
                 }
+                if($this->longest < $steps) $this->longest = $steps;
+                continue;
             }
 
             $steps += 1;
             $doors = $this->doors($path);
 
             foreach($this->directions as $direction => $move) {
-
                 if($doors[$direction] == 0) continue;
 
                 $dirX = $x + $move[0];
