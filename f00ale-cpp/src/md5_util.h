@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <array>
 #include <cstring>
+#include <algorithm>
 
 namespace md5 {
 
@@ -32,61 +33,68 @@ constexpr std::array<uint32_t, 64> K{{
   0xf7537e82, 0xbd3af235, 0x2ad7d2bb, 0xeb86d391
 }};
 
-
-// reduced md5sum
-// only returns first 32 bits of diegest
-// only handles up to 55 bytes of data (+1 padding and len = 64 bytes
-std::array<uint32_t,4> md5(const void * data, const unsigned int ilen) {
+std::array<uint32_t,4> md5(const char * data, unsigned int len) {
   uint32_t a0 = 0x67452301;
   uint32_t b0 = 0xefcdab89;
   uint32_t c0 = 0x98badcfe;
   uint32_t d0 = 0x10325476;
 
-  if(ilen > 55) return {{0xdeadbeef,0,0,0}};
-
-  unsigned char message[64];
-  memset(message, 0, 64);
-  memcpy(message, data, ilen);
-  message[ilen] = 0x80;
-  uint64_t clen = 8*ilen;
-  memcpy(message+56, &clen, 8);
-
-  uint32_t M[16];
-  memcpy(M, message, 64);
-
-  uint32_t A = a0;
-  uint32_t B = b0;
-  uint32_t C = c0;
-  uint32_t D = d0;
-
-  for(int i = 0; i < 64; i++) {
-    uint32_t F;
-    int g;
-    if(i < 16) {
-      F = (B&C) | ((~B)&D);
-      g = i;
-    } else if(i < 32) {
-      F = (D&B) | ((~D)&C);
-      g = (5*i + 1) & 0xf;
-    } else if(i < 48) {
-      F = B ^ C ^ D;
-      g = (3*i + 5) & 0xf;
-    } else {
-      F = C ^ (B | (~D));
-      g = (7*i) & 0xf;
+  const uint64_t clen = 8*len;
+  bool lenset = false, oneset = false;
+  int offset = 0;
+  while(len || !oneset || !lenset) {
+    unsigned char message[64];
+    memset(message, 0, 64);
+    auto ilen = std::min(64u, len);
+    memcpy(message, data+offset, ilen);
+    len -= ilen;
+    offset += ilen;
+    if(ilen < 64 && !oneset) {
+      message[ilen] = 0x80;
+      oneset = true;
     }
-    uint32_t tmp = D;
-    D = C;
-    C = B;
-    uint32_t rtmp = A + F + K[i] + M[g];
-    B = B + ((rtmp << s[i]) | (rtmp >> (32-s[i])));
-    A = tmp;
-  }
+    if(ilen < 56 && !lenset) {
+      memcpy(message+56, &clen, 8);
+      lenset = true;
+    }
 
-  a0 += A;
-  b0 += B;
-  c0 += C;
-  d0 += D;
+    uint32_t M[16];
+    memcpy(M, message, 64);
+
+    uint32_t A = a0;
+    uint32_t B = b0;
+    uint32_t C = c0;
+    uint32_t D = d0;
+
+    for(int i = 0; i < 64; i++) {
+      uint32_t F;
+      int g;
+      if(i < 16) {
+        F = (B&C) | ((~B)&D);
+        g = i;
+      } else if(i < 32) {
+        F = (D&B) | ((~D)&C);
+        g = (5*i + 1) & 0xf;
+      } else if(i < 48) {
+        F = B ^ C ^ D;
+        g = (3*i + 5) & 0xf;
+      } else {
+        F = C ^ (B | (~D));
+        g = (7*i) & 0xf;
+      }
+      uint32_t tmp = D;
+      D = C;
+      C = B;
+      uint32_t rtmp = A + F + K[i] + M[g];
+      B = B + ((rtmp << s[i]) | (rtmp >> (32-s[i])));
+      A = tmp;
+    }
+
+    a0 += A;
+    b0 += B;
+    c0 += C;
+    d0 += D;
+  }
 
   return {{a0,b0,c0,d0}};
 }
