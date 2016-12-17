@@ -11,29 +11,30 @@ class AoC17
   end
 
   def search
-    pos = initial = {Complex.new(0, 0), ""}
-    @queue << initial
-    while @queue.any?
-      pos, path = @queue.shift
-      return path if pos == Complex.new(3, 3)
-      @queue.concat moves(pos, path)
+    paths do |path|
+      return path
     end
-    nil
   end
 
   def longest
     longest = nil
+    paths do |path|
+      longest = path
+    end
+    longest.size if longest
+  end
+
+  def paths
     pos = initial = {Complex.new(0, 0), ""}
     @queue << initial
     while @queue.any?
       pos, path = @queue.shift
       if pos == Complex.new(3, 3)
-        longest = path
+        yield path
       else
         @queue.concat moves(pos, path)
       end
     end
-    longest.size if longest
   end
 
   def moves(pos, path)
