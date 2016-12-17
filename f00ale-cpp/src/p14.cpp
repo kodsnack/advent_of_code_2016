@@ -3,23 +3,12 @@
 #include <array>
 #include <vector>
 
-#include "p14_md5.h"
-
-std::array<char, 32> md52str(std::array<uint32_t,4> in) {
-  std::array<char, 32> ret;
-  for(int i = 0; i < 4; i++) {
-    for(int j = 0; j < 8; j++) {
-      auto nib = (in[i] >> ((j+((j&1)?-1:1))*4)) & 0xf;
-      ret[8*i+j] = nib < 10 ? (nib+'0') : (nib-10+'a');
-    }
-  }
-  return ret;
-}
+#include "md5_util.h"
 
 std::array<char, 32> do_hash(const char * data, const unsigned int len, int extra) {
-  std::array<char, 32> ret = md52str(reduced_md5(data, len));
+  std::array<char, 32> ret = md5::tochars(md5::md5(data, len));
   while(extra--) {
-    ret = md52str(reduced_md5(ret.data(), ret.size()));
+    ret = md5::tochars(md5::md5(ret.data(), ret.size()));
   }
   return ret;
 }

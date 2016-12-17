@@ -3,6 +3,8 @@
 #include <array>
 #include <cstring>
 
+namespace md5 {
+
 // tables from wikipedia
 constexpr std::array<uint32_t, 64> s{{
   7, 12, 17, 22,  7, 12, 17, 22,  7, 12, 17, 22,  7, 12, 17, 22,
@@ -34,7 +36,7 @@ constexpr std::array<uint32_t, 64> K{{
 // reduced md5sum
 // only returns first 32 bits of diegest
 // only handles up to 55 bytes of data (+1 padding and len = 64 bytes
-std::array<uint32_t,4> reduced_md5(const void * data, const unsigned int ilen) {
+std::array<uint32_t,4> md5(const void * data, const unsigned int ilen) {
   uint32_t a0 = 0x67452301;
   uint32_t b0 = 0xefcdab89;
   uint32_t c0 = 0x98badcfe;
@@ -87,4 +89,17 @@ std::array<uint32_t,4> reduced_md5(const void * data, const unsigned int ilen) {
   d0 += D;
 
   return {{a0,b0,c0,d0}};
+}
+
+std::array<char, 32> tochars(std::array<uint32_t,4> in) {
+  std::array<char, 32> ret;
+  for(int i = 0; i < 4; i++) {
+    for(int j = 0; j < 8; j++) {
+      auto nib = (in[i] >> ((j+((j&1)?-1:1))*4)) & 0xf;
+      ret[8*i+j] = nib < 10 ? (nib+'0') : (nib-10+'a');
+    }
+  }
+  return ret;
+}
+
 }
