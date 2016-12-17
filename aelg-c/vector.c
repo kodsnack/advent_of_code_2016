@@ -37,6 +37,15 @@ void* Vector_data(Vector v){
   return v->data;
 }
 
+Vector Vector_copy(Vector v){
+  Vector vv = malloc(sizeof(struct VectorS));
+  *vv = *v;
+  vv->data = malloc(v->real_length);
+  memcpy(vv->data, v->data, v->real_length);
+  return vv;
+}
+
+
 // Char vector
 Vector Vector_create_char(void){
   return Vector_create(sizeof(char));
