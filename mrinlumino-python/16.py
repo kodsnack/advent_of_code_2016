@@ -35,13 +35,6 @@ while len(dragonString) < discSize:
 	dragonString = dragonString + '0' + reverseString
 
 
-# # Calculate the complete data string
-# dataString = ''
-# while len(dataString)<discSize:
-# 	dataString += dragonString
-
-
-
 # Trim the data string if necessary
 if len(dragonString)> discSize: dragonString = dragonString[:discSize]
 
