@@ -1,0 +1,44 @@
+/* Advent of code, day 14, puzzle 2
+   As in part 1, but hash each hash 2016 times */
+import java.security.MessageDigest
+import javax.xml.bind.DatatypeConverter
+options binary
+
+input = 'jlmsuwbz'
+md5 = MessageDigest.getInstance('MD5')
+found = 0
+
+loop nr = 0 until found = 64
+	message = input || nr
+	loop for 2016+1
+		hash = md5.digest(message.getBytes)
+		message = DatatypeConverter.printHexBinary(hash).toLowerCase
+		end
+	what = findthree(message).lower
+	if what \= '' then do
+		loop m = nr + 1 to nr + 1001
+			message = input || m
+			loop for 2016 + 1
+				hash = md5.digest(message.getBytes)
+				message = DatatypeConverter.printHexBinary(hash).toLowerCase
+				end
+			if findfiveof(message,what) then do
+				found = found + 1
+				leave
+				end
+			end
+		end
+	end
+
+say nr
+
+method findthree(hexstr) static 
+	loop while hexstr \= ''
+		parse hexstr needle +1 hexstr
+		if hexstr.substr(1,2) == needle.copies(2) then return needle
+		end
+	return ''
+
+method findfiveof(hexstr, digit) static
+	needle = digit.copies(5)
+	return hexstr.pos(needle) > 0
