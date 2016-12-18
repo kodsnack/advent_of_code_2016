@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace AdventOfCode.Days
@@ -24,22 +25,21 @@ namespace AdventOfCode.Days
 
             foreach (var row in rows)
             {
-                List<string> parts = row.Split('-').ToList();
-                string checksum = parts.Last().Substring(parts.Last().IndexOf('[') + 1, 5);
-                int sectorID = int.Parse(parts.Last().Substring(0, parts.Last().IndexOf('[')));
-                parts.RemoveAt(parts.Count - 1);
-
-                string letters = "";
-                parts.ForEach(x => letters += x);
+                string checksum = String.Join("", Regex.Split(row, @"^.*\[|\]"));
+                string letters = String.Join("",Regex.Split(row, @"\-\d.*\]")).Replace('-',' ');
+                int sectorID = int.Parse(String.Join("",Regex.Split(row, @"\D")));
 
                 foreach(char x in letters)
                 {
-                    if (charCounts.ContainsKey(x))
+                    if(x!=' ')
                     {
-                        charCounts[x] += 1;
+                        if (charCounts.ContainsKey(x))
+                        {
+                            charCounts[x] += 1;
+                        }
+                        else
+                            charCounts.Add(x, 1);
                     }
-                    else
-                        charCounts.Add(x, 1);
                 }
 
                 var orderedDictionary = charCounts
@@ -61,7 +61,7 @@ namespace AdventOfCode.Days
                 charCounts = new Dictionary<char, int>();
 
                 ///4B - Find north pole
-                string encrypted = String.Join(" ", parts.ToArray());
+                string encrypted = letters;
                 StringBuilder decrypted = new StringBuilder(encrypted);
 
                 for(int i = 0; i < sectorID; i++)
