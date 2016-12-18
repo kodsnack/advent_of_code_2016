@@ -8,7 +8,6 @@ namespace AdventOfCode.Days
 {
     class Day6
     {
-        private char[,] data;
         private Dictionary<char,int> letters;
         List<string> rows;
         StringBuilder sb1; //6A
