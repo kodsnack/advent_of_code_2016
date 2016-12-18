@@ -9,6 +9,7 @@ namespace AdventOfCode.Days
     class Day1
     {
         string map="";
+        int crossedWaypoint;
 
         List<string> mapSplit;
 
@@ -60,7 +61,7 @@ namespace AdventOfCode.Days
                     if (visitedPoints.Contains(waypoint) && !found)
                     {
                         found = true;
-                        Console.WriteLine("1B: " + (Math.Abs(x) + Math.Abs(y)));
+                        crossedWaypoint = Math.Abs(x) + Math.Abs(y);
                     }
                     else
                     {
@@ -70,7 +71,8 @@ namespace AdventOfCode.Days
                 length = 0;
             }
 
-            Console.WriteLine("1A: "+(Math.Abs(x)+Math.Abs(y)));          
+            Console.WriteLine("1A: "+(Math.Abs(x)+Math.Abs(y)));
+            Console.WriteLine("1B: " + crossedWaypoint);          
         }
     }
 }
