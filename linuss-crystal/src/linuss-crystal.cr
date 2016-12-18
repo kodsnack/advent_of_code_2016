@@ -37,6 +37,8 @@ OptionParser.parse! do |parser|
   parser.on("--16b INPUT", "Day 16b INPUT") { |input| puts AoC16.new(input).generate(35651584) }
   parser.on("--17 INPUT", "Day 17 INPUT") { |input| puts AoC17.new(input).search }
   parser.on("--17b INPUT", "Day 17b INPUT") { |input| puts AoC17.new(input).longest }
+  parser.on("--18 INPUT", "Day 18 INPUT") { |input| puts AoC18.new.safe(input) }
+  parser.on("--18b INPUT", "Day 18b INPUT") { |input| puts AoC18.new.safebig(input) }
 
   parser.on("-h", "--help", "Show this help") { puts parser }
 end
