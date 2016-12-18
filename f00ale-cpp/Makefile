@@ -1,6 +1,7 @@
 Q:=@
 SRCS:=$(sort $(wildcard src/*.cpp))
-OBJS:=$(addprefix .obj/,$(SRCS:.cpp=.o))
+TSTS:=$(sort $(wildcard test/*.cpp))
+OBJS:=$(addprefix .obj/,$(SRCS:.cpp=.o) $(TSTS:.cpp=.o))
 OBJS_Q:=$(addprefix .obj/q,$(SRCS:.cpp=.o))
 OUTS:=$(addprefix .out/,$(SRCS:.cpp=))
 CXXFLAGS:=-std=gnu++14 -O3 -MMD -Wall -Wextra

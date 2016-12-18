@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "quick.h"
-#include "p05_md5.h"
+#include "md5_util.h"
 
 const char data[] = "uqwqemis";
 bool cinematic = true;
@@ -20,7 +20,7 @@ int main() {
   while(found < 8) {
     std::string s(data);
     s += std::to_string(i);
-    auto r = reduced_md5(s.c_str(), s.length());
+    auto r = md5::md5(s.c_str(), s.length())[0];
     if((r & 0xf8ffff) == 0) {
       auto pos = ((r&0x70000)>>16);
       auto tmp = ((r&0xf0000000)>>28);
