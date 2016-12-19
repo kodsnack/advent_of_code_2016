@@ -1,4 +1,4 @@
-/* Advent of code, day 5, puzzle 1
+/* Advent of code, day 5, puzzle 2
    Given a string, append an ascending number to that string
    and calculate its MD5 hash. If the hash's hexadecimal
    representation begins with five zeros, the sixth digit

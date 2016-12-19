@@ -18,8 +18,3 @@ end
 syntax:
 say total
 exit
-
-
-say 'Fel på rad' sigl
-say total
-return
