@@ -1,0 +1,8 @@
+[package]
+name = "day6"
+version = "0.1.0"
+authors = ["Niklas Wik <niklas.wik@nokia.com>"]
+
+[dependencies.input]
+path = "../input"
+
