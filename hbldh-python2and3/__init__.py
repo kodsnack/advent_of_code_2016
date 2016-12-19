@@ -45,6 +45,6 @@ if __name__ == "__main__":
     if args.day:
         days = map(int, args.day)
     else:
-        days = range(1, 14)
+        days = range(1, 20)
 
     main(days)
