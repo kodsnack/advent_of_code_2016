@@ -12,14 +12,13 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import absolute_import
 
-import time
+from collections import deque
 
 try:
     _range = xrange
-    PY2 = True
+
 except NameError:
     _range = range
-    PY2 = False
 
 
 with open('input_19.txt', 'r') as f:
@@ -35,24 +34,21 @@ def find_last_elf_part_1(n):
 print("[Part 1] Last elf standing: {0}".format(find_last_elf_part_1(int(data))))
 
 
-def find_last_elf_part_2(n, print_progress=False):
-    elfs = list(range(1, n + 1))
-    i = 0
-    iters = 0
-    print_every = n // 100
+def find_last_elf_part_2(n):
+    thief_index = 0
+    last_victim_distance = 0
+    elfs = deque(_range(1, n+1))
     while len(elfs) > 1:
-        j = (i + (len(elfs) // 2)) % len(elfs)
-        elfs.pop(j)
-        i = (i + 1) % len(elfs) if i < j else i % len(elfs)
-        iters += 1
-        if print_progress and iters > print_every:
-            print('{:2.1f} % of the elfs left...'.format((len(elfs) / float(n) * 100)))
-            iters = 0
-    return elfs[0]
+        victim_distance = (thief_index + (len(elfs) // 2)) % len(elfs)
+        elfs.rotate(-(victim_distance - last_victim_distance))
+        elfs.popleft()
+        last_victim_distance = victim_distance
+        thief_index = (thief_index + 1) % len(elfs) if thief_index < victim_distance else thief_index % len(elfs)
+    return elfs.popleft()
 
-t = time.time()
-print("[Part 2] Last elf standing: {0}".format(find_last_elf_part_2(int(data), True)))
-print("Computation time: {0:.2f} s".format(time.time() - t))
+print("[Part 2] Last elf standing: {0}".format(find_last_elf_part_2(int(data))))
+
+
 
 
 
