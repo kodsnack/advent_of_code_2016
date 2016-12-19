@@ -35,4 +35,5 @@ The exceptions to this are
 | December 13 | Takes the office designer's favourite number as command line argument |
 | December 14 | Takes the salt as command line argument                               |
 | December 16 | Takes the input as command line argument                              |
+| December 19 | Takes the input as command line argument                              |
 |-------------+-----------------------------------------------------------------------|
