@@ -10,7 +10,7 @@ def gcd(a, b):
 
 
 def lcd(a, b):
-    return a * b / gcd(a, b)
+    return a * b // gcd(a, b)
 
 
 def extended_gcd(a, b):
