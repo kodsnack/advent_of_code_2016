@@ -41,6 +41,8 @@ OptionParser.parse! do |parser|
   parser.on("--18b INPUT", "Day 18b INPUT") { |input| puts AoC18.new.safebig(input) }
   parser.on("--19 INPUT", "Day 19 INPUT") { |input| puts AoC19.new(input.to_i).steal }
   parser.on("--19b INPUT", "Day 19b INPUT") { |input| puts AoC19.new(input.to_i).steal_opposite }
+  parser.on("--20 FILE", "Day 20 NAME") { |name| puts AoC20.find name }
+  parser.on("--20b FILE", "Day 20b NAME") { |name| puts AoC20.count name }
 
   parser.on("-h", "--help", "Show this help") { puts parser }
 end
