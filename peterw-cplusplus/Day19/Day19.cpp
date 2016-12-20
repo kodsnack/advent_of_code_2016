@@ -43,10 +43,59 @@ int playElephant(int numElves)
 
 }
 
+
+int playElephantPart2(int numElves)
+{
+	list<int> elves;
+	for(int i = 0;i<numElves;++i)
+	{
+		elves.push_back(i+1);
+	}
+
+	auto stealerElve = elves.begin();
+	auto stolenElve = elves.begin();
+	for(int i = 0;i<numElves/2;++i)
+		++stolenElve;
+
+	int stealerElveIndex = 0;
+	int stolenElveIndex = numElves/2;
+	while(numElves>1)
+	{
+		int stealFrom = (stealerElveIndex+numElves/2)%numElves;
+		while(stolenElveIndex!=stealFrom)
+		{
+			++stolenElve;
+			if(stolenElve==elves.end())
+			{
+				stolenElve = elves.begin();
+			}
+			stolenElveIndex = (stolenElveIndex+1)%numElves;
+		}
+
+		stolenElve = elves.erase(stolenElve);
+		if(stolenElve==elves.end())
+			stolenElve = elves.begin();
+		--numElves;
+		++stealerElve;
+		if(stealerElve==elves.end())
+		{
+			stealerElve = elves.begin();
+		}
+		if(stealFrom<stealerElveIndex)
+		{
+		} else
+		{
+			stealerElveIndex++;
+		}
+		stealerElveIndex = stealerElveIndex % numElves;
+	}
+	return *(elves.begin());
+}
 #define TEST(x) { if(!(x)) { cerr << "Test Fail!! at line " << __LINE__ << endl;  assert(0); } }
 void unitTest()
 {
 	TEST(playElephant(5) == 3);
+	TEST(playElephantPart2(5)==2);
 }
 
 
@@ -54,13 +103,13 @@ int main()
 {
 //	unitTest();
 
-	//// Part 1
+	// Part 1
 	auto r1 = playElephant(3014603);
 	cout << "Day 19 part 1 answer: " << r1 << endl;
 
 	// Part 2
-	//auto r2 = playElephantPart2(3014603);
-	//cout << "Day 19 part 2 answer: " << r2 << endl;
+	auto r2 = playElephantPart2(3014603);
+	cout << "Day 19 part 2 answer: " << r2 << endl;
 
 	return 0;
 }
