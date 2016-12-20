@@ -75,25 +75,58 @@ class Display:
                 newStep = i + steps - self.width
                 self.matrix[row][newStep]='*'
 
-    def draw(self):
+    def draw(self, off = '.', on = '*'):
         out = ''
         for row in self.matrix:
             out += ''.join(row)
+            out = out.replace('.', off)
+            out = out.replace('*', on)
             out += '\n'
         print(out, end='\n')#'\r' for update in place
+
     def lit(self):
         return self.__countLit()
 
+def readFile(fileName):
+    data = []
+    file = open(fileName, 'r')
+    for line in file:
+        data.append(line.strip())
+    return data
+
+def parseDisplayInstructions(instructions, display):
+    for line in instructions:
+        #display.draw()
+        line = line.split(' ')
+        if line[0][1] == 'e':
+            # print(line)
+            x, y = line[1].split('x')
+            # print('X: ' + x)
+            # print('Y: ' + y)
+            display.rect(int(x),int(y))
+        else:
+            if line[1][0] == 'r':
+                row = int(line[2][2:])
+                # print(line)
+                steps = int(line[-1])
+                # print(steps)
+                display.rotateRow(row, steps)
+            else:
+                column = int(line[2][2:])
+                steps = int(line[-1])
+                display.rotateColumn(column, steps)
+
 def main():
     d = Display()
-
+    data = readFile('input8.txt')
+    parseDisplayInstructions(data, d)
     # d.rect(3,2)
     # d.draw()
     # d.rotateColumn(2,8)
     # d.draw()
     # d.rotateRow(0, 51)
-    # d.draw()
-    #print(d.lit())
+    d.draw(' ', '#')
+    print(d.lit())
 pass
 
 
