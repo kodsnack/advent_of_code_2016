@@ -28,3 +28,7 @@ for o in input:
             r[int(o[1][2])] = col[i]
         
 print 'Part 1:', sum([1 if e=='#' else 0 for r in screen for e in r])
+
+print 'Part 2:'
+for r in screen:
+    print ''.join(r)
