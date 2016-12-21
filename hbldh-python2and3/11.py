@@ -6,6 +6,9 @@ Advent of Code, Day 11
 
 Author: hbldh <henrik.blidh@nedomkull.com>
 
+This is a modified version of original solution,
+speeding it up by factor 10.
+
 """
 
 from __future__ import division
@@ -14,96 +17,105 @@ from __future__ import absolute_import
 
 import re
 import time
-from collections import namedtuple
-from itertools import combinations
-try:
-    from queue import PriorityQueue
-except ImportError:
-    from Queue import PriorityQueue
+from itertools import combinations, chain
 
-state_tuple = namedtuple('state', ['d', 'e', 'F1', 'F2', 'F3', 'F4'])
+from heapq import heappop, heappush
 
-
-data_1 = """
-The first floor contains a thulium generator, a thulium-compatible microchip, a plutonium generator, and a strontium generator.
-The second floor contains a plutonium-compatible microchip and a strontium-compatible microchip.
-The third floor contains a promethium generator, a promethium-compatible microchip, a ruthenium generator, and a ruthenium-compatible microchip.
-The fourth floor contains nothing relevant.
-"""
-initial_state_1 = state_tuple(d=0, e='F1', F1=['thG', 'thM', 'plG', 'stG'], F2=['plM', 'stM'], F3=['prG', 'prM', 'ruG', 'ruM'], F4=[])
-
-data_2 = """
-The first floor contains a thulium generator, a thulium-compatible microchip, a plutonium generator, a strontium generator, an elerium generator, an elerium-compatible microchip, a dilithium generator, and a dilithium-compatible microchip.
-The second floor contains a plutonium-compatible microchip and a strontium-compatible microchip.
-The third floor contains a promethium generator, a promethium-compatible microchip, a ruthenium generator, and a ruthenium-compatible microchip.
-The fourth floor contains nothing relevant.
-"""
-initial_state_2 = state_tuple(d=0, e='F1', F1=['thG', 'thM', 'plG', 'stG', 'elG', 'elM', 'diG', 'diM'], F2=['plM', 'stM'], F3=['prG', 'prM', 'ruG', 'ruM'], F4=[])
-
-
-def is_valid(s):
-    for floor in [getattr(s, 'F1'), getattr(s, 'F2'), getattr(s, 'F3'), getattr(s, 'F4')]:
-        generators = [x for x in floor if x.endswith('G')]
-        if len(generators):
-            for e in floor:
-                if e[-1] == 'M':
-                    if e[:2] + 'G' not in generators:
-                        return False
-    return True
+with open('input_11.txt', 'r') as f:
+    data = f.read().strip()
 
 
 def hash_state(s):
-    return hash((s.e, tuple(sorted(s.F1)), tuple(sorted(s.F2)),
-                tuple(sorted(s.F3)), tuple(sorted(s.F4))))
+    return hash(tuple(s[1]))
 
 
-def get_possible_moves(s):
-    possible_moves = []
-    current_floor_contents = getattr(s, s.e)
-    for components_to_move in list(combinations(current_floor_contents, 1)) + list(combinations(current_floor_contents, 2)):
-        for new_floor in [int(s.e[1]) - 1, int(s.e[1]) + 1]:
-            if new_floor < 1 or new_floor > 4:
-                continue
-            s_move = state_tuple(**{
-                'd': s.d + 1,
-                'e': "F{0}".format(new_floor),
-                'F1': s.F1[:],
-                'F2': s.F2[:],
-                'F3': s.F3[:],
-                'F4': s.F4[:]
-            })
-            for c in components_to_move:
-                getattr(s_move, s.e).remove(c)
-                getattr(s_move, s_move.e).append(c)
-            if is_valid(s_move):
-                possible_moves.append(s_move)
-    return possible_moves
+class Solver(object):
 
+    def __init__(self, data):
+        self.all_elements = re.findall('([\w]*) generator', data, re.M)
+        self.mapping = {}
+        self.mchips = []
+        self.gens = []
+        self.valid_dict = {}
 
-def solve(data, initial_state):
-    q = PriorityQueue()
-    q.put(initial_state)
-    elements = re.findall('(\w*) generator', data, re.M)
-    visited = {}
+        # Create bitmask for object.
+        for i, element in enumerate(self.all_elements):
+            self.mapping["{0} generator".format(element)] = 2 ** (i * 2)
+            self.mapping["{0}-compatible microchip".format(element)] = 2 ** ((i * 2) + 1)
+            self.gens.append(2 ** (i * 2))
+            self.mchips.append(2 ** ((i * 2) + 1))
+        self.G = sum(self.gens)
+        self.components = tuple(sorted(self.mapping.values()))
 
-    while q.qsize() > 0:
-        state = q.get()
-        if len(state.F4) == len(elements) * 2 and state.e == 'F4':
-            break
-        else:
-            for changed_state in get_possible_moves(state):
-                h = hash_state(changed_state)
-                if h not in visited:
-                    q.put(changed_state)
-                    visited[h] = 1
-    return state
+        self.initial_setup = [1, 0, 0, 0, 0]
+        for i, floor_start in enumerate(data.strip().splitlines()):
+            generators = re.findall('([\w]* generator)', floor_start)
+            for g in generators:
+                self.initial_setup[i + 1] += self.mapping[g]
+            microchip = re.findall('(\w*-compatible microchip)', floor_start)
+            for m in microchip:
+                self.initial_setup[i + 1] += self.mapping[m]
+
+    def isvalid(self, v):
+        valid = self.valid_dict.get(v)
+        if valid is None:
+            valid = True
+            for m in self.mchips:
+                if v & m:
+                    # Chip is present.
+                    if v & (m >> 1):
+                        # Own generator present. No danger.
+                        continue
+                    if v & self.G:
+                        # Other generators present. Fried chip.
+                        valid = False
+                        break
+            self.valid_dict[v] = valid
+        return valid
+
+    def get_possible_moves(self, source_state):
+        distance, s = source_state
+        current_floor_contents = list(filter(None, [s[s[0]] & c for c in self.components]))
+        floors = [s[0] + 1, ] if s[0] == 1 else [s[0] - 1, ] if s[0] == 4 else [s[0] + 1, s[0] - 1]
+        for components_to_move in chain(combinations(current_floor_contents, 1),
+                                        combinations(current_floor_contents, 2)):
+            for new_floor in floors:
+                s_move = s[:]
+                s_move[0] = new_floor
+                c = sum(components_to_move)
+                s_move[new_floor] += c
+                s_move[s[0]] -= c
+                if self.isvalid(s_move[new_floor]) and self.isvalid(s_move[s[0]]):
+                    yield [distance + 1, s_move]
+
+    def run(self):
+        q = []
+        heappush(q, [0, self.initial_setup])
+        visited = {}
+        completed = sum(self.mapping.values())
+
+        while len(q) > 0:
+            state = heappop(q)
+            if state[1][-1] == completed and state[1][0] == 4:
+                break
+            else:
+                for changed_state in self.get_possible_moves(state):
+                    h = hash_state(changed_state)
+                    if h not in visited:
+                        heappush(q, changed_state)
+                        visited[h] = 1
+        return state
+
 
 t = time.time()
-solution_1 = solve(data_1, initial_state_1)
-print("[Part 1] Minimum number of steps: {0} (Runtime: {1:.2f} s)".format(solution_1.d, time.time() - t))
+solution_1 = Solver(data).run()
+print("[Part 1] Minimum number of steps: {0} (Runtime: {1:.2f} s)".format(solution_1[0], time.time() - t))
 
 t = time.time()
-print("N.B. Runtime of part 2 is at least 15 minutes...")
-solution_2 = solve(data_2, initial_state_2)
-print("[Part 2] Minimum number of steps: {0} (Runtime: {1:.2f} s)".format(solution_2.d, time.time() - t))
+print("N.B. Runtime of part 2 is at least 3 minutes...")
+data = data.replace('and a strontium generator.', 'a strontium generator. an elerium generator, an elerium-compatible microchip, a dilithium generator, and a dilithium-compatible microchip.')
+solution_2 = Solver(data).run()
+print("[Part 2] Minimum number of steps: {0} (Runtime: {1:.2f} s)".format(solution_2[0], time.time() - t))
+
+
 
