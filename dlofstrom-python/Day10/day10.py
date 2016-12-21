@@ -24,9 +24,12 @@ def give(bot, value):
     bots[bot].append(value)
     if len(bots[bot])==2:
         if min(bots[bot]) == 17 and max(bots[bot]) == 61:
-            print bot
+            print 'Part 1:', bot
         give(logic[bot][0], min(bots[bot]))
         give(logic[bot][1], max(bots[bot]))
         
 for b,v in start:
     give(b, v)
+
+#Part 2
+print 'Part 2:', bots['output 0'][0]*bots['output 1'][0]*bots['output 2'][0]
