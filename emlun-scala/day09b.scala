@@ -1,44 +1,62 @@
 object Main extends App {
 
-  val repeatPattern = raw"^\((\d+)x(\d+)\)".r.unanchored
+  val repeatPattern = raw"\((\d+)x(\d+)\)".r
 
-  var input = io.Source.stdin.getLines map (_.trim) mkString ""
-  var outputLength: Long = 0
-  var multipliers: List[(Int, Int)] = Nil // (length, multiplier)
+  case class Multiplier(length: Int, magnitude: Int) {
+    def decay: Option[Multiplier] =
+      if (length > 1) Some(Multiplier(length - 1, magnitude))
+      else None
+  }
 
-  println("in length " + input.length)
-  println("out length " + outputLength)
-  println()
-
-  while (input.length > 0) {
-    input match {
-      case repeatPattern(numChars, times) => {
-        val matchLength = (repeatPattern findFirstIn input).get.length
-        input = input drop matchLength
-
-        multipliers = multipliers map { case (length, multiplier) => (length - matchLength, multiplier) }
-        multipliers = multipliers filter { case (length, multiplier) => length > 0 }
-        multipliers = multipliers :+ (numChars.toInt, times.toInt)
-      }
-
-      case _ => {
-        val matchLength = 1
-        outputLength += multipliers.foldLeft(1) { (result, mult) => result * mult._2 }
-        multipliers = multipliers map { case (length, multiplier) => (length - matchLength, multiplier) }
-        multipliers = multipliers filter { case (length, multiplier) => length > 0 }
-        input = input.tail
+  def stepMultipliers(multipliers: List[Multiplier], steps: Int): (Int, List[Multiplier]) =
+    if (steps == 0)
+      (0, multipliers)
+    else {
+      val stepSize = multipliers.map(_.magnitude).product
+      val decayedMultipliers = multipliers flatMap (_.decay)
+      stepMultipliers(decayedMultipliers, steps - 1) match {
+        case (stepsTaken, newMultipliers) => (stepSize + stepsTaken, newMultipliers)
       }
     }
 
-    // println("in " + input)
+  def solve(
+      input: CharSequence,
+      multipliers: List[Multiplier] = Nil,
+      outputLength: Long = 0
+  ): Long = {
+
+    println()
     println("in length " + input.length)
     println("out length " + outputLength)
     println("multipliers " + multipliers)
-    println()
 
-    // println((input.length, outputLength))
+    repeatPattern findFirstMatchIn input match {
+      case Some(repeat) => {
+        val numChars = (repeat group 1).toInt
+        val times = (repeat group 2).toInt
+
+        val (stepsTaken, multipliersAtRepeat) = stepMultipliers(multipliers, repeat.before.length)
+
+        println("Before " + repeat.before)
+        println("Repeat " + repeat)
+        println("Advance " + stepsTaken)
+
+        val (_, multipliersAfterRepeat) = stepMultipliers(multipliersAtRepeat, repeat.matched.length)
+
+        val nextMultipliers = Multiplier(numChars, times) +: multipliersAfterRepeat
+
+        solve(repeat.after, nextMultipliers, outputLength + stepsTaken)
+      }
+      case None => {
+        val (stepSize, _) = stepMultipliers(multipliers, input.length)
+        println("Finish")
+        println("Advance " + stepSize)
+        outputLength + stepSize
+      }
+    }
   }
 
-  println(outputLength)
+  val input = io.Source.stdin.mkString.trim
+  println(solve(input))
 
 }

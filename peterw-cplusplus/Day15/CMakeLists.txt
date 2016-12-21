@@ -1,0 +1,12 @@
+
+configure_file(config.h.in config.h)
+
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
+
+add_executable(Day15 Day15.cpp input.txt config.h.in)
+
+add_custom_target(Day15-run
+  COMMAND Day15
+  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+)
+set_target_properties(Day15-run PROPERTIES EXCLUDE_FROM_ALL 1 EXCLUDE_FROM_DEFAULT_BUILD 1)

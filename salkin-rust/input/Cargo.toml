@@ -1,0 +1,9 @@
+[package]
+name = "input"
+version = "0.1.0"
+authors = ["Wik Niklas Peter Jakob <niklas.wik@nsn.com>"]
+
+[dependencies]
+docopt = "0.6"
+rustc-serialize = "0.3"
+

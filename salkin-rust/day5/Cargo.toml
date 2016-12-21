@@ -1,0 +1,10 @@
+[package]
+name = "day5"
+version = "0.1.0"
+authors = ["Wik Niklas Peter Jakob <niklas.wik@nokia.com>"]
+
+[dependencies.input]
+path = "../input"
+
+[dependencies]
+rust-crypto = "^0.2"

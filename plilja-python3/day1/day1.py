@@ -2,7 +2,7 @@ def walk(inp):
     x = 0
     y = 0
     dx = 0
-    dy = -1 # face north initially
+    dy = -1  # face north initially
     r = [(0, 0)]
     for s in inp.replace(',', '').split():
         if s[0] == 'L':
@@ -16,9 +16,11 @@ def walk(inp):
             r += [(x, y)]
     return r
 
+
 def step1(inp):
     (endx, endy) = walk(inp)[-1]
     return abs(endx) + abs(endy)
+
 
 def step2(inp):
     w = walk(inp)
@@ -28,6 +30,7 @@ def step2(inp):
             return abs(w[0]) + abs(w[1])
         visited |= {w}
     return -1
+
 
 inp = input()
 print(step1(inp))

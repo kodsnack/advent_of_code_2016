@@ -69,9 +69,11 @@ class Bot
 {
 public:
 	Environment& env;
-	Bot(Environment& env) : env{ env }
-	{
-	}
+	Bot(Environment& env);
+	Bot(const Bot& other);
+	Bot(Bot&& other);
+	Bot& operator=(const Bot& other);
+	Bot& operator=(Bot&& other);
 
 	void giveChip(int chipId);
 
@@ -121,6 +123,37 @@ public:
 	vector<unordered_set<int>> outputs;
 };
 
+
+Bot::Bot(Environment& env) : env{ env }
+{
+}
+
+Bot::Bot(const Bot& other)
+	: env { other.env }
+{
+	lowValue = other.lowValue;
+	highValue = other.highValue;
+}
+Bot::Bot(Bot&& other)
+	: env { other.env }
+{
+	lowValue = other.lowValue;
+	highValue = other.highValue;
+}
+Bot& Bot::operator=(const Bot& other)
+{
+	env = other.env;
+	lowValue = other.lowValue;
+	highValue = other.highValue;
+	return *this;
+}
+Bot& Bot::operator=(Bot&& other)
+{
+	env = other.env;
+	lowValue = other.lowValue;
+	highValue = other.highValue;
+	return *this;
+}
 
 void Bot::giveChip(int chipId)
 {
@@ -242,7 +275,7 @@ int main()
 		if (i != env.bots.end())
 		{
 			auto d = distance(env.bots.begin(), i);
-			cout << "Day 9 part 1 result: " << d << endl;
+			cout << "Day 10 part 1 result: " << d << endl;
 		}
 	}
 
@@ -258,7 +291,7 @@ int main()
 				r *= value;
 			}
 		}
-		cout << "Day 9 part 2 result: " << r << endl;
+		cout << "Day 10 part 2 result: " << r << endl;
 	}
 	return 0;
 }

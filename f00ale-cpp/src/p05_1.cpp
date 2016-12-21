@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "quick.h"
-#include "p05_md5.h"
+#include "md5_util.h"
 
 const char data[] = "uqwqemis";
 
@@ -17,7 +17,7 @@ int main() {
   while(ans.length() < 8) {
     std::string s(data);
     s += std::to_string(i);
-    auto r = reduced_md5(s.c_str(), s.length());
+    auto r = md5::md5(s.c_str(), s.length())[0];
     if((r & 0xf0ffff) == 0) {
       auto tmp = ((r&0xf0000)>>16);
       if(tmp < 10) ans += ('0'+tmp);

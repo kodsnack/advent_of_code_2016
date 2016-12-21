@@ -1,5 +1,6 @@
 resolver: lts-7.11
-extra-deps: []
+extra-deps:
+    - cryptohash-md5-0.11.100.1
 flags: {}
 extra-package-dbs: []
 
@@ -14,3 +15,14 @@ packages:
 - dec08/
 - dec09/
 - dec10/
+- dec11/
+- dec12/
+- dec13/
+- dec14/
+- dec15/
+- dec16/
+- dec17/
+- dec18/
+- dec19/
+- dec20/
+- dec21/
