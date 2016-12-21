@@ -33,6 +33,7 @@ class IInstruction
 {
 public:
 	virtual void run(string& textLine) = 0;
+	virtual void runInverse(string& textLine) = 0;
 };
 
 class IInstructionParser
@@ -53,6 +54,12 @@ public:
 	{
 		swap(textLine[index1], textLine[index2]);
 	}
+	void runInverse(string & textLine) override
+	{
+		run(textLine);
+	}
+
+
 private:
 	int index1;
 	int index2;
@@ -76,6 +83,11 @@ public:
 				c = letter1;
 		}
 	}
+	void runInverse(string & textLine) override
+	{
+		run(textLine);
+	}
+
 private:
 	char letter1;
 	char letter2;
@@ -97,6 +109,7 @@ public:
 		auto l = textLine.substr(0, n);
 		textLine = textLine.substr(n) + l;
 	}
+	void runInverse(string & textLine) override;
 private:
 	int steps;
 };
@@ -118,9 +131,20 @@ public:
 		auto l = textLine.substr(0, textLine.length() - n);
 		textLine = r + l;
 	}
+	void runInverse(string & textLine) override;
 private:
 	int steps;
 };
+
+void RotateLeft::runInverse(string & textLine)
+{
+	RotateRight(steps).run(textLine);
+}
+void RotateRight::runInverse(string & textLine)
+{
+	RotateLeft(steps).run(textLine);
+}
+
 class RotateByLetterIndex : public IInstruction
 {
 public:
@@ -134,8 +158,31 @@ public:
 		if(i == string::npos)
 			return;
 
-		RotateRight r(i + 1 + (i >= 4 ? 1 : 0));
+		RotateRight r(static_cast<int>(i) + 1 + (static_cast<int>(i) >= 4 ? 1 : 0));
 		r.run(textLine);
+	}
+	void runInverse(string & textLine) override
+	{
+		auto i = textLine.find(letter);
+		if (i == string::npos)
+			return;
+		
+		auto n = static_cast<int>(textLine.length());
+		for (int i = 1; i <= n; ++i)
+		{
+			// I'm lazy, search for inverse by finding the Left rotated string that gives
+			// input string as result when applying this rule forward..
+			auto text2 = textLine;
+			RotateLeft(i).run(text2);
+			run(text2);
+			if (textLine == text2)
+			{
+				RotateLeft(i).run(textLine);
+				return;
+			}
+		}
+		assert(0);
+		throw runtime_error("No inverse found for RotateByLetterIndex");
 	}
 private:
 	char letter;
@@ -155,6 +202,10 @@ public:
 			swap(textLine[i], textLine[j]);
 		}
 	}
+	void runInverse(string & textLine) override
+	{
+		run(textLine);
+	}
 private:
 	int spanStart;
 	int spanEnd; // inclusive
@@ -173,12 +224,16 @@ public:
 		textLine.erase(fromIndex, 1);
 		textLine.insert(toIndex, 1, c);
 	}
+	void runInverse(string & textLine) override
+	{
+		MoveFromIndexToIndex(toIndex, fromIndex).run(textLine);
+	}
+
 private:
 	int fromIndex;
 	int toIndex;
 };
 
-// parser
 class SwapByIndexParser : public IInstructionParser
 {
 public:
@@ -381,6 +436,14 @@ void runInstructions(const vector<unique_ptr<IInstruction>>& instructions, strin
 	}
 }
 
+void runInstructionsInverse(const vector<unique_ptr<IInstruction>>& instructions, string& text)
+{
+	for (auto iter=instructions.rbegin();iter!=instructions.rend();++iter)
+	{
+		(*iter)->runInverse(text);
+	}
+}
+
 #define TEST(x) { if(!(x)) { cerr << "Test Fail!! at line " << __LINE__ << endl;  assert(0); } }
 void unitTest()
 {
@@ -419,21 +482,29 @@ void unitTest()
 	text = "abcde";
 	runInstructions(instructions, text);
 	TEST(text == "decab");
+
+	runInstructionsInverse(instructions, text);
+	TEST(text == "abcde");
+
 }
 
 
 int main()
 {
-	unitTest();
+//	unitTest();
 
 	auto instructionsInText = readStrings(INPUT_FILE);
 	auto instructions = parseInstructions(instructionsInText);
 
+	// Part 1
 	string text = "abcdefgh";
 	runInstructions(instructions, text);
-
 	cout << "Day 21 part 1 answer: " << text << endl;
-//	cout << "Day 20 part 2 answer: " << r2 << endl;
+
+	// Part 2
+	string text2 = "fbgdceah";
+	runInstructionsInverse(instructions, text2);
+	cout << "Day 21 part 2 answer: " << text2 << endl;
 
 	return 0;
 }
