@@ -168,12 +168,6 @@ class RTG
         return $results;
     }
 
-    private function visitedArrangement($arrangement, $visitedArrangement)
-    {
-        $key = $this->getKey($arrangement);
-        return isset($visitedArrangement[$key]) && $visitedArrangement[$key] === true;
-    }
-
     function setVisited($arrangement, $visitedArrangement)
     {
         $key = $this->getKey($arrangement);
