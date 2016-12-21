@@ -43,6 +43,8 @@ OptionParser.parse! do |parser|
   parser.on("--19b INPUT", "Day 19b INPUT") { |input| puts AoC19.new(input.to_i).steal_opposite }
   parser.on("--20 FILE", "Day 20 NAME") { |name| puts AoC20.find name }
   parser.on("--20b FILE", "Day 20b NAME") { |name| puts AoC20.count name }
+  parser.on("--21 FILE", "Day 21 NAME") { |name| puts AoC21.new("abcdefgh").process(name) }
+  parser.on("--21b FILE", "Day 21b NAME") { |name| puts AoC21.new("fbgdceah").unscramble(name) }
 
   parser.on("-h", "--help", "Show this help") { puts parser }
 end
