@@ -58,8 +58,8 @@ void swap_letter(struct Action action, char *in, char *out){
 }
 
 void read_swap_position(Vector v){
-  char a;
-  char b;
+  int a;
+  int b;
   struct Action action;
   scanf("%d with position %d\n", &a, &b);
   action.type = SwapPosition;
@@ -86,8 +86,8 @@ void read_swap(Vector v){
 }
 
 void read_move(Vector v){
-  char a;
-  char b;
+  int a;
+  int b;
   struct Action action;
   scanf("position %d to position %d\n", &a, &b);
   action.type = Move;
@@ -108,13 +108,14 @@ void do_move(struct Action action, char *in, char *out){
     else if(i == to){
       *(out++) = moved;
     }
-    *(out++) = *(in++);
+    if(i < LENGTH - 1)
+      *(out++) = *(in++);
   }
 }
 
 void read_reverse(Vector v){
-  char a;
-  char b;
+  int a;
+  int b;
   struct Action action;
   scanf("positions %d through %d\n", &a, &b);
   action.type = Reverse;
@@ -126,7 +127,6 @@ void read_reverse(Vector v){
 void do_reverse(struct Action action, char *in, char *out){
   int a = action.a;
   int b = action.b;
-  int len;
   for(int i = 0; i < a; ++i){
     out[i] = in[i];
   }
@@ -139,7 +139,7 @@ void do_reverse(struct Action action, char *in, char *out){
 }
 
 void read_rotate_left(Vector v){
-  char steps;
+  int steps;
   struct Action action;
   scanf("%d steps\n", &steps);
   action.type = RotateLeft;
@@ -155,7 +155,7 @@ void rotate_left(struct Action action, char *in, char *out){
 }
 
 void read_rotate_right(Vector v){
-  char steps;
+  int steps;
   struct Action action;
   scanf("%d steps\n", &steps);
   action.type = RotateRight;
@@ -203,7 +203,8 @@ void read_rotate(Vector v){
 
 int read_line(Vector v){
   char b[10];
-  if(scanf("%s ", b) == EOF) return 0;
+  int res = scanf("%s ", b);
+  if(res == EOF || res == 0) return 0;
   if(b[0] == 's') read_swap(v);
   else if(b[0] == 'm') read_move(v);
   else if(b[1] == 'e') read_reverse(v);
@@ -211,7 +212,7 @@ int read_line(Vector v){
   return 1;
 }
 
-int run_action(struct Action action, char *in, char *out){
+void run_action(struct Action action, char *in, char *out){
   switch (action.type){
     case SwapPosition:
       swap_position(action, in, out);
@@ -255,6 +256,8 @@ void solve(Vector v, char *ans){
     swapp(&a, &b);
   }
   memcpy(ans, a, LENGTH*sizeof(char));
+  free(a);
+  free(b);
 }
 
 void part1(){
@@ -262,6 +265,7 @@ void part1(){
   char ans[9] = "abcdefgh";
   solve(v, ans);
   printf("%s\n", ans);
+  Vector_free(v);
 }
 
 //http://stackoverflow.com/a/3928241
@@ -321,9 +325,11 @@ void part2(){
     solve(v, s);
     if(memcmp(s, scrambled, LENGTH*sizeof(char)) == 0){
       printf("%s\n", permuted);
+      Vector_free(v);
       return;
     }
     permute(permuted, LENGTH);
   }
+  Vector_free(v);
 }
 
