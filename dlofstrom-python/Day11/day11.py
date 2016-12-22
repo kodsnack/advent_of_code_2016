@@ -31,18 +31,31 @@ def get_valid_next_states(state):
 
 goal = ''.join(['4' if c.isdigit() else c for c in input])
 
+debug = open('out.txt','w')
 def evaluate_all(input_state, goal_state):
     distance = {input_state:0}
     queue = [input_state]
     
     while queue:
         state = queue.pop(0)
+        debug.write(state+'\n')
         #print state, distance[state], get_valid_next_states(state)
         for s in get_valid_next_states(state):
+            if s == goal_state:
+                return distance[state]+1
             if s not in distance and s not in queue:
                 distance[s] = distance[state]+1
                 queue.append(s)
-                #print queue
     return distance[goal_state]
-                
+
+
 print 'Part 1:', evaluate_all(input, goal)
+
+#Part 2, New parts
+#An elerium generator.
+#An elerium-compatible microchip.
+#A dilithium generator.
+#A dilithium-compatible microchip.
+input += ' eg1 em1 dg1 dm1'
+goal += ' eg4 em4 dg4 dm4'
+#print 'Part 2:', evaluate_all(input, goal)
