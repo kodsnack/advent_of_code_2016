@@ -46,9 +46,9 @@ trait DayTrait {
         return file_get_contents($this->input);
     }
 
-    private function getFile(): array
+    private function getFile(int $flag = null): array
     {
-        return file($this->input);
+        return file($this->input, $flag);
     }
 
     private function getInputFilename()
