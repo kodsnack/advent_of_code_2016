@@ -45,6 +45,8 @@ OptionParser.parse! do |parser|
   parser.on("--20b FILE", "Day 20b NAME") { |name| puts AoC20.count name }
   parser.on("--21 FILE", "Day 21 NAME") { |name| puts AoC21.new("abcdefgh").process(name) }
   parser.on("--21b FILE", "Day 21b NAME") { |name| puts AoC21.new("fbgdceah").unscramble(name) }
+  parser.on("--22 FILE", "Day 22 NAME") { |name| puts AoC22.count_viable(name) }
+  parser.on("--22b FILE", "Day 22b NAME") { |name| puts AoC22.search(name) }
 
   parser.on("-h", "--help", "Show this help") { puts parser }
 end
