@@ -1,4 +1,4 @@
-// Advent of Code 2016 - Day 20 part 1 and 2
+// Advent of Code 2016 - Day 21 part 1 and 2
 // Peter Westerström
 
 #include "config.h"
