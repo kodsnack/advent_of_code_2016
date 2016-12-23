@@ -1,0 +1,4 @@
+target/
+SecretCode.txt
+.idea/
+*.iml
