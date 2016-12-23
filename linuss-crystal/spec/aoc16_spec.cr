@@ -13,6 +13,6 @@ describe AoC16 do
   end
 
   it "#generate" do
-    AoC16.new("10000").generate(20).should eq "01100".chars
+    AoC16.new("10000").generate(20).should eq "01100"
   end
 end
