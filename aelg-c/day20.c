@@ -16,7 +16,7 @@ void vector_push_interval(Vector v, struct Interval i){
 
 void read_input(Vector v){
   struct Interval i;
-  while(scanf("%d-%d\n", &i.from, &i.to) != EOF){
+  while(scanf("%u-%u\n", &i.from, &i.to) != EOF){
     vector_push_interval(v, i);
   }
 }
@@ -50,6 +50,8 @@ void part1(){
   read_input(v);
   Vector merged = merge_intervals(v);
   printf("%d\n", Vector_as_array(struct Interval, merged)[0].to + 1);
+  Vector_free(v);
+  Vector_free(merged);
 }
 
 void part2(){
@@ -64,4 +66,6 @@ void part2(){
   }
   sum += 0UL - intervals[Vector_size(merged)-1].to - 1;
   printf("%u\n", sum);
+  Vector_free(v);
+  Vector_free(merged);
 }
