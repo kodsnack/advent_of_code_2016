@@ -30,7 +30,8 @@ constexpr int SY = 29;
 
 void dump(const std::array<std::array<char, SY>, SX> & arr) {
   for(auto & c : arr) {
-    for(auto & r : c) std::cout << " " << r; std::cout << std::endl;
+    for(auto & r : c) std::cout << " " << r;
+    std::cout << std::endl;
   }
 }
 
