@@ -35,19 +35,6 @@ void dump(const std::array<std::array<char, SY>, SX> & arr) {
   }
 }
 
-template<size_t Y, size_t X>
-auto createMaze(const std::array<std::array<data, Y>, X> & arr, const int threshold) {
-  std::array<std::array<char, Y>, X> ret;
-  for(size_t x = 0; x < X; x++) {
-    for(size_t y = 0; y < Y; y++) {
-      ret[x][y] = arr[x][y].used == 0 ? '_' : (arr[x][y].size < threshold ? '.' : '#');
-    }
-  }
-  ret[0][0] = 'G';
-  ret[X-1][0] = 'D';
-  return ret;
-}
-
 }
 
 void p23() {
