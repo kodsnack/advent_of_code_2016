@@ -11,8 +11,8 @@ except ImportError:
 root_dir = os.path.dirname(os.path.abspath(__file__))
 
 
-def main(days):
-    for day in days:
+def main(which_days):
+    for day in which_days:
         day_input_file = os.path.join(root_dir, 'input_{0:02d}.txt'.format(day))
         if not os.path.exists(day_input_file):
             session_token = os.environ.get("AOC_SESSION_TOKEN")
