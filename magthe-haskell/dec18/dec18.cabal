@@ -1,7 +1,7 @@
 name: dec18
 version: 0.0.1
 synopsis: AOC for December 18
-homepage: https://github.com/magthe/advent_of_code_2018
+homepage: https://github.com/magthe/advent_of_code_2016
 license: BSD3
 author: Magnus Therning
 maintainer: magnus@therning.org
