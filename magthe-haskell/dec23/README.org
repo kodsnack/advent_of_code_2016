@@ -1,0 +1,45 @@
+* Comments on part 2
+
+Part two requires optimization of the assembunny source code if the interpretation is to finish in a reasnable time. The optimizer is very simplistic so it might not work on *all* input. So far all input I've found has followed the same pattern and the optimizer works.
+
+** Multiplication
+
+The main part of the execution is spent on multiplication, so version 2 of the interpreter has an extra instruction, ~mul <term-dest> <term>~. It multiplies the values found in the two registers and puts the result in the first register, the second register keeps its value. For example
+
+| Instruction | Register values | Result    |
+|-------------+-----------------+-----------|
+| ~mul a b~   | a=4, b=3        | a=12, b=3 |
+
+** No operation
+
+To simplify the optimizing somewhat the interpreter also has a No-operation instruction, ~nop~. As expected, it does nothing.
+
+** Optimizing
+
+All input I've looked at so far has the following sequence as lines 3 through 10:
+
+#+BEGIN_SRC assembunny
+cpy a d
+cpy 0 a
+cpy b c
+inc a
+dec c
+jnz c -2
+dec d
+jnz d -5
+#+END_SRC
+
+The optimizer simply replaces this sequence with a multiplication and a NOP-sled:
+
+#+BEGIN_SRC assembunny
+mul a b
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+#+END_SRC
+
+If the optimizer is too simplistic and doesn't produce the correct answer with some input a bit of manual optimizatin might be required.
