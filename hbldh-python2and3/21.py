@@ -22,17 +22,6 @@ except NameError:
 with open('input_21.txt', 'r') as f:
     data = f.read().strip().splitlines()
 
-# data = """
-# swap position 4 with position 0
-# swap letter d with letter b
-# reverse positions 0 through 4
-# rotate left 1 step
-# move position 1 to position 4
-# move position 3 to position 0
-# rotate based on position of letter b
-# rotate based on position of letter d
-# """.strip().splitlines()
-
 
 swap_regex = re.compile('swap ([\w]+) ([\d\w]+) with ([\w]+) ([\d\w]+)')
 rotate_based_regex = re.compile('rotate based on position of letter ([\w])')
@@ -145,11 +134,13 @@ def move(text, i, j):
 
 print("[Part 1] Scrambling results: {0}".format(scramble(data, "abcdefgh")))
 
-# Brute force the unscrambling since password is only 8 characters long...
+# Brute force the unscrambling since password is only 8 characters long
+# and has only 8 possible values...
 from itertools import permutations
 
 for permutation in permutations("abcdefgh"):
     if scramble(data, "".join(permutation)) == "fbgdceah":
         print("[Part 2] Unscrambling results: {0}".format("".join(permutation)))
+        break
 
 
