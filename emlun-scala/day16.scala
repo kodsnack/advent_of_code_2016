@@ -19,8 +19,7 @@ object Main extends App {
       take targetSize
       grouped 2
       flatMap {
-        case "00" => "1"
-        case "11" => "1"
+        case "00" | "11" => "1"
         case _ => "0"
       }
     ) mkString ""
