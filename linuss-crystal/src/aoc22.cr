@@ -19,8 +19,8 @@ class AoC22
 
   def initialize(input)
     @nodes = parse(input.lines)
-    @max_x = nodes.max_by(&.x).x || -1
-    @max_y = nodes.max_by(&.y).y || -1
+    @max_x = nodes.max_of?(&.x) || -1
+    @max_y = nodes.max_of?(&.y) || -1
     @blocked, @starting_state = build_start_map
   end
 
