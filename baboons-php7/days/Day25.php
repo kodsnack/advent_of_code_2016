@@ -90,7 +90,7 @@ class Day25 {
 
                     if(strlen($this->out) == 10) {
                         if($this->out == "0101010101") {
-                            die;
+                            break 2;
                         } else {
                             $this->num +=1;
                             $this->out = '';
