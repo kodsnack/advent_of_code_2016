@@ -90,7 +90,7 @@ class Day25 {
 
                     if(strlen($this->out) == 10) {
                         if($this->out == "0101010101") {
-                            break 2;
+                            die('Last one: ' . $this->num . PHP_EOL);
                         } else {
                             $this->num +=1;
                             $this->out = '';
