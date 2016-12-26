@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cd $(dirname $0)
+
+cat ../input.txt | sed 's/, /,/g' | tr  -d '\n'  | ./main.awk
