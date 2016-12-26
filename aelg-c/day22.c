@@ -115,7 +115,7 @@ int length(Vector v){
     for(int j = 0; j < 4; ++j){
       // Assuming sorted input (with y changing fast).
       struct Pos next = {cur.x + DIR[j].x, cur.y + DIR[j].y, cur.weight+1};
-      if(next.x >= max_x || next.x < 0 || next.y >= max_y || next.y < 0) continue;
+      if(next.x > max_x || next.x < 0 || next.y > max_y || next.y < 0) continue;
       struct Node *next_node = &Vector_as_array(struct Node, v)[next.x*(max_y+1) + next.y];
       if(next_node->used > 100) continue;
       //if(next_node->visited) continue;
