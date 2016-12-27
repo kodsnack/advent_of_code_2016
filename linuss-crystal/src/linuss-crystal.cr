@@ -49,6 +49,8 @@ OptionParser.parse! do |parser|
   parser.on("--22b FILE", "Day 22b NAME") { |name| puts AoC22.search(name) }
   parser.on("--23 FILE", "Day 23: provide filename") { |name| puts AoC12.compute23a(name) }
   parser.on("--23b FILE", "Day 23b: provide filename") { |name| puts AoC12.compute23b(name) }
+  parser.on("--24 FILE", "Day 24: provide filename") { |name| puts AoC24.find_shortest(name) }
+  parser.on("--24b FILE", "Day 24b: provide filename") { |name| puts AoC24.find_shortest_and_return(name) }
 
   parser.on("-h", "--help", "Show this help") { puts parser }
 end
