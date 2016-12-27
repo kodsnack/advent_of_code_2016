@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Advent of Code, Day 23
+Advent of Code, Day 25
 ======================
 
 Author: hbldh <henrik.blidh@nedomkull.com>
@@ -13,7 +13,11 @@ from __future__ import print_function
 from __future__ import absolute_import
 
 
-def solve(instructions, registers):
+with open('input_25.txt', 'r') as f:
+    data = f.read().strip().splitlines()
+
+
+def clock_signal_generator(instructions, registers):
     def get_value(v):
         if v in registers:
             return registers[v]
@@ -74,18 +78,25 @@ def solve(instructions, registers):
                 elif toggle_parts[0] == 'tgl':
                     toggle_parts[0] = 'inc'
                 instructions[to_toggle] = " ".join(toggle_parts)
+        elif parts[0] == 'out':
+            yield get_value(parts[1])
         else:
             raise ValueError(str(parts))
         n += 1
 
-    return registers
 
-with open('input_23.txt', 'r') as f:
-    data = f.read().strip().splitlines()
-print("[Part 1]: Register 'a': {a}".format(**solve(
-    data, {'a': 7, 'b': 0, 'c': 0, 'd': 0})))
+out1 = '10' * 10
+out2 = '01' * 10
+k = 1
+while True:
 
-with open('input_23.txt', 'r') as f:
-    data = f.read().strip().splitlines()
-print("[Part 2]: Register 'a': {a}".format(**solve(
-    data, {'a': 12, 'b': 0, 'c': 0, 'd': 0})))
+    out = []
+    for x in clock_signal_generator(data, {'a': k, 'b': 0, 'c': 0, 'd': 0}):
+        out.append(str(x))
+        if len(out) == len(out1):
+            break
+    if "".join(out) == out1 or "".join(out) == out2:
+        break
+    k += 1
+
+print("[Part 1]: Lowest possible integer: {0}".format(k))

@@ -3,9 +3,9 @@
 Solutions for [Advent of Code 2016](https://adventofcode.com/2016), written
 in Python, compliant with both version 2.7 and 3.5.
 
-To run problem solvers, run the `__init__.py` script in the Python iterpreter:
+To run problem solvers, run the `__init__.py` script in the Python interpreter:
 
-```sh
+```
 $ python __init__.py --help
 usage: Advent of Code 2016 - hbldh [-h] [--token TOKEN] [day [day ...]]
 
@@ -18,11 +18,11 @@ optional arguments:
 ```
 
 Execute all days by omitting any number arguments 
-(*Note that Day 11 solution takes about 20 minutes!*), or specify a subset of
+(*Note that Day 11 solution takes about 3-5 minutes!*), or specify a subset of
 days by integer values as input. Add the `--token` argument if you want the
 solution runner to download input data from the website as well:
 
-```sh
+```shell
 $ python __init__py --token 53616c[...]
 ```
 
