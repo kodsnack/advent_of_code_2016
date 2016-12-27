@@ -90,7 +90,6 @@ int main(void) {
 
         if (c != '\n' && c != EOF) {
             move(c);
-            // printf("%c\n", pos);
         } else {
             printf("%c", pos);
             if (c == EOF) {
