@@ -2,8 +2,10 @@
  *  @author         Niklas Adolfsson
  *  @email          niklasadolfsson1@gmail.com
  *  @desc           AoC #4
- *  @date           2016-12-26
+ *  @date           2016-12-27
  */
+
+extern crate regex;
 
 use std::fs::File;
 use std::io::prelude::*;
@@ -11,37 +13,33 @@ use std::io::BufReader;
 use std::path::Path;
 use std::ascii::AsciiExt;
 use std::collections::HashMap;
-extern crate regex;
+use std::collections::hash_map::Entry;
 use regex::Regex;
-
-
+use std::iter::FromIterator;
 
 fn main()
 {
-    // let path = Path::new("input.txt");
-    let path = Path::new("input_test.txt");
+    let path = Path::new("input.txt");
+    // let path = Path::new("input_test.txt");
     let lines = get_lines_from_file(path);
     let mut counter = 0;
     for line in lines
     {
-        let mut letters_count = create_empty_hash_table();
-        let mut num: usize = 0;
+
+        let mut seq: usize = 0;
         let mut name: &str = "";
         let mut crc: &str = "";
+        let mut letter_count = vec![0; 26];
 
-        // let re = Regex::new(r"(?P<name>[[\w-]]+)\[(?P<crc>[[:alpha:]]+)").unwrap();
         let re = Regex::new(r"(?P<name>[[:alpha:]-]+)(?P<seq>[\d]{3})\[(?P<crc>[[:alpha:]]+)\]").unwrap();
 
         for cap in re.captures_iter(&line)
         {
-            // print!("{:?} \n", cap.name("name"));
-            // print!("{:?} \n", cap.name("seq"));
-            // print!("{:?} \n", cap.name("crc"))
             name = cap.name("name").unwrap_or("");
             crc = cap.name("crc").unwrap_or("");
-            num = cap.name("seq").unwrap_or("").parse().unwrap();
+            seq = cap.name("seq").unwrap_or("").parse().unwrap();
         }
-
+        print!("{} {} {}\n", name, seq, crc);
         for c in name.chars()
         {
             let ch = c.to_ascii_lowercase();
@@ -49,27 +47,19 @@ fn main()
             match ch as usize
             {
                 /* a-z increase count */
-                97 ... 122 =>
-                    match letters_count.get_mut(&ch)
-                    {
-                        Some(count) => *count += 1,
-                        None => panic!("letter not in letter_table"),
-                    },
-                    /* do nothing '-' */
-                45 => print!("-\n"),
-                _ => print!("etc\n"),
+                97 ... 122 => letter_count[ch as usize -97] += 1,
+                /* - */
+                45 => print!(""),
+                _ => panic!("in-expected char"),
             };
         }
-        // print!("hash table {:?} \n", letters_count);
-        // print!("crc {} \n", crc);
-        // print!("num {} \n", num);
-        counter = match valid_crc(crc, letters_count)
+        counter = match valid_crc(crc, &mut letter_count)
         {
-            true => counter+num,
+            true => counter + seq,
             _ => counter,
         };
     }
-
+    print!("partA: {} \n", counter);
 }
 
 fn get_lines_from_file<P>(filename: P) -> Vec<String>
@@ -91,31 +81,90 @@ fn create_empty_hash_table() -> HashMap<char, u8>
     letters_count
 }
 
-fn valid_crc(crc: &str, mut letters: HashMap<char,u8>) -> bool
+
+/*
+ * This function is not elegant  but it's pretty straight-forward
+ *
+ * 1. add the top-5 letters to a hash table where higher rank's are stored as keys, i.e. 0 highest, 1
+ *    second highest .... and so on but several letters can have the same rank.
+ * 2. determine whether the crc is valid by popping elements from the hashmap
+ *
+ */
+fn valid_crc(crc: &str, letters: &mut Vec<isize>) -> bool
 {
-    let candidates: Vec<&str> = Vec::new();
+    let mut rank: HashMap<isize, Vec<char>> = HashMap::new();
     for i in 0..5
     {
-        /* key, value */
-        let mut smallest = (&'0', 0);
-        for (key, &value) in letters.iter()
+        /* find the first biggest */
+        let mut biggest = (0, 0);
+        for j in 0..letters.len()
         {
-            smallest = match smallest 
+            biggest = match biggest
             {
-                (k, v) if value > v => (key, value),
-                (_, _) => smallest,
+                (_, v) if letters[j] > v => (j, letters[j]),
+                (_, _) => biggest,
             }
         }
-        let item = letters.remove(&smallest.0);
-        print!("biggest {} {:?}\n", i, item); 
+
+        match biggest
+        {
+            (0, 0) => break,
+            (_, _) => print!(""),
+        };
+
+        letters[biggest.0] = -1;
+        rank.insert(i, vec![usize_to_char(biggest.0)]);
+
+        /* find elements with equal frequency */
+        for j in 0..letters.len()
+        {
+            if biggest.1 == letters[j] && biggest.0 != j
+            {
+                match rank.entry(i as isize)
+                {
+                    Entry::Occupied(mut e) => e.get_mut().push(usize_to_char(j)),
+                    _ => panic!("error should not happen"),
+                }
+                letters[j] = -1;
+            }
+        }
     }
-    true
+
+    print!("{:?}\n", rank);
+
+    let mut index = 0;
+    let mut crc_count = 0;
+    while !rank.is_empty() && crc_count < 4
+    {
+        let s = match rank.remove(&index)
+        {
+            Some(value) => String::from_iter(value),
+            None => panic!("\n"),
+        };
+        
+        let mut max = s.len(); 
+        while crc_count < 4 && max > 0
+        {
+            for c in s.chars()
+            {
+                if c == crc.chars().nth(crc_count).unwrap()
+                {
+                    crc_count += 1;
+                    break;
+                }
+            }
+            max -= 1;
+        }
+        index += 1;
+    }
+    print!("crc_count {} crc {}\n", crc_count, crc);
+    let ret = if crc_count == 4 {true} else {false};
+    ret
 }
 
-
-
-
-
-
-
-
+fn usize_to_char(v: usize) -> char
+{
+    let dummy = (v+97) as u8;
+    let ch = dummy as char;
+    ch
+}

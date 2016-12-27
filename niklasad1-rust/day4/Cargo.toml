@@ -5,3 +5,6 @@ authors = ["niklasad1 <niklasadolfsson1@gmail.com>"]
 
 [dependencies]
 regex = "0.1"
+
+[dependencies.permute]
+git = "https://github.com/bkputnam/permute.git"
