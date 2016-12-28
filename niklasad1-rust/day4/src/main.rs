@@ -21,6 +21,12 @@ fn main()
     let path = Path::new("input.txt");
     // let path = Path::new("input_test.txt");
     let lines = get_lines_from_file(path);
+    part_a(&lines);
+    part_b(&lines);
+}
+
+fn part_a(lines: &Vec<String>)
+{
     let mut counter = 0;
     for line in lines
     {
@@ -33,7 +39,7 @@ fn main()
         /* group chars, as "x-y-z-" 123 [abcde] */
         let re = Regex::new(r"(?P<name>[[:alpha:]-]+)(?P<seq>[\d]{3})\[(?P<crc>[[:alpha:]]+)\]").unwrap();
 
-        for cap in re.captures_iter(&line)
+        for cap in re.captures_iter(line)
         {
             name = cap.name("name").unwrap_or("");
             crc = cap.name("crc").unwrap_or("");
@@ -59,7 +65,32 @@ fn main()
         };
     }
     print!("partA: {} \n", counter);
+
 }
+
+
+fn part_b(lines: &Vec<String>)
+{
+    let mut seq: usize = 0;
+    let mut name: &str = "";
+    let mut crc: &str = "";
+    for line in lines
+    {
+        /* group chars, as "x-y-z-" 123 [abcde] */
+        let re = Regex::new(r"(?P<name>[[:alpha:]-]+)(?P<seq>[\d]{3})\[(?P<crc>[[:alpha:]]+)\]").unwrap();
+
+        for cap in re.captures_iter(line)
+        {
+            name = cap.name("name").unwrap_or("");
+            crc = cap.name("crc").unwrap_or("");
+            seq = cap.name("seq").unwrap_or("").parse().unwrap();
+        }
+
+        print!("name {} seq {} crc {} \n", name, crc, seq);
+    }
+}
+
+
 
 fn get_lines_from_file<P>(filename: P) -> Vec<String>
 where P: AsRef<Path>,
@@ -94,7 +125,7 @@ fn valid_crc(crc: &str, letters: &mut Vec<isize>) -> bool
         let len = s.len();
         exp = if exp + len <= 4 {exp+len} else {4};
         if exp > crc_count
-        { 
+        {
             for _ in 0..exp-crc_count
             {
                 for c in s.chars()
