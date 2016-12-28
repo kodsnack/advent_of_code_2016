@@ -7,6 +7,7 @@
 
 extern crate regex;
 
+use std::char;
 use std::fs::File;
 use std::io::prelude::*;
 use std::io::BufReader;
@@ -21,17 +22,16 @@ fn main()
     let path = Path::new("input.txt");
     // let path = Path::new("input_test.txt");
     let lines = get_lines_from_file(path);
-    part_a(&lines);
-    part_b(&lines);
+    print!("partA {} \n", part_a(&lines));
+    print!("partB {} \n",part_b(&lines, "northpole"));
 }
 
-fn part_a(lines: &Vec<String>)
+fn part_a(lines: &Vec<String>) -> u32
 {
-    let mut counter = 0;
+    let mut counter: u32 = 0;
     for line in lines
     {
-
-        let mut seq: usize = 0;
+        let mut seq: u32 = 0;
         let mut name: &str = "";
         let mut crc: &str = "";
         let mut letter_count = vec![0; 26];
@@ -47,12 +47,11 @@ fn part_a(lines: &Vec<String>)
         }
         for c in name.chars()
         {
-            let ch = c.to_ascii_lowercase();
-
-            match ch as usize
+            let ch = c.to_ascii_lowercase() as usize;
+            match ch
             {
                 /* a-z increase count */
-                97 ... 122 => letter_count[ch as usize -97] += 1,
+                97 ... 122 => letter_count[ch-97] += 1,
                 /* - */
                 45 => print!(""),
                 _ => panic!("in-expected char"),
@@ -64,33 +63,59 @@ fn part_a(lines: &Vec<String>)
             _ => counter,
         };
     }
-    print!("partA: {} \n", counter);
-
+    counter
 }
 
 
-fn part_b(lines: &Vec<String>)
+fn part_b(lines: &Vec<String>, exp_str: &str) -> u32
 {
-    let mut seq: usize = 0;
+    let mut counter = 0;
+    let mut seq: u32 = 0;
     let mut name: &str = "";
-    let mut crc: &str = "";
     for line in lines
     {
+        let mut s = String::new();
         /* group chars, as "x-y-z-" 123 [abcde] */
         let re = Regex::new(r"(?P<name>[[:alpha:]-]+)(?P<seq>[\d]{3})\[(?P<crc>[[:alpha:]]+)\]").unwrap();
 
         for cap in re.captures_iter(line)
         {
             name = cap.name("name").unwrap_or("");
-            crc = cap.name("crc").unwrap_or("");
             seq = cap.name("seq").unwrap_or("").parse().unwrap();
         }
 
-        print!("name {} seq {} crc {} \n", name, crc, seq);
+        // print!("name {} \n", name);
+        for c in name.chars()
+        {
+            let ch = c.to_ascii_lowercase() as u32;
+
+            match ch
+            {
+                /* a-z increase count */
+                97 ... 122 => s.push(shift_cipher(ch, seq)),
+                /* - */
+                45 => print!(""),
+                _ => panic!("in-expected char"),
+            };
+        }
+        
+        if s.contains(exp_str) {counter = counter+seq}
     }
+    counter
 }
 
 
+fn shift_cipher(letter: u32, shift: u32) -> char
+{
+    let num = ((letter - 97) + shift) % 26;
+    let alpha = num + 97; 
+    let ch  = match char::from_u32(alpha)
+    {
+        Some(v) => v,
+        _ => panic!("decryption failed"),
+    };
+    ch
+}
 
 fn get_lines_from_file<P>(filename: P) -> Vec<String>
 where P: AsRef<Path>,
@@ -111,7 +136,7 @@ where P: AsRef<Path>,
 fn valid_crc(crc: &str, letters: &mut Vec<isize>) -> bool
 {
 
-    let mut queue = sort_hash_map(letters);
+    let mut queue = add_in_order(letters);
     let mut crc_count = 0;
     let mut exp = 0;
     let mut invalid = false;
@@ -147,7 +172,7 @@ fn usize_to_char(v: usize) -> char
     ch
 }
 
-fn sort_hash_map(letters: &mut Vec<isize>) -> VecDeque<Vec<char>>
+fn add_in_order(letters: &mut Vec<isize>) -> VecDeque<Vec<char>>
 {
     let mut queue: VecDeque<Vec<char>> = VecDeque::new();
     for _ in 0..5
@@ -163,12 +188,7 @@ fn sort_hash_map(letters: &mut Vec<isize>) -> VecDeque<Vec<char>>
                 (_, _) => biggest,
             }
         }
-
-        match biggest
-        {
-            (0, 0) => break,
-            (_, _) => print!(""),
-        };
+        if biggest == (0,0) {break;}
 
         letters[biggest.0] = -1;
         vec.push(usize_to_char(biggest.0));
@@ -185,4 +205,13 @@ fn sort_hash_map(letters: &mut Vec<isize>) -> VecDeque<Vec<char>>
         queue.push_back(vec);
     }
     queue
+}
+
+#[test]
+fn tests()
+{
+    let mut test: Vec<String> = Vec::new(); 
+    test.push(String::from("qzmt-zixmtkozy-ivhz-343[abcde]"));
+    let x= part_b(&test, "veryencryptedname");
+    assert!(x == 343);
 }
