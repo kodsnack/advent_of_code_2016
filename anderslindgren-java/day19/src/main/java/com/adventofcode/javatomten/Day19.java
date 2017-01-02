@@ -27,12 +27,11 @@ public class Day19 {
     }
 
     private void parse(String line) throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        final long input = Long.parseLong(line);
+        final int input = Integer.parseInt(line);
 
-        final String s = Long.toBinaryString(input);
-        final char msb = s.charAt(0);
-        final String tmp = s.substring(1, s.length()) + msb;
-        final long result = Long.parseLong(tmp, 2);
+        final int highestOneBit = Integer.highestOneBit(input);
+        final int i = input & ~highestOneBit;
+        final int result = 2 * i + 1;
         System.out.println(result);
     }
 
