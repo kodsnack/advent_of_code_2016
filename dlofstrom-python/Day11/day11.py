@@ -49,7 +49,39 @@ def evaluate_all(input_state, goal_state):
     return distance[goal_state]
 
 
-print 'Part 1:', evaluate_all(input, goal)
+def visit_level(queue, last_level, goal_state):
+    #Queue, Last- and Current-level contains tuples with (state, distance)
+    current_level = []
+    current_depth = queue[0][1]
+
+    while queue:
+        #If the first state in queue is at a depth of one more than current, then return
+        if queue[0][1] > current_depth:
+            return current_level
+        
+        #Pop a floor state from the queue
+        state = queue.pop(0)
+        current_level.append(state)
+        #print 'State:', state[0], 'Depth:', state[1], 'Queue length:', len(queue), 'List lenghts:', len(queue)+len(current_level)+len(last_level)
+        for s in get_valid_next_states(state[0]):
+            if s == goal_state:
+                return s, current_depth+1
+            if s not in last_level and s not in current_level and s not in queue:
+                queue.append((s,current_depth+1))
+    return 0
+
+
+
+#print 'Part 1:', evaluate_all(input, goal)
+
+queue = [(input, 0)]
+current_level = []
+while True:
+    print len
+    current_level = visit_level(queue, current_level, goal)
+    if type(current_level) is not list:
+        print 'Part1:', current_level
+        break
 
 #Part 2, New parts
 #An elerium generator.
