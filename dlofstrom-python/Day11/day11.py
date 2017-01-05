@@ -18,9 +18,9 @@ def is_valid(state):
     return True
 
 def get_possible_next_states(state):
-    print state
-    print [(0,)+c for c in list(itertools.combinations(range(1,len(state)),2))]
-    print 'Continue here'
+    #remember 1 item only
+    [(0,)+c for c in list(itertools.combinations(range(1,len(state)),2))]
+    ''.join([str(int(c)+1) if i in x else c for i,c in enumerate(s)])
     return [(state_[0],)+x for x in list(itertools.combinations(['empty']+[x for x in state_list[1:] if x[-1]==state_list[0][-1]],2))]
 
 def get_valid_next_states(state):
