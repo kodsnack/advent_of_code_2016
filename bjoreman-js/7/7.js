@@ -49,6 +49,49 @@ const isSnoopable = (line) => {
     return containsAbba(nets) && !containsAbba(hypernets);
 };
 
+const getAbas = (texts) => { // Must find all matches, even if they overlap
+    let results = [];
+    texts.forEach((text) => {
+        for (let i = 0; i < text.length-2; i++) {
+            if (text[i] === text[i+2] && text[i] !== text[i+1]) {
+                results.push(text.substr(i, 3));
+            }
+        }
+    });
+    if (results.length === 0) {
+        return false;
+    }
+    return results;
+};
+
+const hasBab = (abas, texts) => { // abas a list of aba sequences. Return true if any is contained here.
+    let found = false;
+    abas.forEach((aba) => {
+        if (found) {
+            return;
+        }
+        const bab = [aba[1],aba[0],aba[1]].join('');
+        texts.forEach((text) => {
+            if (found) {
+                return;
+            }
+            if (text.indexOf(bab) !== -1) {
+                found = true;
+            }
+        });
+    });
+    return found;  
+};
+
+const supportsSSL = (line) => {
+    let { nets, hypernets } = splitLine(line);
+    const aba = getAbas(nets);
+    if (!aba) {
+        return false;
+    }
+    return hasBab(aba, hypernets)
+};
+
 const countSnoopableIPs = (fileName) => {
     const lines = fs.readFileSync(`${__dirname}/${ fileName }`, "utf-8").split("\n");
     let sum = 0;
@@ -61,5 +104,19 @@ const countSnoopableIPs = (fileName) => {
     return sum;
 };
 
-console.log(countSnoopableIPs("testInput.txt"));
-console.log(countSnoopableIPs("input.txt"));
+const countSSLIPs = (fileName) => {
+    const lines = fs.readFileSync(`${__dirname}/${ fileName }`, "utf-8").split("\n");
+    let sum = 0;
+    lines.forEach((line) => {
+        if (supportsSSL(line)) {
+            console.log(line);
+            sum++;
+        }
+    });
+    return sum;
+}
+
+//console.log(countSnoopableIPs("testInput.txt"));
+//console.log(countSnoopableIPs("input.txt"));
+console.log(countSSLIPs("testInput2.txt"));
+console.log(countSSLIPs("input.txt"));
