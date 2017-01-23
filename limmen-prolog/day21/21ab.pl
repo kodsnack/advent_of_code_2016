@@ -16,8 +16,6 @@
 :- use_module(library(pio)).
 :- use_module(library(dcg/basics)).
 :- set_prolog_flag(double_quotes, codes).
-:- set_prolog_stack(local,  limit(2 000 000 000 000 000 000)).
-:- set_prolog_stack(global,  limit(2 000 000 000 000 000 000)).
 
 %%%===================================================================
 %%% Definite Clause Grammars for parsing input file
@@ -161,7 +159,7 @@ swap_letter([Z|Xs], X, Y, [Z|R]):-
     swap_letter(Xs, X, Y, R).
 
 %% Pretty print the result
-%% pretty_print(+).
+%% Pretty_print(+).
 %% pretty_print(Result).
 pretty_print_a(Scrambled):-
     format("The scrambled password is: ~s ~n", [Scrambled]).
