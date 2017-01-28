@@ -70,8 +70,8 @@ parse_instr(Instr, Len, Index, Acc0, Acc2):-
     parse_instr(Instr1, Len, Index1, Acc1, Acc2).
 
 %% Evaluates an instruction
-%% eval_instr(+,+,-,+,-).
-%% eval_instr(Op, Index, NewIndex, Acc, NewAcc).
+%% eval_instr(+,+,-,+,-,+,-).
+%% eval_instr(Op, Index, NewIndex, Acc, NewAcc, Instr, NewInstr).
 
 %%Input-dependent optimization. TODO: Make general optimization
 eval_instr(_, 5, 11, R, regs{a:BD, b:R.b, c:0, d:0}, I, I):-
