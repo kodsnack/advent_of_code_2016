@@ -16,8 +16,6 @@
 :- use_module(library(dcg/basics)).
 :- use_module(library(lists)).
 :- set_prolog_flag(double_quotes, codes).
-:- set_prolog_stack(local,  limit(2 000 000 000 000 000 000)).
-:- set_prolog_stack(global,  limit(2 000 000 000 000 000 000)).
 :- dynamic(wall/2).
 :- dynamic(point/3).
 :- dynamic(best_sol/1).
