@@ -18,14 +18,15 @@ def is_valid(state):
     return True
 
 def get_possible_next_states(state):
-    #remember 1 item only
-    [(0,)+c for c in list(itertools.combinations(range(1,len(state)),2))]
-    ''.join([str(int(c)+1) if i in x else c for i,c in enumerate(s)])
-    return [(state_[0],)+x for x in list(itertools.combinations(['empty']+[x for x in state_list[1:] if x[-1]==state_list[0][-1]],2))]
+    candidates = [i+1 for i,c in enumerate(state[1:]) if c==state[0]]
+    s = [(0,)+c for c in list(itertools.combinations(candidates,2))] + [(0,i) for i in candidates]
+    return [''.join([str(int(c)+d) if i in x else c for i,c in enumerate(state)]) for x in s for d in [-1,1]]
 
 def get_valid_next_states(state):
     return [s for s in get_possible_next_states(state) if is_valid(s)]
     
+def get_sorted_valid_next_states(state):
+    return [x[0]+''.join(sorted([x[i:i+2] for i in range(1,len(x),2)])) for x in get_valid_next_states(state)]
 
 goal = ''.join(['4' if c.isdigit() else c for c in input])
 
@@ -36,13 +37,9 @@ def breadth_first(input_state, goal_state):
     while queue:
         state = queue.pop(0)
         if distance[state] > current_depth:
-            print 'Purge all distances less than', distance[state]-2
-            print 'Distance length Before:', len(distance),
             distance = {k:distance[k] for k in distance if distance[k]>distance[state]-2}
-            print 'Distance length After:', len(distance)
-            print 'Queue length:', len(queue)
             current_depth = distance[state]
-        for s in get_valid_next_states(state):
+        for s in get_sorted_valid_next_states(state):
             if s == goal_state:
                 return distance[state]+1
             if s not in distance and s not in queue:
@@ -59,4 +56,4 @@ print 'Part 1:', breadth_first(input, goal)
 #A dilithium-compatible microchip.
 input += '1111'
 goal += '4444'
-#print 'Part 2:', breadth_first(input, goal)
+print 'Part 2:', breadth_first(input, goal)
