@@ -7,23 +7,24 @@ def next(x, y):
     #print n
     return n
     
-def breadth_first(x_goal, y_goal):
+def breadth_first(x_goal, y_goal, max_depth=100):
     #(x,y) steps
     queue = [((1,1),0)]
-    visited = []
-
+    visited = set()
     while True:
         q = queue.pop(0)
-        #print q
-        if q not in visited:
-            visited.append(q[0])
-            if q[0][0]==x_goal and q[0][1]==y_goal:
-                return q[1]
-            for n in next(q[0][0],q[0][1]):
-                if not n in visited:
-                    queue.append((n,q[1]+1))
+        
+        if q[0][0]==x_goal and q[0][1]==y_goal:
+            return q[1]
+        elif q[1]>max_depth:
+            return len(visited)
+        visited.add(q[0])
+        for n in next(q[0][0],q[0][1]):
+            if not n in visited:
+                queue.append((n,q[1]+1))
                     
         if not queue:
             return -1
 
 print 'Part 1:', breadth_first(31,39)
+print 'Part 2:', breadth_first(0,0,50)
