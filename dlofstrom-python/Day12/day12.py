@@ -3,7 +3,6 @@ input = open('day12-input.txt','r')
 input = [l.strip('\r\n').split(' ',1) for l in input]
 
 registers = {'a':0, 'b':0, 'c':0, 'd':0}
-i = 0
 
 def cpy(xy):
     #print 'cpy', xy
@@ -34,10 +33,16 @@ def jnz(xy):
     if not c==0:
         return int(y)
     return 1
-    
-while True:
-    #print i,registers
-    i += eval(input[i][0]+'(\''+input[i][1]+'\')')
-    if not i in range(len(input)):
-        break
-print 'Part 1:', registers['a']
+
+def assembunny_eval(reg):
+    i = 0
+    while True:
+        #print i,registers
+        i += eval(input[i][0]+'(\''+input[i][1]+'\')')
+        if not i in range(len(input)):
+            break
+    return registers[reg]
+print 'Part 1:', assembunny_eval('a')
+
+registers = {'a':0, 'b':0, 'c':1, 'd':0}
+print 'Part 2:', assembunny_eval('a')
