@@ -1,4 +1,5 @@
 import re
+import itertools
 
 input = open('day21-input.txt','r')
 input = [l.strip('\n') for l in input]
@@ -92,5 +93,10 @@ def scramble(password,  patterns, input):
     return ''.join(password)
 
 
-print 'Part 1:', scramble('abcdefgh',patterns,input)
+print 'Part 1:', scramble('abcdefgh', patterns, input)
 
+for unscrambled in [''.join(p) for p in itertools.permutations('abcdefgh')]:
+    scrambled = scramble(unscrambled, patterns, input)
+    if scrambled == 'fbgdceah':
+        break
+print 'Part 2:', unscrambled
