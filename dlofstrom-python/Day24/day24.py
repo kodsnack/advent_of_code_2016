@@ -84,6 +84,7 @@ for a,b in combinations:
     shortest_paths[(b,a)] = l
 
 #Compare lengths
-permutations = [['0']+list(l) for l in itertools.permutations([d for d in digits if d != '0'])]
+permutations = [['0']+list(l)+['0'] for l in itertools.permutations([d for d in digits if d != '0'])]
 
-print 'Part 1:', min([sum([shortest_paths[(p[i],p[i+1])] for i in range(len(p)-1)]) for p in permutations])
+print 'Part 1:', min([sum([shortest_paths[(p[i],p[i+1])] for i in range(len(p)-2)]) for p in permutations])
+print 'Part 2:', min([sum([shortest_paths[(p[i],p[i+1])] for i in range(len(p)-1)]) for p in permutations])
