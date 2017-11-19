@@ -1,0 +1,88 @@
+     0  cpy a d    # d := a
+     1  cpy 7 c    # c := 7
+     2  cpy 365 b  # b := 365
+
+     3  inc d      # d += b
+     4  dec b      # b := 0
+     5  jnz b -2
+
+     6  dec c      # c -= 1
+     7  jnz c -5   # if c != 0 GOTO 2
+
+     8  cpy d a
+     9  jnz 0 0
+    10  cpy a b
+    11  cpy 0 a
+    12  cpy 2 c
+    13  jnz b 2
+    14  jnz 1 6
+    15  dec b
+    16  dec c
+    17  jnz c -4
+    18  inc a
+    19  jnz 1 -7
+    20  cpy 2 b
+    21  jnz c 2
+    22  jnz 1 4
+    23  dec b
+    24  dec c
+    25  jnz 1 -4
+    26  jnz 0 0
+    27  out b
+    28  jnz a -19
+    29  jnz 1 -21
+
+
+    00  d := a + (7 * 365)
+
+    08  a := d
+
+    09  NOP
+
+    10  b := a
+    11  a := 0
+    12  c := 2
+    13  if b == 0 GOTO 20
+    14  NOP
+
+    # Compute a := b // 2, c := (b mod 2) + (2 - (b mod 2))
+    15  b -= 1
+    16  c -= 1
+    17  if c != 0 GOTO 13
+    18  a += 1
+    19  GOTO 12
+
+    # Set b := 2 - c
+    # Where c = 2 if b was even, c = 1 if b was odd
+    20  b := 2
+    21  if c == 0 GOTO 26
+    22  NOP
+    23  b -= 1
+    24  c -= 1
+    25  GOTO 21
+
+    # d := a + 7*365 needs to be even
+    # d // 2 needs to be odd
+    # d // 2 // 2 needs to be even
+    # d // 2 // 2 // 2 needs to be odd
+    # etc...
+    # d // 2^(2n) needs to be 2
+    # d // 2^(2n+1) needs to be 1
+    # d // 2^(2n+2) needs to be 0
+    27  out b
+    28  if a == 0 GOTO 08
+    29  else GOTO 09
+
+    # Antag d jämn och d // 2 = d / 2 udda
+    # => d = 2n
+    #    d = 2(2m + 1)
+
+    # Antag d udda och d // 2 jämn
+    # => d = 2n + 1
+         d = 2(2m) + 1
+
+    # => d = 2n = 2(2m + 1) = 2((2l) + 1)
+    # d_0 = 0
+    # d_1 = 1
+    # d_{2n} = 2 * d_{2n - 1}
+    # d_{2n + 1} = 2 * d_{2n} + 1
