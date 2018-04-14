@@ -38,3 +38,6 @@
 [submodule "albert-arvidsson-elixir"]
 	path = albert-arvidsson-elixir
 	url = git@github.com:scmx/advent-of-code-2016-elixir
+[submodule "johan1a-clojure"]
+	path = johan1a-clojure
+	url = git@github.com:johan1a/adventofcode2016.git
