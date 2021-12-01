@@ -41,3 +41,6 @@
 [submodule "johan1a-clojure"]
 	path = johan1a-clojure
 	url = git@github.com:johan1a/adventofcode2016.git
+[submodule "LinAGKar-rust"]
+	path = LinAGKar-rust
+	url = https://github.com/LinAGKar/advent-of-code-2016-rust.git
